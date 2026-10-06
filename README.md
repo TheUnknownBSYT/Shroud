@@ -1,2 +1,9 @@
-# Shroud
-Fast, replayable 2D Ninja game where players complete short intense runs in handcrafted encounter rooms. Players can move, combat and operate in stealth to reach target. Backend, Shroud records players approach to problems and analyses patterns to build an insightful personal profile including features like adaptibility, risk taking etc. 
+# SHROUD
+
+A Python / pygame-ce ninja combat sandbox, being uploaded in three stages.
+
+## Stage 1: assets and combat foundations
+
+This stage includes the directional ninja sprites, gameplay tuning, shared combat rules, and stationary sentry behavior. The playable entry point arrives in stage 2.
+
+Requires Python 3.10+. Install dependencies with `python -m pip install -r requirements.txt`.
