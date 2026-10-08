@@ -185,16 +185,54 @@ class Renderer:
         if not player.alive:
             frame = pygame.transform.rotate(frame, 90)
         self.scene.blit(frame, frame.get_rect(center=pos))
-        marker = pos + player.facing * 37
-        perpendicular = Vector2(-player.facing.y, player.facing.x)
-        pygame.draw.polygon(self.scene, (226, 235, 211), [marker + player.facing * 5,
-                            marker - player.facing * 3 + perpendicular * 3,
-                            marker - player.facing * 3 - perpendicular * 3])
+        aim = player.aim_direction if player.mouse_aiming else player.facing
+        marker = pos + aim * 42
+        perpendicular = Vector2(-aim.y, aim.x)
+        if player.alive:
+            pygame.draw.polygon(self.scene, MINT, [marker + aim * 7,
+                                marker - aim * 4 + perpendicular * 4,
+                                marker - aim * 4 - perpendicular * 4])
+            self._aim_guide(player, aim)
+        if player.attack is not None and player.attack.kind == "slash":
+            angle = math.atan2(-player.facing.y, player.facing.x)
+            reach = player.attack.reach
+            rect = pygame.Rect(0, 0, reach * 2, reach * 2)
+            rect.center = pos
+            pygame.draw.arc(self.scene, MINT if player.action_charge > 0.5 else PAPER,
+                            rect, angle - math.pi / 2, angle + math.pi / 2,
+                            4 if player.damage_active else 1)
         if player.parry_active:
             angle = math.atan2(-player.facing.y, player.facing.x)
             rect = pygame.Rect(0, 0, S.PARRY_REACH * 2, S.PARRY_REACH * 2)
             rect.center = pos
             pygame.draw.arc(self.scene, GOLD, rect, angle - math.pi / 2, angle + math.pi / 2, 3)
+
+    def _aim_guide(self, player, aim):
+        if player.held_action is None:
+            return
+        pos, progress = player.position, player.hold_progress
+        color = MINT if progress >= 1 else GOLD
+        if player.held_action == "throw":
+            # The guide includes the star's 24-pixel spawn offset.
+            distance = S.SHURIKEN_RANGE + 24
+            spread = S.SHURIKEN_SPREAD * (1 - progress)
+            for sign in (-1, 1):
+                direction = aim.rotate(sign * spread)
+                pygame.draw.aaline(self.scene, color, pos + direction * 49, pos + direction * distance)
+            tip = pos + aim * distance
+            pygame.draw.circle(self.scene, color, tip, 5, 1)
+            label = "PRECISE" if progress >= 1 else f"FOCUS {progress:.0%}"
+        else:
+            reach = S.SLASH_REACH * (1 + progress * (S.SLASH_CHARGE_REACH - 1))
+            angle = math.atan2(-aim.y, aim.x)
+            rect = pygame.Rect(0, 0, reach * 2, reach * 2)
+            rect.center = pos
+            pygame.draw.arc(self.scene, color, rect, angle - math.pi / 2, angle + math.pi / 2, 2)
+            label = "CHARGED" if progress >= 1 else f"CHARGE {progress:.0%}"
+        pygame.draw.rect(self.scene, INK, (pos.x - 30, pos.y + 43, 60, 5), border_radius=2)
+        pygame.draw.rect(self.scene, color, (pos.x - 30, pos.y + 43, 60 * progress, 5), border_radius=2)
+        text = self.small.render(label, True, color)
+        self.scene.blit(text, text.get_rect(center=(pos.x, pos.y + 61)))
 
     def _echo(self, echo):
         frames = self.sprites.frames[echo.animation_name]
@@ -252,9 +290,9 @@ class Renderer:
             self.text(screen, key, (x, 55), MUTED, self.small)
             pygame.draw.rect(screen, (51, 70, 63), (x, 80, 170, 3), border_radius=1)
             pygame.draw.rect(screen, MINT if cooldown <= 0 else RED, (x, 80, 170 * max(0, 1 - cooldown / duration), 3), border_radius=1)
-        self.text(screen, "Dash leaves a shadow. Your next slash or shuriken repeats from there after a short delay.", (48, 108), MUTED, self.small)
+        self.text(screen, "Hold LMB to charge a slash / Hold RMB to focus a throw / Release to attack / Dash leaves an Echo", (48, 108), MUTED, self.small)
         self.text(screen, "WASD / ARROWS   Move", (48, 758), PAPER, self.small)
-        self.text(screen, "Mouse attacks aim at cursor  /  J + K use facing", (306, 758), MUTED, self.small)
+        self.text(screen, "Mouse  Aim     LMB  Charge     RMB  Focus     J / K  Quick attack", (306, 758), MUTED, self.small)
         self.text(screen, "R  Reset     P  Pause     F1  Debug     ESC  Quit", (899, 758), PAPER, self.small)
 
 
@@ -266,7 +304,7 @@ def draw_debug(surface: pygame.Surface, world, font: pygame.font.Font, fps: floa
     for wall in world.room.walls:
         pygame.draw.rect(surface, (255, 194, 74), wall, 1)
     if player.damage_active:
-        reach = S.SLASH_REACH if player.attack.kind == "slash" else player.radius + 10
+        reach = player.attack.reach if player.attack.kind == "slash" else player.radius + 10
         pygame.draw.circle(surface, (255, 92, 97), player.position, reach, 1)
         pygame.draw.line(surface, (255, 92, 97), player.position, player.position + player.facing * reach, 2)
     if player.parry_active:
@@ -286,8 +324,8 @@ def draw_debug(surface: pygame.Surface, world, font: pygame.font.Font, fps: floa
         pygame.draw.line(surface, MINT, position - Vector2(8, 0), position + Vector2(8, 0), 2)
         pygame.draw.line(surface, MINT, position - Vector2(0, 8), position + Vector2(0, 8), 2)
         if echo.damage_active:
-            pygame.draw.circle(surface, MINT, position, S.SLASH_REACH, 1)
-            pygame.draw.line(surface, MINT, position, position + echo.facing * S.SLASH_REACH, 2)
+            pygame.draw.circle(surface, MINT, position, echo.attack.reach, 1)
+            pygame.draw.line(surface, MINT, position, position + echo.facing * echo.attack.reach, 2)
         if echo.parry_active:
             pygame.draw.circle(surface, GOLD, position, S.PARRY_REACH, 1)
         lines.append(f"ECHO  {echo.state.name}  /  {echo.timer:.2f}s")

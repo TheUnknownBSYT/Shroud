@@ -30,17 +30,37 @@ Keep `ninjas/` next to `main.py`. The existing art, sprite organizer, and old
 | --- | --- |
 | WASD / arrows | Move |
 | Space | Dash and leave an Echo |
-| J / left click | Slash / timed deflect |
-| K / right click | Shuriken |
+| Mouse movement | Smoothly turn the aim arrow toward the cursor |
+| Left mouse button | Hold to charge a slash; release to slash / timed deflect |
+| Right mouse button | Hold to focus a shuriken; release to throw |
+| J / K | Instant slash / shuriken in the facing direction |
 | F1 | Debug hitboxes, state, velocity, cooldowns, Echo position/state/timer |
 | P | Pause / resume |
 | R | Reset everything in the arena |
 | Esc | Quit |
 
-Mouse attacks use the direction from the player to the click. Keyboard attacks
-use the player's facing. The small arrow shows facing. Attacks require a fresh
-press; holding a key does not repeat them. Movement continues during slashes and
-throws. Dashes deal damage but do not grant invulnerability. Gold rings show a
+Mouse movement smoothly rotates the mint aim arrow, including while moving.
+The player can strafe while aiming. Inside an 8-pixel circle around the player,
+the aim holds steady to avoid jitter. WASD/arrows still set facing before the
+mouse is first used. A moving dash follows movement; a standing dash follows aim.
+Once an attack starts, its direction is locked while the arrow can keep turning
+for the next attack. Keyboard J/K remain instant attacks without mouse spread.
+
+Quick right-click releases throw with up to **±3°** random spread. Holding for
+**0.45 seconds** closes the guide to a precise shot, with no random spread.
+The guide marks the current shuriken range; walls can block the shot. Aim is
+captured from the arrow when you release, so wait for it to settle after a flick.
+
+Hold left-click for up to **0.75 seconds** to build a slash from normal strength
+to **2× damage and 1.4× reach**. The arc and meter show its charge. A quick tap
+still slashes. Charge does not parry: the deflection window opens on release
+when the slash starts. This is a melee slash, with the usual timing and cooldown.
+Holding either mouse button does not automatically attack or repeat. The first
+held attack takes priority if both buttons are pressed. Dash, taking damage,
+pause, focus loss, and reset cancel a held attack; press again to start another.
+Movement continues during charging, slashes, and throws.
+
+Dashes deal damage but do not grant invulnerability. Gold rings show a
 sentry aiming its next shot; slash toward a gold bolt just before it reaches you
 to reflect it. Sentries respawn after defeat.
 
@@ -54,10 +74,12 @@ to reflect it. Sentries respawn after defeat.
 - The action and a copy of its direction are captured immediately. After
   **0.35 seconds**, the Echo attacks from its own position in that same direction.
   Moving or aiming elsewhere afterward cannot steer the queued attack.
-- A slash uses the same damage, forward arc, active frames, one-hit-per-target
+- A slash preserves the released charge's damage and reach, forward arc, active frames, one-hit-per-target
   rule, and opening parry window as the player. Echoes can reflect enemy bolts.
 - A throw launches one normal shuriken without using the player's active-star
   allowance. It has the same damage, speed, range, and collision rules.
+  It captures the original throw's actual direction, including any spread;
+  the Echo does not roll a second random deviation.
 - The Echo plays its action, then fades over **0.18 seconds**. It repeats only
   one action. An unused Echo also fades when its waiting time runs out.
 - Queuing just before expiry commits the attack: it still gets its full delay
@@ -143,6 +165,13 @@ reflection. Simulation timestamps stay monotonic across reset.
 Edit `settings.py` and restart. Echo settings are `ECHO_DELAY = 0.35`,
 `ECHO_LIFETIME = 3.0`, `ECHO_ALPHA = 145` (0–255), and
 `ECHO_FADE_DURATION = 0.18`. Keep durations positive.
+
+Mouse tuning: `MOUSE_AIM_RESPONSE = 24.0` controls smoothing (higher is tighter),
+`MOUSE_AIM_DEADZONE = 8.0` prevents jitter near the player, and
+`SHURIKEN_SPREAD = 3.0` is the maximum deviation in degrees on either side.
+`SHURIKEN_FOCUS_TIME = 0.45` and `SLASH_CHARGE_TIME = 0.75` set hold durations.
+`SLASH_CHARGE_DAMAGE = 2.0` and `SLASH_CHARGE_REACH = 1.4` set full-charge
+multipliers. Keep response and durations positive; spread can be zero.
 
 Existing `PLAYER_SPEED`, `ACCELERATION`, `FRICTION`, `DASH_*`, `SLASH_*`,
 `PARRY_*`, `SHURIKEN_*`, enemy values, and `BINDINGS` remain there. Zero

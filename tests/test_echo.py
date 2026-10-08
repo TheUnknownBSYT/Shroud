@@ -69,6 +69,8 @@ def test_echo_throw_keeps_original_direction_and_costs_no_extra_capacity():
     aim = Vector2(3, 4)
     advance(world, S.SIMULATION_STEP, [Command("throw", aim)])
     expected_direction = aim.normalize()
+    # Keep the original alive while testing capacity, independent of range tuning.
+    world.projectiles[0].max_range = 1000
     aim.update(-1, 0)
     world.player.facing = Vector2(-1, 0)
     # Fill the player's active-star allowance after the original throw.

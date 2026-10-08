@@ -33,10 +33,13 @@ class Attack:
     damage: int
     direction: Vector2
     hit_entities: set[int] = field(default_factory=set)
+    reach: float = S.SLASH_REACH
 
 
-def make_slash(direction):
-    return Attack("slash", S.SLASH_DAMAGE, direction.copy())
+def make_slash(direction, charge=0.0):
+    charge = max(0.0, min(1.0, charge))
+    return Attack("slash", round(S.SLASH_DAMAGE * (1 + charge * (S.SLASH_CHARGE_DAMAGE - 1))),
+                  direction.copy(), reach=S.SLASH_REACH * (1 + charge * (S.SLASH_CHARGE_REACH - 1)))
 
 
 def slash_active(elapsed):
@@ -136,7 +139,7 @@ def resolve_melee(world, attacker) -> None:
         if attack.kind == "dash":
             hit = circles_overlap(attacker.position, attacker.radius + 10, enemy.position, enemy.radius)
         else:
-            hit = in_arc(attacker.position, attack.direction, enemy.position, enemy.radius, S.SLASH_REACH)
+            hit = in_arc(attacker.position, attack.direction, enemy.position, enemy.radius, attack.reach)
         if hit and not world.room.projectile_blocked(attacker.position, enemy.position, 0):
             attack.hit_entities.add(enemy.entity_id)
             deal_damage(world, enemy, attack.damage, attack.kind)

@@ -3,6 +3,8 @@ from dataclasses import dataclass, field
 from enum import Enum, auto
 from pathlib import Path
 import re
+from math import exp
+import random
 import pygame
 from pygame import Vector2
 import settings as S
@@ -18,12 +20,15 @@ def direction_name(facing):
 class Command:
     action: str
     aim: Vector2 | None = None
+    charge: float = 0.0
+    spread: float = 0.0
 
 
 @dataclass
 class InputFrame:
     movement: Vector2 = field(default_factory=Vector2)
     commands: list[Command] = field(default_factory=list)
+    aim_target: Vector2 | None = None
 
 
 class PlayerState(Enum):
@@ -49,6 +54,32 @@ class Player(Entity):
         self.buffered: Command | None = None
         self.buffer_time = 0.0
         self.action_serial = 0
+        self.aim_direction = self.facing.copy()
+        self.mouse_aiming = False
+        self.held_action = None
+        self.hold_time = 0.0
+        self.action_charge = 0.0
+        self.rng = random.Random()
+
+    @property
+    def hold_progress(self):
+        duration = S.SLASH_CHARGE_TIME if self.held_action == "slash" else S.SHURIKEN_FOCUS_TIME
+        return min(1.0, self.hold_time / duration) if self.held_action else 0.0
+
+    def cancel_hold(self):
+        self.held_action, self.hold_time = None, 0.0
+
+    def update_aim(self, dt, target):
+        self.mouse_aiming = target is not None
+        if target is None:
+            self.aim_direction = self.facing.copy()
+            return
+        offset = target - self.position
+        if offset.length_squared() <= S.MOUSE_AIM_DEADZONE ** 2:
+            return
+        angle = (self.aim_direction.angle_to(offset) + 180) % 360 - 180
+        self.aim_direction.rotate_ip(angle * (1 - exp(-S.MOUSE_AIM_RESPONSE * dt)))
+        self.aim_direction.normalize_ip()
 
     @property
     def direction_name(self) -> str:
@@ -70,6 +101,21 @@ class Player(Entity):
             self.state == PlayerState.ATTACKING and slash_active(self.state_time))
 
     def queue(self, command: Command) -> None:
+        if command.action.startswith("hold_"):
+            action = command.action[5:]
+            if (self.alive and self.state in (PlayerState.IDLE, PlayerState.MOVING)
+                    and action in ("slash", "throw") and self.held_action is None):
+                self.held_action, self.hold_time = action, 0.0
+            return
+        if command.action.startswith("release_"):
+            action = command.action[8:]
+            if self.held_action != action:
+                return
+            progress = self.hold_progress
+            self.cancel_hold()
+            command = Command(action, self.aim_direction.copy(),
+                              progress if action == "slash" else 0.0,
+                              S.SHURIKEN_SPREAD * (1 - progress) if action == "throw" else 0.0)
         if self.alive and command.action in self.cooldowns:
             self.buffered, self.buffer_time = command, S.INPUT_BUFFER
 
@@ -85,13 +131,23 @@ class Player(Entity):
         if self.state in durations and self.state_time + 1e-8 >= durations[self.state]:
             self.state, self.state_time, self.attack = PlayerState.IDLE, 0.0, None
         free = self.state in (PlayerState.IDLE, PlayerState.MOVING)
-        if free and movement.length_squared():
-            self.facing = movement.normalize()
+        if free:
+            if self.held_action:
+                self.hold_time += dt
+            if self.mouse_aiming:
+                self.facing = self.aim_direction.copy()
+            elif movement.length_squared():
+                self.facing = movement.normalize()
         started = None
         if free and self.buffered and self.cooldowns[self.buffered.action] <= 1e-8:
             command = self.buffered
             if command.aim is not None and command.aim.length_squared():
                 self.facing = command.aim.normalize()
+            elif command.action == "dash" and movement.length_squared():
+                self.facing = movement.normalize()
+            if command.spread:
+                self.facing.rotate_ip(self.rng.uniform(-command.spread, command.spread))
+            self.action_charge = command.charge
             self._start_action(command.action)
             started = command.action
             self.buffered = None
@@ -115,6 +171,7 @@ class Player(Entity):
         return started
 
     def _start_action(self, action: str) -> None:
+        self.cancel_hold()
         self.state = {"dash": PlayerState.DASHING, "slash": PlayerState.ATTACKING,
                       "throw": PlayerState.THROWING}[action]
         self.state_time = 0.0
@@ -123,7 +180,7 @@ class Player(Entity):
                                   "throw": S.SHURIKEN_COOLDOWN}[action]
         self.attack = None
         if action == "slash":
-            self.attack = make_slash(self.facing)
+            self.attack = make_slash(self.facing, self.action_charge)
         elif action == "dash":
             self.attack = Attack("dash", S.DASH_DAMAGE, self.facing.copy())
 
@@ -135,6 +192,7 @@ class Player(Entity):
         self.state = PlayerState.STUNNED if self.alive else PlayerState.DEAD
         self.state_time = 0.0
         self.attack, self.buffered = None, None
+        self.cancel_hold()
         self.velocity = Vector2()
         return True
 
@@ -157,11 +215,13 @@ class ShadowEcho:
         self.state_time = 0.0
         self.action = None
         self.attack = None
+        self.charge = 0.0
 
-    def queue(self, action, direction):
+    def queue(self, action, direction, charge=0.0):
         if self.state != EchoState.WAITING or action not in ("slash", "throw"):
             return
         self.action = action
+        self.charge = charge
         # Store a copy: later movement or mouse input must not steer this attack.
         self.facing = direction.copy()
         self.state = EchoState.ATTACK_QUEUED
@@ -182,7 +242,7 @@ class ShadowEcho:
             duration = S.SLASH_DURATION if self.action == "slash" else S.THROW_DURATION
             self.timer = duration - overshoot
             if self.action == "slash":
-                self.attack = make_slash(self.facing)
+                self.attack = make_slash(self.facing, self.charge)
             return self.action
         if self.state in (EchoState.WAITING, EchoState.ATTACKING):
             self.state = EchoState.FADING

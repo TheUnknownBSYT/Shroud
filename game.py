@@ -26,6 +26,7 @@ class InputHandler:
     def __init__(self) -> None:
         self.keys = {action: tuple(pygame.key.key_code(key) for key in names)
                      for action, names in S.BINDINGS.items()}
+        self.cursor = None
 
     def read(self, events: list[pygame.event.Event], player_position: Vector2) -> InputFrame:
         result = InputFrame()
@@ -34,9 +35,13 @@ class InputHandler:
                 for action, codes in self.keys.items():
                     if event.key in codes:
                         result.commands.append(Command(action))
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button in S.MOUSE_BINDINGS:
-                aim = Vector2(event.pos) - player_position
-                result.commands.append(Command(S.MOUSE_BINDINGS[event.button], aim))
+            elif event.type == pygame.MOUSEMOTION:
+                self.cursor = Vector2(event.pos)
+            elif event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP) and event.button in S.MOUSE_BINDINGS:
+                self.cursor = Vector2(event.pos)
+                prefix = "hold_" if event.type == pygame.MOUSEBUTTONDOWN else "release_"
+                result.commands.append(Command(prefix + S.MOUSE_BINDINGS[event.button]))
+        result.aim_target = self.cursor.copy() if self.cursor is not None else None
         keys = pygame.key.get_pressed()
         def held(action):
             return any(keys[key] for key in self.keys[action])
@@ -117,6 +122,7 @@ class Sandbox:
         self.impacts = [effect for effect in self.impacts if effect.remaining > 0]
         self.shake = max(0, self.shake - dt * 28)
         self.update_echo(dt)
+        self.player.update_aim(dt, inputs.aim_target)
         player_shuriken = sum(
             p.kind == "shuriken" and p.owner == "player" for p in self.projectiles
         )
@@ -124,6 +130,9 @@ class Sandbox:
             if command.action == "throw" and player_shuriken >= S.MAX_SHURIKEN:
                 continue
             self.player.queue(command)
+        if (player_shuriken >= S.MAX_SHURIKEN and self.player.buffered is not None
+                and self.player.buffered.action == "throw"):
+            self.player.buffered = None
         action = self.player.tick(dt, inputs.movement)
         if action:
             name = {"slash": "player_slash", "dash": "player_dash", "throw": "player_throw_shuriken"}[action]
@@ -134,7 +143,7 @@ class Sandbox:
             # Capture before movement, and replace even an already queued Echo.
             self.echo = ShadowEcho(self.player.position, self.player.facing)
         elif action in ("slash", "throw") and self.echo is not None:
-            self.echo.queue(action, self.player.facing)
+            self.echo.queue(action, self.player.facing, self.player.action_charge)
         self.player.position = self.room.move(self.player.position, self.player.velocity * dt, self.player.radius)
         resolve_melee(self, self.player)
         if self.echo is not None:
@@ -182,6 +191,9 @@ class Game:
                     running = False
                 elif event.type == pygame.WINDOWFOCUSLOST:
                     self.paused = True
+                    self.world.player.cancel_hold()
+                    self.world.player.buffered = None
+                    inputs.commands.clear()
             for command in inputs.commands:
                 if command.action == "quit":
                     running = False
@@ -189,6 +201,9 @@ class Game:
                     self.debug = not self.debug
                 elif command.action == "pause":
                     self.paused = not self.paused
+                    self.world.player.cancel_hold()
+                    self.world.player.buffered = None
+                    pending.clear()
                 elif command.action == "reset":
                     self.world.reset()
                     self.renderer.reset()
@@ -200,7 +215,7 @@ class Game:
             if not self.paused:
                 accumulator += dt
                 while accumulator + 1e-9 >= S.SIMULATION_STEP:
-                    self.world.step(S.SIMULATION_STEP, InputFrame(inputs.movement, pending))
+                    self.world.step(S.SIMULATION_STEP, InputFrame(inputs.movement, pending, inputs.aim_target))
                     pending = []
                     accumulator -= S.SIMULATION_STEP
                 self.renderer.update(self.world, dt)
