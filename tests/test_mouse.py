@@ -10,6 +10,7 @@ import settings as S
 from combat import Projectile
 from enemy import Enemy
 from game import Game, InputHandler, Sandbox
+from level import Camera
 from player import Command, InputFrame, Player, ShadowEcho
 
 
@@ -167,6 +168,7 @@ def test_mouse_release_respects_active_star_limit():
 def test_pause_and_focus_loss_cancel_charge_without_firing(monkeypatch, event, pygame_input):
     game = Game.__new__(Game)
     game.world = empty_world()
+    game.camera = Camera(game.world.room.bounds)
     step(game.world, 0.3, [Command("hold_throw")])
     before = game.world.time
     game.input = InputHandler()

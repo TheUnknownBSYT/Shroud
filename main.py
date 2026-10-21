@@ -3,7 +3,7 @@ import os
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="SHROUD — Phase 1 combat sandbox")
+    parser = argparse.ArgumentParser(description="SHROUD — Scrolling Training Grounds")
     parser.add_argument("--headless", action="store_true", help="Use SDL's dummy display for smoke checks")
     parser.add_argument("--frames", type=int, help="Exit after this many rendered frames")
     parser.add_argument("--screenshot", help="Save the final rendered frame as a PNG")
@@ -20,7 +20,7 @@ def main() -> None:
         pygame.font.init()
         Game().run(args.frames, args.screenshot)
     except (FileNotFoundError, pygame.error) as error:
-        parser.exit(1, f"SHROUD could not start: {error}\nCheck the ninjas/ assets and display availability.\n")
+        parser.exit(1, f"SHROUD could not start: {error}\nCheck ninjas/, TrainingGrounds/, and display availability.\n")
     finally:
         pygame.quit()
 

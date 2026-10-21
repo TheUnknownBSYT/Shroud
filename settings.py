@@ -6,6 +6,12 @@ WIDTH, HEIGHT = 1280, 800
 FPS = 60
 SIMULATION_STEP = 1 / 120
 MAX_FRAME_TIME = 0.1  # Avoid catching up seconds of simulation after a stall.
+ENVIRONMENT_ROOT = Path(__file__).resolve().parent / "TrainingGrounds"
+ENVIRONMENT_SCALE = 0.75
+TILE_SIZE = round(128 * ENVIRONMENT_SCALE)
+WORLD_VIEW = (0, 128, WIDTH, HEIGHT - 192)
+CAMERA_RESPONSE = 20.0
+ENEMY_ACTIVATION_RANGE = 620.0
 
 PLAYER_SPEED = 300.0
 ACCELERATION = 0.0  # Zero means immediate response; positive values are pixels/s².

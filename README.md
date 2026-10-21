@@ -1,7 +1,7 @@
-# SHROUD · Shadow Echo prototype
+# SHROUD · Training Grounds
 
-A small Python / pygame-ce combat sandbox. One courtyard, the original ninja
-sprites, and one new mechanic: dash away and let your shadow repeat an attack.
+A Python / pygame-ce action game with a handcrafted scrolling training compound,
+the original ninja sprites, and Shadow Echo: dash away and let your shadow repeat an attack.
 There is no profiling, recording, network code, or persistence.
 
 ## Run
@@ -21,7 +21,7 @@ python3 -m venv .venv
 ```
 
 On Windows, use `py -m venv .venv`, then `.venv\Scripts\python` instead.
-Keep `ninjas/` next to `main.py`. The existing art, sprite organizer, and old
+Keep both `ninjas/` and `TrainingGrounds/` next to `main.py`. The existing art, sprite organizer, and old
 `ninjas/.venv` have not been changed. See [the asset notes](docs/assets.md).
 
 ## Controls
@@ -34,9 +34,9 @@ Keep `ninjas/` next to `main.py`. The existing art, sprite organizer, and old
 | Left mouse button | Hold to charge a slash; release to slash / timed deflect |
 | Right mouse button | Hold to focus a shuriken; release to throw |
 | J / K | Instant slash / shuriken in the facing direction |
-| F1 | Debug hitboxes, state, velocity, cooldowns, Echo position/state/timer |
+| F1 | Debug world position, camera, collisions, spawns, FPS, combat/Echo state |
 | P | Pause / resume |
-| R | Reset everything in the arena |
+| R | Restart the entire level, including encounters and statistics |
 | Esc | Quit |
 
 Mouse movement smoothly rotates the mint aim arrow, including while moving.
@@ -62,7 +62,8 @@ Movement continues during charging, slashes, and throws.
 
 Dashes deal damage but do not grant invulnerability. Gold rings show a
 sentry aiming its next shot; slash toward a gold bolt just before it reaches you
-to reflect it. Sentries respawn after defeat.
+to reflect it. Defeated targets stay down until restart. Sentries activate only
+within 620 pixels with an unobstructed view; their existing attack timings remain intact.
 
 ## Shadow Echo rules
 
@@ -99,15 +100,17 @@ settings.py   All tuning values and input bindings
 player.py     Commands, player states, ShadowEcho, animation clock, sprite loading
 enemy.py      One stationary sentry type and its telegraphed shot
 combat.py     Health, attack geometry, projectiles, shared damage and parry rules
-game.py       Input handling, room collision, simulation, events, main loop
-drawing.py    Arena, sprites, HUD, effects, and debug display
+game.py       Input handling, simulation, events, completion, main loop
+level.py      Handcrafted map data, props, world collision, camera
+drawing.py    Environment PNGs, sprites, HUD, effects, and debug display
+TrainingGrounds/  35 original environment PNG exports (29 used)
 ninjas/       Original assets and organizer (kept in place)
-tests/        Existing gameplay tests plus focused Echo tests
+tests/        Gameplay, Echo, mouse, camera, route, and completion tests
 docs/         Asset inspection notes
 ```
 
-`drawing.py` is the only extra gameplay file beyond the requested six. Keeping
-its drawing code separate avoids burying the main loop in graphics calls.
+The source remains flat. `level.py` keeps map layout and camera/collision code
+together; `drawing.py` keeps graphics calls out of the main loop.
 `Sandbox` in `game.py` can run without a window, which keeps tests fast.
 `Game` reads input, advances that simulation, and asks `Renderer` to draw it.
 The original 120 Hz simulation / 60 FPS render loop and movement/combat values
@@ -131,7 +134,7 @@ The nested source tree and its empty package files were removed after migration:
 | Old files | New home / reason |
 | --- | --- |
 | Root launcher + `shroud/main.py` | `main.py`; no path injection or second entry point |
-| `game.py`, `room.py`, `sandbox.py`, input reader, `events.py` | `game.py`; loop, arena, and game-level coordination together |
+| `game.py`, `room.py`, `sandbox.py`, input reader, `events.py` | `game.py` for orchestration; `level.py` for map/collision |
 | `player.py`, `animation.py`, input command data | `player.py`; player behaviour and its art together |
 | `enemy.py` | Root `enemy.py`; unchanged enemy type |
 | `entity.py`, `hitbox.py`, `damage.py`, `projectile.py` | `combat.py`; shared health and combat rules together |
@@ -139,7 +142,7 @@ The nested source tree and its empty package files were removed after migration:
 | `settings.py` | Root `settings.py`; one obvious tuning file |
 
 Dependencies flow from `main` to `game`; `game` uses `player`, `enemy`, `combat`,
-and `drawing`. Both player and enemy use combat; drawing reads their states.
+`level`, and `drawing`. Both player and enemy use combat; drawing reads their states.
 All use settings. Combat never imports the game or renderer.
 
 ## How Echo works in code
@@ -183,12 +186,62 @@ and ends at 0.22s; the parry window lasts 0.12s.
 .venv/bin/python main.py --headless --frames 120 --screenshot /tmp/shroud.png
 ```
 
-The refactor alone passed all 23 original tests and produced a pixel-identical
-headless frame. The combined suite also checks Echo delay, damage deduplication,
-aim capture, extra shuriken, successful/late/rear deflection, replacement,
-expiry, reset, and an attack queued just before expiry. The original five-minute
-deterministic simulation test runs with Echo enabled.
+All **61 tests pass**, including the 48 pre-existing cases. The suite covers combat and Echo rules, mouse charging/focus,
+camera clamping and transforms, wall clearance, both branches, encounter gates,
+local sentry activation, statistics, completion, and restart. The five-minute
+deterministic simulation regression still runs with Echo enabled.
 
-Scope remains one fixed-size 1280×800 arena with three stationary sentries,
-four-direction sprites, and no audio. Automated timing checks and brief live
-control checks do not replace a prolonged human assessment of game feel.
+## Playing the level
+
+The world is **6144×3840 pixels**, with a fixed 1280×800 window. Enter from the
+southwest movement grounds, head east into the courtyard, and clear its five
+marked targets to open the north gate. At the fork, the direct stone crossing
+has three sentries; the longer garden path offers cover and an optional target.
+Both meet at the eastern yard. Head north, clear the five final-yard targets,
+then follow the westward walkway into the lantern-marked exit garden.
+
+There are 17 targets total; seven are optional. Completion requires both main
+encounters and reaching the exit. The summary shows active simulation time,
+targets defeated, health lost, successful deflections (player or Echo), and
+accepted enemy hits credited to the Echo. Pause time is excluded. R resets the
+whole run. Nothing is saved to disk.
+
+## Editing the level
+
+Edit `TRAINING_GROUNDS` in `level.py`, then restart. Coordinates use **96-pixel
+floor tiles**; `.5` is the kit's original 64-pixel grid at the runtime scale.
+The PNGs are scaled to 75%, with original transparent canvases preserved.
+
+| Field | Format / purpose |
+| --- | --- |
+| `size` | World width, height in tiles; camera and collision bounds |
+| `spawn` | Player center `(x, y)` |
+| `exit` | Completion rectangle `(x, y, width, height)` |
+| `floors` | `(material, x, y, width, height)`, integer tile rectangles; earth, stone, mat, platform; later entries overwrite earlier tiles |
+| `props` | `(asset, center_x, center_y, rotation)`; rotations 0/90/180/270; solids defined in `SOLID_SHAPES` |
+| `decorations` | Same format, ground layer without collision |
+| `enemies` | `(group, sprite, x, y, shoots)`; false makes a passive target using the same Enemy class |
+| `gates` | `(group, rectangle)`; solid fence until every enemy in that group is defeated |
+| `areas` | `(name, rectangle, objective)`; first matching region supplies the HUD text |
+| `signs` | `(text, x, y)` for short ground directions |
+
+Touching floor rectangles connect automatically; exposed edges receive wall
+sprites and collision. Add adjoining rectangles for a new branch, and props
+for cover. `SOLID_SHAPES` contains source-pixel collision rectangles independent
+of each sprite's canvas. `ASSET_SIZES` supplies non-128×128 prop sizes; update
+both when adding a solid asset. Gates use two post colliders with open centers;
+trees block at their trunks. Grass, markings and ground shrubs do not block.
+The level is loaded once; editing data is not a live level editor.
+
+`Camera.follow` approaches a clamped target with exponential smoothing. The
+visible world occupies `(0, 128, 1280, 608)` below the HUD. Drawing subtracts
+camera offset and adds viewport origin; mouse aiming applies the inverse.
+Physics and Echo positions never depend on the camera. Visible tiles/props
+are culled, and nearby wall buckets reduce collision checks. `CAMERA_RESPONSE`
+in `settings.py` controls follow speed without changing player movement.
+
+The 2–4 minute first-play pacing is a design target awaiting human playtesting.
+Automated traversal and brief native/headless render checks do not measure
+combat difficulty or comfort. The game retains four-direction character art,
+approximate collision shapes, a fixed window, and no audio. See
+[asset dimensions, usage and collision notes](docs/assets.md).

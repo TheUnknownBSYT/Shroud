@@ -116,14 +116,21 @@ def make_shuriken(position, direction, owner="player"):
     )
 
 
-def deal_damage(world, target: Entity, amount: int, kind: str) -> None:
+def deal_damage(world, target: Entity, amount: int, kind: str, owner="player") -> None:
+    previous_health = target.health
     if not target.receive_damage(amount):
         return
     is_player = target is world.player
+    if is_player:
+        world.stats["damage"] += previous_health - target.health
+    elif owner == "echo":
+        world.stats["echo_hits"] += 1
     world.events.emit("player_hit" if is_player else "enemy_hit", timestamp=world.time,
-                      position=tuple(target.position), damage=amount, source=kind)
+                      position=tuple(target.position), damage=amount, source=kind, owner=owner)
     world.impact(target.position, "hurt" if is_player else "hit")
     if not is_player and not target.alive:
+        world.stats["targets"] += 1
+        world.room.refresh_gates(world.enemies)
         world.events.emit("enemy_defeated", timestamp=world.time, entity_id=target.entity_id,
                           position=tuple(target.position))
         world.impact(target.position, "defeat")
@@ -142,7 +149,8 @@ def resolve_melee(world, attacker) -> None:
             hit = in_arc(attacker.position, attack.direction, enemy.position, enemy.radius, attack.reach)
         if hit and not world.room.projectile_blocked(attacker.position, enemy.position, 0):
             attack.hit_entities.add(enemy.entity_id)
-            deal_damage(world, enemy, attack.damage, attack.kind)
+            owner = "echo" if attacker is world.echo else "player"
+            deal_damage(world, enemy, attack.damage, attack.kind, owner)
 
 
 def parry_contact(attacker, projectile):
@@ -186,6 +194,7 @@ def resolve_enemy_projectile(world, projectile):
         deal_damage(world, player, projectile.damage, projectile.kind)
         projectile.alive = False
     elif defender is not None:
+        world.stats["deflections"] += 1
         projectile.position = projectile.previous.lerp(projectile.position, first_contact)
         projectile.velocity *= -1.8
         projectile.team = "player"
@@ -213,7 +222,7 @@ def resolve_friendly_projectile(world, projectile):
             nearest_enemy = enemy
             first_contact = contact
     if nearest_enemy is not None:
-        deal_damage(world, nearest_enemy, projectile.damage, projectile.kind)
+        deal_damage(world, nearest_enemy, projectile.damage, projectile.kind, projectile.owner)
         projectile.alive = False
 
 

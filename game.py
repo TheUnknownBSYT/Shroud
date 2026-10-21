@@ -1,6 +1,5 @@
 """Input, the arena simulation, and the main loop."""
 from dataclasses import dataclass
-from math import ceil
 import pygame
 from pygame import Vector2
 import settings as S
@@ -8,6 +7,7 @@ from player import Player, Command, InputFrame, ShadowEcho, EchoState
 from enemy import Enemy
 from combat import Projectile, make_shuriken, resolve_melee, resolve_projectiles
 from drawing import Renderer
+from level import Camera, Room, TRAINING_GROUNDS
 
 class EventBus:
     """Optional game-event callbacks. Nothing is recorded or saved."""
@@ -51,39 +51,6 @@ class InputHandler:
         return result
 
 
-class Room:
-    def __init__(self) -> None:
-        self.bounds = pygame.FRect(48, 140, S.WIDTH - 96, S.HEIGHT - 218)
-        self.walls = [pygame.FRect(440, 295, 58, 112), pygame.FRect(744, 465, 58, 112)]
-        self.spawn = Vector2(250, 435)
-        self.enemy_spawns = [Vector2(880, 300), Vector2(1030, 505), Vector2(550, 605)]
-
-    def move(self, position: Vector2, displacement: Vector2, radius: float) -> Vector2:
-        # Subdivision prevents fast dashes tunnelling through thin walls.
-        steps = max(1, ceil(displacement.length() / max(radius * 0.5, 1)))
-        step = displacement / steps
-        result = position.copy()
-        for _ in range(steps):
-            for axis in (0, 1):
-                result[axis] += step[axis]
-                body = pygame.FRect(result.x - radius, result.y - radius, radius * 2, radius * 2)
-                for wall in self.walls:
-                    if body.colliderect(wall):
-                        if step[axis] > 0:
-                            result[axis] = (wall.left if axis == 0 else wall.top) - radius
-                        elif step[axis] < 0:
-                            result[axis] = (wall.right if axis == 0 else wall.bottom) + radius
-                        body.center = result
-                result.x = max(self.bounds.left + radius, min(self.bounds.right - radius, result.x))
-                result.y = max(self.bounds.top + radius, min(self.bounds.bottom - radius, result.y))
-        return result
-
-    def projectile_blocked(self, start: Vector2, end: Vector2, radius: float) -> bool:
-        if not self.bounds.inflate(-radius * 2, -radius * 2).collidepoint(end):
-            return True
-        return any(wall.inflate(radius * 2, radius * 2).clipline(start, end) for wall in self.walls)
-
-
 @dataclass
 class Impact:
     position: Vector2
@@ -92,17 +59,31 @@ class Impact:
 
 
 class Sandbox:
-    def __init__(self, events: EventBus | None = None) -> None:
+    def __init__(self, events: EventBus | None = None, room=None) -> None:
         self.events = events if events is not None else EventBus()
-        self.room = Room()
+        self.room = room if room is not None else Room()
         self.time = 0.0
         self.reset()
 
     def reset(self) -> None:
         self.player = Player(self.room.spawn.copy())
         self.echo = None
-        self.enemies = [Enemy(i + 1, position.copy(), 1.2 + i * 0.9)
-                        for i, position in enumerate(self.room.enemy_spawns)]
+        self.enemies = []
+        if self.room.data:
+            for i, (group, sprite, x, y, shoots) in enumerate(self.room.data["enemies"]):
+                self.enemies.append(Enemy(
+                    i + 1, Vector2(x, y) * S.TILE_SIZE, 1.2 + (i % 3) * .4,
+                    shooting=shoots, respawn=False, group=group, sprite=sprite,
+                    activation_range=S.ENEMY_ACTIVATION_RANGE,
+                ))
+        else:
+            self.enemies = [Enemy(i + 1, position.copy(), 1.2 + i * .9)
+                            for i, position in enumerate(self.room.enemy_spawns)]
+        self.room.open_gates.clear()
+        self.room.refresh_gates(self.enemies)
+        self.elapsed = 0.0
+        self.complete = False
+        self.stats = {"targets": 0, "damage": 0, "deflections": 0, "echo_hits": 0}
         self.projectiles: list[Projectile] = []
         self.impacts: list[Impact] = []
         self.shake = 0.0
@@ -114,9 +95,11 @@ class Sandbox:
         self.shake = max(self.shake, strength)
 
     def step(self, dt: float, inputs: InputFrame) -> None:
-        if dt <= 0:
+        if dt <= 0 or self.complete:
             return
         self.time += dt
+        if self.player.alive:
+            self.elapsed += dt
         for effect in self.impacts:
             effect.remaining -= dt
         self.impacts = [effect for effect in self.impacts if effect.remaining > 0]
@@ -149,12 +132,22 @@ class Sandbox:
         if self.echo is not None:
             resolve_melee(self, self.echo)
         for enemy in self.enemies:
-            projectile = enemy.tick(dt, self.player.position, self.player.alive)
+            can_attack = self.player.alive
+            if self.room.data and can_attack:
+                can_attack = not self.room.projectile_blocked(enemy.position, self.player.position, 0)
+            projectile = enemy.tick(dt, self.player.position, can_attack)
             if projectile:
                 self.projectiles.append(projectile)
         resolve_projectiles(self, dt)
         if not self.player.alive:
             self.echo = None
+        elif (self.room.data and self.room.exit_rect.collidepoint(self.player.position)
+              and len(self.room.open_gates) == len(self.room.gates)):
+            self.complete = True
+            self.player.cancel_hold()
+            self.player.buffered = None
+            self.echo = None
+            self.projectiles.clear()
 
     def update_echo(self, dt):
         if self.echo is None:
@@ -170,11 +163,13 @@ class Sandbox:
 
 class Game:
     def __init__(self) -> None:
-        pygame.display.set_caption("SHROUD | The Courtyard")
+        pygame.display.set_caption("SHROUD | Training Grounds")
         self.screen = pygame.display.set_mode((S.WIDTH, S.HEIGHT))
         self.clock = pygame.time.Clock()
-        self.world = Sandbox()
-        self.renderer = Renderer(self.world)
+        self.world = Sandbox(room=Room(TRAINING_GROUNDS))
+        self.camera = Camera(self.world.room.bounds)
+        self.camera.follow(self.world.player.position, 0, snap=True)
+        self.renderer = Renderer(self.world, self.camera)
         self.input = InputHandler()
         self.debug = False
         self.paused = False
@@ -207,17 +202,22 @@ class Game:
                 elif command.action == "reset":
                     self.world.reset()
                     self.renderer.reset()
+                    self.camera.follow(self.world.player.position, 0, snap=True)
                     pending.clear()
                     accumulator = 0.0
                     self.paused = False
-                elif not self.paused:
+                elif not self.paused and not self.world.complete:
                     pending.append(command)
-            if not self.paused:
+            if not self.paused and not self.world.complete:
                 accumulator += dt
                 while accumulator + 1e-9 >= S.SIMULATION_STEP:
-                    self.world.step(S.SIMULATION_STEP, InputFrame(inputs.movement, pending, inputs.aim_target))
+                    aim = None
+                    if inputs.aim_target is not None:
+                        aim = self.camera.screen_to_world(inputs.aim_target)
+                    self.world.step(S.SIMULATION_STEP, InputFrame(inputs.movement, pending, aim))
                     pending = []
                     accumulator -= S.SIMULATION_STEP
+                self.camera.follow(self.world.player.position, dt)
                 self.renderer.update(self.world, dt)
             else:
                 pending.clear()

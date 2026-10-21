@@ -13,21 +13,28 @@ class EnemyState(Enum):
 
 class Enemy(Entity):
     """Stationary training sentry; locks its aim when the telegraph begins."""
-    def __init__(self, entity_id: int, position: Vector2, delay: float) -> None:
+    def __init__(self, entity_id: int, position: Vector2, delay: float, *,
+                 shooting=True, respawn=True, group="", sprite="sentry", activation_range=None) -> None:
         super().__init__(entity_id, position, S.ENEMY_RADIUS, S.ENEMY_HEALTH)
         self.state = EnemyState.IDLE
         self.timer = delay
         self.aim = Vector2(-1, 0)
+        self.shooting = shooting
+        self.respawn = respawn
+        self.group = group
+        self.sprite = sprite
+        self.activation_range = activation_range
 
     def tick(self, dt: float, target: Vector2, target_alive: bool) -> Projectile | None:
         self.flash = max(0.0, self.flash - dt)
         self.timer = max(0.0, self.timer - dt)
         if self.state == EnemyState.DEAD:
-            if self.timer <= 0:
+            if self.respawn and self.timer <= 0:
                 self.health = self.max_health
                 self.state, self.timer = EnemyState.IDLE, 1.0
             return None
-        if not target_alive:
+        nearby = self.activation_range is None or self.position.distance_to(target) <= self.activation_range
+        if not target_alive or not nearby or not self.shooting:
             self.state, self.timer = EnemyState.IDLE, 1.0
             return None
         if self.timer > 0:
