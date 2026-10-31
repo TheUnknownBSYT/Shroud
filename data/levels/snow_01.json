@@ -1,0 +1,359 @@
+{
+  "id": "snow_01",
+  "name": "Blue Approach",
+  "chapter": "Snow",
+  "size": [
+    32,
+    23
+  ],
+  "spawn": [
+    3,
+    17
+  ],
+  "exit": [
+    27,
+    3,
+    2,
+    2
+  ],
+  "briefing": "Broad icy stone lanes leave room for future slippery movement; physics remain familiar today.",
+  "floors": [
+    [
+      "earth",
+      1,
+      13,
+      8,
+      7
+    ],
+    [
+      "stone",
+      9,
+      14,
+      12,
+      5
+    ],
+    [
+      "earth",
+      21,
+      9,
+      9,
+      11
+    ],
+    [
+      "platform",
+      25,
+      3,
+      5,
+      6
+    ],
+    [
+      "earth",
+      5,
+      5,
+      5,
+      8
+    ],
+    [
+      "earth",
+      10,
+      5,
+      15,
+      4
+    ]
+  ],
+  "props": [
+    [
+      "snow_conifer_base",
+      6,
+      16,
+      0
+    ],
+    [
+      "snow_conifer_crown",
+      6,
+      16,
+      0
+    ],
+    [
+      "snow_rock_01",
+      13,
+      17,
+      0
+    ],
+    [
+      "snow_rock_02",
+      18,
+      15,
+      0
+    ],
+    [
+      "snow_log",
+      14,
+      7,
+      0
+    ],
+    [
+      "snow_conifer_base",
+      20,
+      7,
+      0
+    ],
+    [
+      "snow_conifer_crown",
+      20,
+      7,
+      0
+    ],
+    [
+      "snow_rock_01",
+      24,
+      13,
+      0
+    ],
+    [
+      "snow_shrine_gate",
+      27.5,
+      7,
+      0
+    ],
+    [
+      "snow_lantern",
+      28,
+      4,
+      0
+    ],
+    [
+      "snow_conifer_base",
+      3,
+      19,
+      0
+    ],
+    [
+      "snow_conifer_crown",
+      3,
+      19,
+      0
+    ],
+    [
+      "snow_conifer_base",
+      8,
+      14,
+      0
+    ],
+    [
+      "snow_conifer_crown",
+      8,
+      14,
+      0
+    ],
+    [
+      "snow_conifer_base",
+      6,
+      6,
+      0
+    ],
+    [
+      "snow_conifer_crown",
+      6,
+      6,
+      0
+    ],
+    [
+      "snow_conifer_base",
+      10,
+      8,
+      0
+    ],
+    [
+      "snow_conifer_crown",
+      10,
+      8,
+      0
+    ],
+    [
+      "snow_conifer_base",
+      24,
+      19,
+      0
+    ],
+    [
+      "snow_conifer_crown",
+      24,
+      19,
+      0
+    ],
+    [
+      "snow_conifer_base",
+      29,
+      10,
+      0
+    ],
+    [
+      "snow_conifer_crown",
+      29,
+      10,
+      0
+    ]
+  ],
+  "decorations": [
+    [
+      "snow_drift",
+      4,
+      19,
+      0
+    ],
+    [
+      "snow_grass_dead",
+      10,
+      18,
+      0
+    ],
+    [
+      "snow_shrub_bare",
+      28,
+      18,
+      0
+    ]
+  ],
+  "enemies": [
+    [
+      "ice",
+      "enemy_ranged_idle",
+      16,
+      17,
+      true
+    ],
+    [
+      "ridge",
+      "enemy_ranged_idle",
+      17,
+      7,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      23,
+      17,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      27,
+      15,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      27,
+      10,
+      true
+    ]
+  ],
+  "gates": [
+    [
+      "seal",
+      [
+        25,
+        8.85,
+        5,
+        0.3
+      ]
+    ]
+  ],
+  "areas": [
+    [
+      "Snow landing",
+      [
+        1,
+        13,
+        8,
+        7
+      ],
+      "The blue stone crossing is wide. The conifer ridge offers shelter."
+    ],
+    [
+      "Blue crossing",
+      [
+        9,
+        14,
+        12,
+        5
+      ],
+      "Hold Space to sprint around ice rocks; tap Space to dash."
+    ],
+    [
+      "Conifer ridge",
+      [
+        5,
+        5,
+        20,
+        8
+      ],
+      "A longer sheltered route joins the shrine bank."
+    ],
+    [
+      "Shrine bank",
+      [
+        21,
+        9,
+        9,
+        11
+      ],
+      "Clear three archers and enter the northern shrine gate."
+    ],
+    [
+      "North shrine",
+      [
+        25,
+        3,
+        5,
+        6
+      ],
+      "Reach the seal beyond the gate."
+    ]
+  ],
+  "signs": [
+    [
+      "RIDGE ^",
+      6,
+      14
+    ],
+    [
+      "BLUE CROSSING >",
+      10,
+      18
+    ]
+  ],
+  "choices": [
+    {
+      "name": "Blue crossing or conifer ridge",
+      "start": [
+        7,
+        16
+      ],
+      "end": [
+        23,
+        11
+      ],
+      "branches": [
+        [
+          11,
+          5,
+          9,
+          4
+        ],
+        [
+          11,
+          14,
+          9,
+          5
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "layout_style": "snow"
+}

@@ -1,0 +1,3208 @@
+{
+  "banner": {
+    "path": "environments/training/env_training_banner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      36,
+      8,
+      61,
+      112
+    ],
+    "transparent_pixels": 11916,
+    "partial_alpha_pixels": 73,
+    "solids": []
+  },
+  "crate": {
+    "path": "environments/training/env_training_crate_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      16,
+      12,
+      96,
+      92
+    ],
+    "transparent_pixels": 8172,
+    "partial_alpha_pixels": 42,
+    "solids": [
+      [
+        20,
+        26,
+        88,
+        68
+      ]
+    ]
+  },
+  "dojo_wall": {
+    "path": "environments/training/env_training_dojo_wall_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      48
+    ],
+    "transparent_pixels": 2048,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "fence": {
+    "path": "environments/training/env_training_fence_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      8,
+      128,
+      40
+    ],
+    "transparent_pixels": 5648,
+    "partial_alpha_pixels": 48,
+    "solids": [
+      [
+        0,
+        10,
+        128,
+        34
+      ]
+    ]
+  },
+  "fence_corner": {
+    "path": "environments/training/env_training_fence_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 13057,
+    "partial_alpha_pixels": 4,
+    "solids": []
+  },
+  "floor_earth_01": {
+    "path": "environments/training/env_training_floor_earth_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "floor_earth_02": {
+    "path": "environments/training/env_training_floor_earth_02.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "floor_stone_01": {
+    "path": "environments/training/env_training_floor_stone_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "floor_stone_02": {
+    "path": "environments/training/env_training_floor_stone_02.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "gate": {
+    "path": "environments/training/env_training_gate_01.png",
+    "size": [
+      256,
+      128
+    ],
+    "bounds": [
+      0,
+      10,
+      256,
+      106
+    ],
+    "transparent_pixels": 21806,
+    "partial_alpha_pixels": 52,
+    "solids": [
+      [
+        8,
+        36,
+        20,
+        72
+      ],
+      [
+        228,
+        36,
+        20,
+        72
+      ]
+    ]
+  },
+  "grass": {
+    "path": "environments/training/env_training_grass_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      24,
+      56,
+      81,
+      40
+    ],
+    "transparent_pixels": 15078,
+    "partial_alpha_pixels": 233,
+    "solids": []
+  },
+  "hanging_target": {
+    "path": "environments/training/env_training_hanging_target_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      26,
+      0,
+      76,
+      100
+    ],
+    "transparent_pixels": 11636,
+    "partial_alpha_pixels": 236,
+    "solids": []
+  },
+  "lantern": {
+    "path": "environments/training/env_training_lantern_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      18,
+      4,
+      28,
+      52
+    ],
+    "transparent_pixels": 2852,
+    "partial_alpha_pixels": 84,
+    "solids": []
+  },
+  "leaf_scatter": {
+    "path": "environments/training/env_training_leaf_scatter_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      23,
+      28,
+      91,
+      80
+    ],
+    "transparent_pixels": 15843,
+    "partial_alpha_pixels": 153,
+    "solids": []
+  },
+  "low_wall": {
+    "path": "environments/training/env_training_low_wall_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      28,
+      128,
+      32
+    ],
+    "transparent_pixels": 4096,
+    "partial_alpha_pixels": 0,
+    "solids": [
+      [
+        0,
+        28,
+        128,
+        32
+      ]
+    ]
+  },
+  "mat": {
+    "path": "environments/training/env_training_mat_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "pillar": {
+    "path": "environments/training/env_training_pillar_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      8,
+      8,
+      48,
+      48
+    ],
+    "transparent_pixels": 1804,
+    "partial_alpha_pixels": 28,
+    "solids": [
+      [
+        10,
+        12,
+        44,
+        42
+      ]
+    ]
+  },
+  "platform": {
+    "path": "environments/training/env_training_platform_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "platform_edge": {
+    "path": "environments/training/env_training_platform_edge_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 4096,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "post": {
+    "path": "environments/training/env_training_post_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      20,
+      20,
+      24,
+      24
+    ],
+    "transparent_pixels": 3532,
+    "partial_alpha_pixels": 28,
+    "solids": [
+      [
+        20,
+        20,
+        24,
+        24
+      ]
+    ]
+  },
+  "practice_mark": {
+    "path": "environments/training/env_training_practice_mark_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      22,
+      34,
+      84,
+      60
+    ],
+    "transparent_pixels": 15744,
+    "partial_alpha_pixels": 320,
+    "solids": []
+  },
+  "rock_01": {
+    "path": "environments/training/env_training_rock_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      22,
+      38,
+      88,
+      57
+    ],
+    "transparent_pixels": 12578,
+    "partial_alpha_pixels": 188,
+    "solids": [
+      [
+        30,
+        52,
+        68,
+        34
+      ]
+    ]
+  },
+  "rock_02": {
+    "path": "environments/training/env_training_rock_02.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      34,
+      38,
+      62,
+      48
+    ],
+    "transparent_pixels": 14509,
+    "partial_alpha_pixels": 153,
+    "solids": [
+      [
+        38,
+        51,
+        54,
+        29
+      ]
+    ]
+  },
+  "rope": {
+    "path": "environments/training/env_training_rope_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      5,
+      30,
+      120,
+      67
+    ],
+    "transparent_pixels": 15696,
+    "partial_alpha_pixels": 351,
+    "solids": []
+  },
+  "sentry": {
+    "path": "environments/training/env_training_sentry_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      26,
+      24,
+      88,
+      91
+    ],
+    "transparent_pixels": 10910,
+    "partial_alpha_pixels": 257,
+    "solids": []
+  },
+  "shrub": {
+    "path": "environments/training/env_training_shrub_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      24,
+      17,
+      82,
+      97
+    ],
+    "transparent_pixels": 11428,
+    "partial_alpha_pixels": 218,
+    "solids": []
+  },
+  "stationary_target": {
+    "path": "environments/training/env_training_stationary_target_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      21,
+      28,
+      87,
+      87
+    ],
+    "transparent_pixels": 12086,
+    "partial_alpha_pixels": 156,
+    "solids": []
+  },
+  "straw_dummy": {
+    "path": "environments/training/env_training_straw_dummy_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      21,
+      28,
+      87,
+      87
+    ],
+    "transparent_pixels": 12086,
+    "partial_alpha_pixels": 156,
+    "solids": []
+  },
+  "sword_dummy": {
+    "path": "environments/training/env_training_sword_dummy_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      21,
+      18,
+      96,
+      97
+    ],
+    "transparent_pixels": 11852,
+    "partial_alpha_pixels": 227,
+    "solids": []
+  },
+  "target": {
+    "path": "environments/training/env_training_target_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      26,
+      24,
+      76,
+      91
+    ],
+    "transparent_pixels": 11066,
+    "partial_alpha_pixels": 250,
+    "solids": []
+  },
+  "tree": {
+    "path": "environments/training/env_training_tree_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      15,
+      17,
+      91,
+      97
+    ],
+    "transparent_pixels": 10525,
+    "partial_alpha_pixels": 258,
+    "solids": [
+      [
+        55,
+        82,
+        18,
+        28
+      ]
+    ]
+  },
+  "wall": {
+    "path": "environments/training/env_training_wall_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 4100,
+    "partial_alpha_pixels": 16,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        32
+      ]
+    ]
+  },
+  "wall_corner": {
+    "path": "environments/training/env_training_wall_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 9216,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "wall_end": {
+    "path": "environments/training/env_training_wall_end_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      0,
+      12,
+      56,
+      40
+    ],
+    "transparent_pixels": 2176,
+    "partial_alpha_pixels": 16,
+    "solids": []
+  },
+  "weapon_rack": {
+    "path": "environments/training/env_training_weapon_rack_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      10,
+      20,
+      108,
+      92
+    ],
+    "transparent_pixels": 12473,
+    "partial_alpha_pixels": 66,
+    "solids": [
+      [
+        12,
+        76,
+        104,
+        28
+      ]
+    ]
+  },
+  "autumn_bridge": {
+    "path": "environments/autumn/env_autumn_bridge_01.png",
+    "size": [
+      256,
+      128
+    ],
+    "bounds": [
+      0,
+      15,
+      256,
+      98
+    ],
+    "transparent_pixels": 8192,
+    "partial_alpha_pixels": 24,
+    "solids": []
+  },
+  "autumn_bush_low": {
+    "path": "environments/autumn/env_autumn_bush_low_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      28,
+      53,
+      74,
+      41
+    ],
+    "transparent_pixels": 14141,
+    "partial_alpha_pixels": 167,
+    "solids": []
+  },
+  "autumn_floor_earth": {
+    "path": "environments/autumn/env_autumn_floor_earth_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "autumn_floor_leaves": {
+    "path": "environments/autumn/env_autumn_floor_leaves_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "autumn_lantern": {
+    "path": "environments/autumn/env_autumn_lantern_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      14,
+      10,
+      36,
+      49
+    ],
+    "transparent_pixels": 3120,
+    "partial_alpha_pixels": 50,
+    "solids": []
+  },
+  "autumn_leaf_scatter": {
+    "path": "environments/autumn/env_autumn_leaf_scatter_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      22,
+      29,
+      86,
+      75
+    ],
+    "transparent_pixels": 16111,
+    "partial_alpha_pixels": 149,
+    "solids": []
+  },
+  "autumn_log": {
+    "path": "environments/autumn/env_autumn_log_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      12,
+      49,
+      104,
+      30
+    ],
+    "transparent_pixels": 13594,
+    "partial_alpha_pixels": 201,
+    "solids": [
+      [
+        18,
+        52,
+        98,
+        28
+      ]
+    ]
+  },
+  "autumn_path_corner": {
+    "path": "environments/autumn/env_autumn_path_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "autumn_path_junction": {
+    "path": "environments/autumn/env_autumn_path_junction_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "autumn_path_straight": {
+    "path": "environments/autumn/env_autumn_path_straight_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "autumn_rock": {
+    "path": "environments/autumn/env_autumn_rock_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      22,
+      38,
+      88,
+      57
+    ],
+    "transparent_pixels": 12382,
+    "partial_alpha_pixels": 228,
+    "solids": [
+      [
+        26,
+        58,
+        80,
+        38
+      ]
+    ]
+  },
+  "autumn_root": {
+    "path": "environments/autumn/env_autumn_root_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      19,
+      47,
+      90,
+      42
+    ],
+    "transparent_pixels": 14985,
+    "partial_alpha_pixels": 264,
+    "solids": [
+      [
+        24,
+        70,
+        82,
+        20
+      ]
+    ]
+  },
+  "autumn_shrine_marker": {
+    "path": "environments/autumn/env_autumn_shrine_marker_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      26,
+      26,
+      77,
+      77
+    ],
+    "transparent_pixels": 12945,
+    "partial_alpha_pixels": 90,
+    "solids": [
+      [
+        38,
+        80,
+        54,
+        36
+      ]
+    ]
+  },
+  "autumn_tree_base": {
+    "path": "environments/autumn/env_autumn_tree_base_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      46,
+      45,
+      37,
+      68
+    ],
+    "transparent_pixels": 15245,
+    "partial_alpha_pixels": 209,
+    "solids": [
+      [
+        56,
+        50,
+        16,
+        62
+      ]
+    ]
+  },
+  "autumn_tree_crown": {
+    "path": "environments/autumn/env_autumn_tree_crown_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      21,
+      17,
+      87,
+      65
+    ],
+    "transparent_pixels": 13426,
+    "partial_alpha_pixels": 335,
+    "solids": []
+  },
+  "fx_dash_01": {
+    "path": "effects/combat/fx_dash_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      10,
+      61,
+      150,
+      68
+    ],
+    "transparent_pixels": 30989,
+    "partial_alpha_pixels": 5875,
+    "solids": []
+  },
+  "fx_dash_02": {
+    "path": "effects/combat/fx_dash_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      10,
+      65,
+      140,
+      64
+    ],
+    "transparent_pixels": 31507,
+    "partial_alpha_pixels": 5357,
+    "solids": []
+  },
+  "fx_dash_03": {
+    "path": "effects/combat/fx_dash_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      10,
+      65,
+      127,
+      64
+    ],
+    "transparent_pixels": 33296,
+    "partial_alpha_pixels": 3568,
+    "solids": []
+  },
+  "fx_defeat_01": {
+    "path": "effects/combat/fx_defeat_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      44,
+      79,
+      100,
+      56
+    ],
+    "transparent_pixels": 34471,
+    "partial_alpha_pixels": 2393,
+    "solids": []
+  },
+  "fx_defeat_02": {
+    "path": "effects/combat/fx_defeat_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      37,
+      72,
+      114,
+      70
+    ],
+    "transparent_pixels": 34373,
+    "partial_alpha_pixels": 2491,
+    "solids": []
+  },
+  "fx_defeat_03": {
+    "path": "effects/combat/fx_defeat_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      30,
+      65,
+      128,
+      84
+    ],
+    "transparent_pixels": 34263,
+    "partial_alpha_pixels": 2601,
+    "solids": []
+  },
+  "fx_deflect_01": {
+    "path": "effects/combat/fx_deflect_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      74,
+      68,
+      44,
+      50
+    ],
+    "transparent_pixels": 36367,
+    "partial_alpha_pixels": 497,
+    "solids": []
+  },
+  "fx_deflect_02": {
+    "path": "effects/combat/fx_deflect_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      62,
+      53,
+      74,
+      81
+    ],
+    "transparent_pixels": 35845,
+    "partial_alpha_pixels": 1019,
+    "solids": []
+  },
+  "fx_deflect_03": {
+    "path": "effects/combat/fx_deflect_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      47,
+      47,
+      100,
+      97
+    ],
+    "transparent_pixels": 36720,
+    "partial_alpha_pixels": 144,
+    "solids": []
+  },
+  "fx_echo_activation_01": {
+    "path": "effects/combat/fx_echo_activation_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      51,
+      54,
+      90,
+      86
+    ],
+    "transparent_pixels": 34836,
+    "partial_alpha_pixels": 2028,
+    "solids": []
+  },
+  "fx_echo_activation_02": {
+    "path": "effects/combat/fx_echo_activation_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      37,
+      37,
+      117,
+      103
+    ],
+    "transparent_pixels": 34594,
+    "partial_alpha_pixels": 2270,
+    "solids": []
+  },
+  "fx_echo_activation_03": {
+    "path": "effects/combat/fx_echo_activation_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      26,
+      72,
+      138,
+      74
+    ],
+    "transparent_pixels": 34897,
+    "partial_alpha_pixels": 1967,
+    "solids": []
+  },
+  "fx_echo_spawn_01": {
+    "path": "effects/combat/fx_echo_spawn_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      48,
+      52,
+      96,
+      88
+    ],
+    "transparent_pixels": 33962,
+    "partial_alpha_pixels": 2902,
+    "solids": []
+  },
+  "fx_echo_spawn_02": {
+    "path": "effects/combat/fx_echo_spawn_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      34,
+      35,
+      123,
+      105
+    ],
+    "transparent_pixels": 33382,
+    "partial_alpha_pixels": 3482,
+    "solids": []
+  },
+  "fx_echo_spawn_03": {
+    "path": "effects/combat/fx_echo_spawn_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      23,
+      72,
+      144,
+      76
+    ],
+    "transparent_pixels": 34125,
+    "partial_alpha_pixels": 2739,
+    "solids": []
+  },
+  "fx_hit_01": {
+    "path": "effects/combat/fx_hit_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      74,
+      68,
+      44,
+      50
+    ],
+    "transparent_pixels": 36367,
+    "partial_alpha_pixels": 497,
+    "solids": []
+  },
+  "fx_hit_02": {
+    "path": "effects/combat/fx_hit_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      62,
+      53,
+      69,
+      81
+    ],
+    "transparent_pixels": 36016,
+    "partial_alpha_pixels": 848,
+    "solids": []
+  },
+  "fx_hit_03": {
+    "path": "effects/combat/fx_hit_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      47,
+      47,
+      100,
+      97
+    ],
+    "transparent_pixels": 36720,
+    "partial_alpha_pixels": 144,
+    "solids": []
+  },
+  "fx_impact_dust_01": {
+    "path": "effects/combat/fx_impact_dust_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      44,
+      67,
+      104,
+      68
+    ],
+    "transparent_pixels": 35781,
+    "partial_alpha_pixels": 1083,
+    "solids": []
+  },
+  "fx_impact_dust_02": {
+    "path": "effects/combat/fx_impact_dust_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      37,
+      67,
+      111,
+      75
+    ],
+    "transparent_pixels": 35727,
+    "partial_alpha_pixels": 1137,
+    "solids": []
+  },
+  "fx_impact_dust_03": {
+    "path": "effects/combat/fx_impact_dust_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      30,
+      65,
+      118,
+      84
+    ],
+    "transparent_pixels": 35679,
+    "partial_alpha_pixels": 1185,
+    "solids": []
+  },
+  "fx_movement_dust_01": {
+    "path": "effects/combat/fx_movement_dust_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      44,
+      79,
+      90,
+      56
+    ],
+    "transparent_pixels": 35921,
+    "partial_alpha_pixels": 943,
+    "solids": []
+  },
+  "fx_movement_dust_02": {
+    "path": "effects/combat/fx_movement_dust_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      37,
+      72,
+      104,
+      70
+    ],
+    "transparent_pixels": 35867,
+    "partial_alpha_pixels": 997,
+    "solids": []
+  },
+  "fx_movement_dust_03": {
+    "path": "effects/combat/fx_movement_dust_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      30,
+      65,
+      118,
+      84
+    ],
+    "transparent_pixels": 35819,
+    "partial_alpha_pixels": 1045,
+    "solids": []
+  },
+  "fx_projectile_deflect_01": {
+    "path": "effects/combat/fx_projectile_deflect_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      32,
+      47,
+      113,
+      73
+    ],
+    "transparent_pixels": 36054,
+    "partial_alpha_pixels": 810,
+    "solids": []
+  },
+  "fx_projectile_deflect_02": {
+    "path": "effects/combat/fx_projectile_deflect_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      32,
+      47,
+      113,
+      87
+    ],
+    "transparent_pixels": 35590,
+    "partial_alpha_pixels": 1274,
+    "solids": []
+  },
+  "fx_projectile_deflect_03": {
+    "path": "effects/combat/fx_projectile_deflect_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      32,
+      47,
+      115,
+      97
+    ],
+    "transparent_pixels": 36407,
+    "partial_alpha_pixels": 457,
+    "solids": []
+  },
+  "fx_slash_01": {
+    "path": "effects/combat/fx_slash_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      54,
+      34,
+      104,
+      71
+    ],
+    "transparent_pixels": 35724,
+    "partial_alpha_pixels": 1140,
+    "solids": []
+  },
+  "fx_slash_02": {
+    "path": "effects/combat/fx_slash_02.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      52,
+      27,
+      102,
+      131
+    ],
+    "transparent_pixels": 35394,
+    "partial_alpha_pixels": 1470,
+    "solids": []
+  },
+  "fx_slash_03": {
+    "path": "effects/combat/fx_slash_03.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      123,
+      47,
+      27,
+      97
+    ],
+    "transparent_pixels": 36283,
+    "partial_alpha_pixels": 581,
+    "solids": []
+  },
+  "projectile_echo_shuriken": {
+    "path": "effects/combat/projectile_echo_shuriken_01.png",
+    "size": [
+      32,
+      32
+    ],
+    "bounds": [
+      3,
+      3,
+      26,
+      26
+    ],
+    "transparent_pixels": 778,
+    "partial_alpha_pixels": 246,
+    "solids": []
+  },
+  "projectile_gold_arrow": {
+    "path": "effects/combat/projectile_gold_arrow_01.png",
+    "size": [
+      64,
+      32
+    ],
+    "bounds": [
+      8,
+      10,
+      53,
+      12
+    ],
+    "transparent_pixels": 1832,
+    "partial_alpha_pixels": 88,
+    "solids": []
+  },
+  "enemy_heavy_attack": {
+    "path": "characters/enemies/enemy_heavy_attack_01.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      87,
+      83,
+      227,
+      162
+    ],
+    "transparent_pixels": 78072,
+    "partial_alpha_pixels": 583,
+    "solids": []
+  },
+  "enemy_heavy_defeated": {
+    "path": "characters/enemies/enemy_heavy_defeated.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      69,
+      186,
+      184,
+      51
+    ],
+    "transparent_pixels": 96588,
+    "partial_alpha_pixels": 546,
+    "solids": []
+  },
+  "enemy_heavy_hurt": {
+    "path": "characters/enemies/enemy_heavy_hurt.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      65,
+      83,
+      220,
+      162
+    ],
+    "transparent_pixels": 77482,
+    "partial_alpha_pixels": 643,
+    "solids": []
+  },
+  "enemy_heavy_idle": {
+    "path": "characters/enemies/enemy_heavy_idle.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      75,
+      83,
+      210,
+      162
+    ],
+    "transparent_pixels": 77961,
+    "partial_alpha_pixels": 583,
+    "solids": []
+  },
+  "enemy_heavy_move": {
+    "path": "characters/enemies/enemy_heavy_move.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      83,
+      83,
+      202,
+      158
+    ],
+    "transparent_pixels": 78627,
+    "partial_alpha_pixels": 559,
+    "solids": []
+  },
+  "enemy_heavy_stagger": {
+    "path": "characters/enemies/enemy_heavy_stagger.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      69,
+      83,
+      216,
+      162
+    ],
+    "transparent_pixels": 77656,
+    "partial_alpha_pixels": 608,
+    "solids": []
+  },
+  "enemy_heavy_windup": {
+    "path": "characters/enemies/enemy_heavy_windup.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      67,
+      38,
+      178,
+      207
+    ],
+    "transparent_pixels": 78290,
+    "partial_alpha_pixels": 604,
+    "solids": []
+  },
+  "enemy_ranged_aim": {
+    "path": "characters/enemies/enemy_ranged_aim.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      68,
+      88,
+      219,
+      151
+    ],
+    "transparent_pixels": 80464,
+    "partial_alpha_pixels": 828,
+    "solids": []
+  },
+  "enemy_ranged_defeated": {
+    "path": "characters/enemies/enemy_ranged_defeated.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      69,
+      186,
+      184,
+      51
+    ],
+    "transparent_pixels": 96588,
+    "partial_alpha_pixels": 546,
+    "solids": []
+  },
+  "enemy_ranged_fire": {
+    "path": "characters/enemies/enemy_ranged_fire.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      68,
+      88,
+      242,
+      151
+    ],
+    "transparent_pixels": 80519,
+    "partial_alpha_pixels": 703,
+    "solids": []
+  },
+  "enemy_ranged_hurt": {
+    "path": "characters/enemies/enemy_ranged_hurt.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      58,
+      88,
+      212,
+      151
+    ],
+    "transparent_pixels": 80333,
+    "partial_alpha_pixels": 689,
+    "solids": []
+  },
+  "enemy_ranged_idle": {
+    "path": "characters/enemies/enemy_ranged_idle.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      68,
+      88,
+      202,
+      151
+    ],
+    "transparent_pixels": 80812,
+    "partial_alpha_pixels": 721,
+    "solids": []
+  },
+  "enemy_ranged_move": {
+    "path": "characters/enemies/enemy_ranged_move.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      76,
+      88,
+      194,
+      155
+    ],
+    "transparent_pixels": 80887,
+    "partial_alpha_pixels": 696,
+    "solids": []
+  },
+  "enemy_ranged_telegraph": {
+    "path": "characters/enemies/enemy_ranged_telegraph.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      68,
+      88,
+      219,
+      151
+    ],
+    "transparent_pixels": 80464,
+    "partial_alpha_pixels": 828,
+    "solids": []
+  },
+  "enemy_sword_attack": {
+    "path": "characters/enemies/enemy_sword_attack_01.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      92,
+      88,
+      220,
+      151
+    ],
+    "transparent_pixels": 81169,
+    "partial_alpha_pixels": 564,
+    "solids": []
+  },
+  "enemy_sword_defeated": {
+    "path": "characters/enemies/enemy_sword_defeated.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      69,
+      186,
+      184,
+      51
+    ],
+    "transparent_pixels": 96588,
+    "partial_alpha_pixels": 546,
+    "solids": []
+  },
+  "enemy_sword_hurt": {
+    "path": "characters/enemies/enemy_sword_hurt.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      70,
+      88,
+      216,
+      151
+    ],
+    "transparent_pixels": 80631,
+    "partial_alpha_pixels": 637,
+    "solids": []
+  },
+  "enemy_sword_idle": {
+    "path": "characters/enemies/enemy_sword_idle.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      80,
+      88,
+      206,
+      151
+    ],
+    "transparent_pixels": 80912,
+    "partial_alpha_pixels": 591,
+    "solids": []
+  },
+  "enemy_sword_move": {
+    "path": "characters/enemies/enemy_sword_move.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      88,
+      88,
+      198,
+      155
+    ],
+    "transparent_pixels": 81194,
+    "partial_alpha_pixels": 592,
+    "solids": []
+  },
+  "enemy_sword_windup": {
+    "path": "characters/enemies/enemy_sword_windup.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      72,
+      42,
+      168,
+      197
+    ],
+    "transparent_pixels": 81339,
+    "partial_alpha_pixels": 547,
+    "solids": []
+  },
+  "marsh_bank_corner": {
+    "path": "environments/misty/env_marsh_bank_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "marsh_bank_junction": {
+    "path": "environments/misty/env_marsh_bank_junction_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "marsh_bank_straight": {
+    "path": "environments/misty/env_marsh_bank_straight_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "marsh_boardwalk": {
+    "path": "environments/misty/env_marsh_boardwalk_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "marsh_boardwalk_edge": {
+    "path": "environments/misty/env_marsh_boardwalk_edge_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 4096,
+    "partial_alpha_pixels": 0,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        32
+      ]
+    ]
+  },
+  "marsh_bridge": {
+    "path": "environments/misty/env_marsh_bridge_01.png",
+    "size": [
+      256,
+      128
+    ],
+    "bounds": [
+      0,
+      15,
+      256,
+      98
+    ],
+    "transparent_pixels": 8192,
+    "partial_alpha_pixels": 24,
+    "solids": []
+  },
+  "marsh_fence_broken": {
+    "path": "environments/misty/env_marsh_fence_broken_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      12,
+      128,
+      40
+    ],
+    "transparent_pixels": 14989,
+    "partial_alpha_pixels": 24,
+    "solids": [
+      [
+        8,
+        24,
+        12,
+        40
+      ],
+      [
+        108,
+        24,
+        12,
+        40
+      ]
+    ]
+  },
+  "marsh_floor_damp": {
+    "path": "environments/misty/env_marsh_floor_damp_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "marsh_lantern_stilted": {
+    "path": "environments/misty/env_marsh_lantern_stilted_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      14,
+      10,
+      36,
+      49
+    ],
+    "transparent_pixels": 3120,
+    "partial_alpha_pixels": 50,
+    "solids": []
+  },
+  "marsh_log": {
+    "path": "environments/misty/env_marsh_log_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      12,
+      49,
+      104,
+      30
+    ],
+    "transparent_pixels": 13464,
+    "partial_alpha_pixels": 228,
+    "solids": [
+      [
+        18,
+        52,
+        98,
+        28
+      ]
+    ]
+  },
+  "marsh_mist_overlay": {
+    "path": "environments/misty/env_marsh_mist_overlay_01.png",
+    "size": [
+      256,
+      128
+    ],
+    "bounds": [
+      9,
+      28,
+      237,
+      62
+    ],
+    "transparent_pixels": 23072,
+    "partial_alpha_pixels": 9696,
+    "solids": []
+  },
+  "marsh_reed_base": {
+    "path": "environments/misty/env_marsh_reed_base_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      38,
+      56,
+      56,
+      52
+    ],
+    "transparent_pixels": 15555,
+    "partial_alpha_pixels": 405,
+    "solids": []
+  },
+  "marsh_reed_foreground": {
+    "path": "environments/misty/env_marsh_reed_foreground_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      34,
+      24,
+      62,
+      84
+    ],
+    "transparent_pixels": 15101,
+    "partial_alpha_pixels": 601,
+    "solids": []
+  },
+  "marsh_shore_corner": {
+    "path": "environments/misty/env_marsh_shore_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "marsh_shore_inner_corner": {
+    "path": "environments/misty/env_marsh_shore_inner_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "marsh_shore_straight": {
+    "path": "environments/misty/env_marsh_shore_straight_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "marsh_stone_moss": {
+    "path": "environments/misty/env_marsh_stone_moss_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      22,
+      38,
+      88,
+      57
+    ],
+    "transparent_pixels": 12343,
+    "partial_alpha_pixels": 222,
+    "solids": [
+      [
+        26,
+        58,
+        80,
+        38
+      ]
+    ]
+  },
+  "marsh_water_shallow": {
+    "path": "environments/misty/env_marsh_water_shallow_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "roof_balcony": {
+    "path": "environments/rooftops/env_roof_balcony_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "roof_banner": {
+    "path": "environments/rooftops/env_roof_banner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      36,
+      8,
+      61,
+      112
+    ],
+    "transparent_pixels": 11916,
+    "partial_alpha_pixels": 73,
+    "solids": []
+  },
+  "roof_bridge": {
+    "path": "environments/rooftops/env_roof_bridge_01.png",
+    "size": [
+      256,
+      128
+    ],
+    "bounds": [
+      0,
+      15,
+      256,
+      98
+    ],
+    "transparent_pixels": 7684,
+    "partial_alpha_pixels": 24,
+    "solids": []
+  },
+  "roof_edge": {
+    "path": "environments/rooftops/env_roof_edge_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 4096,
+    "partial_alpha_pixels": 0,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        32
+      ]
+    ]
+  },
+  "roof_gap_edge": {
+    "path": "environments/rooftops/env_roof_gap_edge_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      46
+    ],
+    "transparent_pixels": 2304,
+    "partial_alpha_pixels": 0,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        32
+      ]
+    ]
+  },
+  "roof_lantern": {
+    "path": "environments/rooftops/env_roof_lantern_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      18,
+      4,
+      28,
+      52
+    ],
+    "transparent_pixels": 2852,
+    "partial_alpha_pixels": 84,
+    "solids": []
+  },
+  "roof_ridge": {
+    "path": "environments/rooftops/env_roof_ridge_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 4096,
+    "partial_alpha_pixels": 0,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        32
+      ]
+    ]
+  },
+  "roof_rope": {
+    "path": "environments/rooftops/env_roof_rope_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      5,
+      30,
+      120,
+      67
+    ],
+    "transparent_pixels": 15696,
+    "partial_alpha_pixels": 351,
+    "solids": []
+  },
+  "roof_tile": {
+    "path": "environments/rooftops/env_roof_tile_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "roof_tower": {
+    "path": "environments/rooftops/env_roof_tower_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      10,
+      12,
+      108,
+      92
+    ],
+    "transparent_pixels": 7792,
+    "partial_alpha_pixels": 72,
+    "solids": [
+      [
+        30,
+        48,
+        72,
+        64
+      ]
+    ]
+  },
+  "roof_vent": {
+    "path": "environments/rooftops/env_roof_vent_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      10,
+      12,
+      108,
+      92
+    ],
+    "transparent_pixels": 7792,
+    "partial_alpha_pixels": 72,
+    "solids": [
+      [
+        30,
+        48,
+        72,
+        64
+      ]
+    ]
+  },
+  "shadow_echo_activation": {
+    "path": "characters/shadow_echo/shadow_echo_activation_01.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      0,
+      0,
+      320,
+      320
+    ],
+    "transparent_pixels": 76751,
+    "partial_alpha_pixels": 25649,
+    "solids": []
+  },
+  "shadow_echo_activation_trace": {
+    "path": "characters/shadow_echo/shadow_echo_activation_trace_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      37,
+      37,
+      117,
+      103
+    ],
+    "transparent_pixels": 34594,
+    "partial_alpha_pixels": 2270,
+    "solids": []
+  },
+  "shadow_echo_fade": {
+    "path": "characters/shadow_echo/shadow_echo_fade_01.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      0,
+      0,
+      320,
+      320
+    ],
+    "transparent_pixels": 76787,
+    "partial_alpha_pixels": 25613,
+    "solids": []
+  },
+  "shadow_echo_fade_trace": {
+    "path": "characters/shadow_echo/shadow_echo_fade_trace_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      54,
+      86,
+      93,
+      41
+    ],
+    "transparent_pixels": 36262,
+    "partial_alpha_pixels": 602,
+    "solids": []
+  },
+  "shadow_echo_idle": {
+    "path": "characters/shadow_echo/shadow_echo_idle_01.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      0,
+      0,
+      320,
+      320
+    ],
+    "transparent_pixels": 76759,
+    "partial_alpha_pixels": 25641,
+    "solids": []
+  },
+  "shadow_echo_shuriken": {
+    "path": "characters/shadow_echo/shadow_echo_shuriken_01.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      0,
+      0,
+      320,
+      320
+    ],
+    "transparent_pixels": 76763,
+    "partial_alpha_pixels": 25637,
+    "solids": []
+  },
+  "shadow_echo_shuriken_trace": {
+    "path": "characters/shadow_echo/shadow_echo_shuriken_trace_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      24,
+      78,
+      145,
+      36
+    ],
+    "transparent_pixels": 36002,
+    "partial_alpha_pixels": 862,
+    "solids": []
+  },
+  "shadow_echo_slash": {
+    "path": "characters/shadow_echo/shadow_echo_slash_01.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      0,
+      0,
+      320,
+      320
+    ],
+    "transparent_pixels": 76759,
+    "partial_alpha_pixels": 25641,
+    "solids": []
+  },
+  "shadow_echo_slash_trace": {
+    "path": "characters/shadow_echo/shadow_echo_slash_trace_01.png",
+    "size": [
+      192,
+      192
+    ],
+    "bounds": [
+      52,
+      27,
+      102,
+      131
+    ],
+    "transparent_pixels": 35394,
+    "partial_alpha_pixels": 1470,
+    "solids": []
+  },
+  "snow_bridge": {
+    "path": "environments/snow/env_snow_bridge_01.png",
+    "size": [
+      256,
+      128
+    ],
+    "bounds": [
+      0,
+      14,
+      256,
+      99
+    ],
+    "transparent_pixels": 7680,
+    "partial_alpha_pixels": 12,
+    "solids": []
+  },
+  "snow_conifer_base": {
+    "path": "environments/snow/env_snow_conifer_base_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      49,
+      57,
+      31,
+      56
+    ],
+    "transparent_pixels": 15656,
+    "partial_alpha_pixels": 160,
+    "solids": [
+      [
+        56,
+        50,
+        16,
+        62
+      ]
+    ]
+  },
+  "snow_conifer_crown": {
+    "path": "environments/snow/env_snow_conifer_crown_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      26,
+      13,
+      76,
+      72
+    ],
+    "transparent_pixels": 13999,
+    "partial_alpha_pixels": 377,
+    "solids": []
+  },
+  "snow_drift": {
+    "path": "environments/snow/env_snow_drift_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      17,
+      54,
+      95,
+      40
+    ],
+    "transparent_pixels": 14357,
+    "partial_alpha_pixels": 207,
+    "solids": []
+  },
+  "snow_fence": {
+    "path": "environments/snow/env_snow_fence_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      12,
+      128,
+      40
+    ],
+    "transparent_pixels": 5900,
+    "partial_alpha_pixels": 44,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        32
+      ]
+    ]
+  },
+  "snow_floor_icy_stone": {
+    "path": "environments/snow/env_snow_floor_icy_stone_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_floor_packed_01": {
+    "path": "environments/snow/env_snow_floor_packed_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_floor_packed_02": {
+    "path": "environments/snow/env_snow_floor_packed_02.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_grass_dead": {
+    "path": "environments/snow/env_snow_grass_dead_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      35,
+      64,
+      58,
+      32
+    ],
+    "transparent_pixels": 15751,
+    "partial_alpha_pixels": 283,
+    "solids": []
+  },
+  "snow_icebank_corner": {
+    "path": "environments/snow/env_snow_icebank_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_icebank_inner_corner": {
+    "path": "environments/snow/env_snow_icebank_inner_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_icebank_straight": {
+    "path": "environments/snow/env_snow_icebank_straight_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_lantern": {
+    "path": "environments/snow/env_snow_lantern_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      14,
+      8,
+      36,
+      51
+    ],
+    "transparent_pixels": 3070,
+    "partial_alpha_pixels": 50,
+    "solids": []
+  },
+  "snow_log": {
+    "path": "environments/snow/env_snow_log_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      12,
+      49,
+      104,
+      30
+    ],
+    "transparent_pixels": 13403,
+    "partial_alpha_pixels": 157,
+    "solids": [
+      [
+        18,
+        52,
+        98,
+        28
+      ]
+    ]
+  },
+  "snow_path_corner": {
+    "path": "environments/snow/env_snow_path_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_path_junction": {
+    "path": "environments/snow/env_snow_path_junction_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_path_straight": {
+    "path": "environments/snow/env_snow_path_straight_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_pond_frozen": {
+    "path": "environments/snow/env_snow_pond_frozen_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_rock_01": {
+    "path": "environments/snow/env_snow_rock_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      22,
+      38,
+      88,
+      57
+    ],
+    "transparent_pixels": 12438,
+    "partial_alpha_pixels": 214,
+    "solids": [
+      [
+        26,
+        58,
+        80,
+        38
+      ]
+    ]
+  },
+  "snow_rock_02": {
+    "path": "environments/snow/env_snow_rock_02.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      39,
+      29,
+      52,
+      70
+    ],
+    "transparent_pixels": 13404,
+    "partial_alpha_pixels": 197,
+    "solids": [
+      [
+        38,
+        40,
+        54,
+        62
+      ]
+    ]
+  },
+  "snow_shrine_gate": {
+    "path": "environments/snow/env_snow_shrine_gate_01.png",
+    "size": [
+      256,
+      128
+    ],
+    "bounds": [
+      0,
+      7,
+      256,
+      109
+    ],
+    "transparent_pixels": 20628,
+    "partial_alpha_pixels": 46,
+    "solids": [
+      [
+        24,
+        44,
+        20,
+        64
+      ],
+      [
+        212,
+        44,
+        20,
+        64
+      ]
+    ]
+  },
+  "snow_shrub_bare": {
+    "path": "environments/snow/env_snow_shrub_bare_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      37,
+      51,
+      59,
+      50
+    ],
+    "transparent_pixels": 15542,
+    "partial_alpha_pixels": 329,
+    "solids": []
+  },
+  "snow_wall_corner": {
+    "path": "environments/snow/env_snow_wall_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 9216,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "snow_wall_end": {
+    "path": "environments/snow/env_snow_wall_end_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      0,
+      12,
+      56,
+      40
+    ],
+    "transparent_pixels": 2176,
+    "partial_alpha_pixels": 15,
+    "solids": []
+  },
+  "snow_wall_straight": {
+    "path": "environments/snow/env_snow_wall_straight_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 4096,
+    "partial_alpha_pixels": 6,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        32
+      ]
+    ]
+  },
+  "temple_armour_stand": {
+    "path": "environments/temple/env_temple_armour_stand_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      34,
+      17,
+      60,
+      97
+    ],
+    "transparent_pixels": 12806,
+    "partial_alpha_pixels": 190,
+    "solids": [
+      [
+        42,
+        84,
+        44,
+        28
+      ]
+    ]
+  },
+  "temple_banner": {
+    "path": "environments/temple/env_temple_banner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      36,
+      8,
+      61,
+      112
+    ],
+    "transparent_pixels": 11916,
+    "partial_alpha_pixels": 73,
+    "solids": []
+  },
+  "temple_floor_stone": {
+    "path": "environments/temple/env_temple_floor_stone_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "temple_floor_tatami": {
+    "path": "environments/temple/env_temple_floor_tatami_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "temple_floor_wood": {
+    "path": "environments/temple/env_temple_floor_wood_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "temple_gate": {
+    "path": "environments/temple/env_temple_gate_01.png",
+    "size": [
+      256,
+      128
+    ],
+    "bounds": [
+      0,
+      10,
+      256,
+      106
+    ],
+    "transparent_pixels": 21806,
+    "partial_alpha_pixels": 52,
+    "solids": [
+      [
+        24,
+        44,
+        20,
+        64
+      ],
+      [
+        212,
+        44,
+        20,
+        64
+      ]
+    ]
+  },
+  "temple_lantern": {
+    "path": "environments/temple/env_temple_lantern_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      18,
+      4,
+      28,
+      52
+    ],
+    "transparent_pixels": 2852,
+    "partial_alpha_pixels": 84,
+    "solids": []
+  },
+  "temple_pillar": {
+    "path": "environments/temple/env_temple_pillar_01.png",
+    "size": [
+      64,
+      64
+    ],
+    "bounds": [
+      8,
+      8,
+      48,
+      48
+    ],
+    "transparent_pixels": 1804,
+    "partial_alpha_pixels": 28,
+    "solids": [
+      [
+        8,
+        8,
+        48,
+        48
+      ]
+    ]
+  },
+  "temple_platform_edge": {
+    "path": "environments/temple/env_temple_platform_edge_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 4096,
+    "partial_alpha_pixels": 0,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        32
+      ]
+    ]
+  },
+  "temple_roof_access": {
+    "path": "environments/temple/env_temple_roof_access_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      5,
+      12,
+      118,
+      108
+    ],
+    "transparent_pixels": 5104,
+    "partial_alpha_pixels": 432,
+    "solids": []
+  },
+  "temple_sliding_wall": {
+    "path": "environments/temple/env_temple_sliding_wall_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      48
+    ],
+    "transparent_pixels": 2048,
+    "partial_alpha_pixels": 0,
+    "solids": [
+      [
+        0,
+        16,
+        128,
+        48
+      ]
+    ]
+  },
+  "temple_stair": {
+    "path": "environments/temple/env_temple_stair_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      12,
+      16,
+      104,
+      96
+    ],
+    "transparent_pixels": 6400,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "temple_statue": {
+    "path": "environments/temple/env_temple_statue_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      29,
+      18,
+      70,
+      94
+    ],
+    "transparent_pixels": 11910,
+    "partial_alpha_pixels": 186,
+    "solids": [
+      [
+        40,
+        82,
+        48,
+        34
+      ]
+    ]
+  },
+  "temple_threshold": {
+    "path": "environments/temple/env_temple_threshold_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 4096,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "temple_wall_broken": {
+    "path": "environments/temple/env_temple_wall_broken_01.png",
+    "size": [
+      128,
+      64
+    ],
+    "bounds": [
+      0,
+      16,
+      128,
+      32
+    ],
+    "transparent_pixels": 5982,
+    "partial_alpha_pixels": 70,
+    "solids": [
+      [
+        0,
+        16,
+        34,
+        32
+      ],
+      [
+        94,
+        16,
+        34,
+        32
+      ]
+    ]
+  },
+  "temple_weapon_rack": {
+    "path": "environments/temple/env_temple_weapon_rack_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      10,
+      20,
+      108,
+      92
+    ],
+    "transparent_pixels": 12473,
+    "partial_alpha_pixels": 66,
+    "solids": [
+      [
+        12,
+        76,
+        104,
+        28
+      ]
+    ]
+  }
+}

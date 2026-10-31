@@ -1,0 +1,354 @@
+{
+  "id": "temple_02",
+  "name": "Paper Walls",
+  "chapter": "Temple",
+  "size": [
+    29,
+    27
+  ],
+  "spawn": [
+    4,
+    22
+  ],
+  "exit": [
+    23,
+    3,
+    2,
+    2
+  ],
+  "briefing": "An asymmetric screen hall with two entrances and an optional western archive.",
+  "floors": [
+    [
+      "stone",
+      1,
+      19,
+      9,
+      6
+    ],
+    [
+      "earth",
+      7,
+      13,
+      4,
+      6
+    ],
+    [
+      "mat",
+      7,
+      7,
+      15,
+      6
+    ],
+    [
+      "earth",
+      18,
+      13,
+      4,
+      9
+    ],
+    [
+      "earth",
+      10,
+      19,
+      8,
+      3
+    ],
+    [
+      "stone",
+      22,
+      7,
+      5,
+      5
+    ],
+    [
+      "stone",
+      22,
+      2,
+      5,
+      5
+    ],
+    [
+      "mat",
+      2,
+      6,
+      5,
+      5
+    ]
+  ],
+  "props": [
+    [
+      "temple_sliding_wall",
+      12,
+      9,
+      90
+    ],
+    [
+      "temple_sliding_wall",
+      12,
+      10,
+      90
+    ],
+    [
+      "temple_sliding_wall",
+      17,
+      10,
+      90
+    ],
+    [
+      "temple_sliding_wall",
+      17,
+      11,
+      90
+    ],
+    [
+      "temple_pillar",
+      9,
+      20,
+      0
+    ],
+    [
+      "temple_statue",
+      20,
+      16,
+      0
+    ],
+    [
+      "temple_armour_stand",
+      3.5,
+      8,
+      0
+    ],
+    [
+      "temple_gate",
+      24,
+      6,
+      0
+    ],
+    [
+      "temple_lantern",
+      23,
+      3,
+      0
+    ],
+    [
+      "temple_lantern",
+      3,
+      23,
+      0
+    ],
+    [
+      "temple_banner",
+      7,
+      24,
+      0
+    ],
+    [
+      "temple_pillar",
+      8,
+      17,
+      0
+    ],
+    [
+      "temple_lantern",
+      8,
+      12,
+      0
+    ],
+    [
+      "temple_banner",
+      14,
+      8,
+      0
+    ],
+    [
+      "temple_lantern",
+      19,
+      12,
+      0
+    ],
+    [
+      "temple_pillar",
+      21,
+      18,
+      0
+    ],
+    [
+      "temple_lantern",
+      24,
+      10,
+      0
+    ],
+    [
+      "temple_banner",
+      26,
+      3,
+      0
+    ]
+  ],
+  "decorations": [
+    [
+      "temple_roof_access",
+      25,
+      4,
+      0
+    ]
+  ],
+  "enemies": [
+    [
+      "outer",
+      "enemy_ranged_idle",
+      9,
+      15,
+      true
+    ],
+    [
+      "outer",
+      "enemy_ranged_idle",
+      19,
+      20,
+      true
+    ],
+    [
+      "archive",
+      "enemy_ranged_idle",
+      4.5,
+      8,
+      true
+    ],
+    [
+      "screen",
+      "enemy_ranged_idle",
+      10,
+      10,
+      true
+    ],
+    [
+      "screen",
+      "enemy_ranged_idle",
+      15,
+      9,
+      true
+    ],
+    [
+      "screen",
+      "enemy_ranged_idle",
+      20,
+      10,
+      true
+    ]
+  ],
+  "gates": [
+    [
+      "screen",
+      [
+        22,
+        6.85,
+        5,
+        0.3
+      ]
+    ]
+  ],
+  "areas": [
+    [
+      "Vestibule",
+      [
+        1,
+        19,
+        21,
+        6
+      ],
+      "Enter the screen hall from the west or climb the east cloister."
+    ],
+    [
+      "West stair",
+      [
+        7,
+        13,
+        4,
+        6
+      ],
+      "Approach the paper screens from the left."
+    ],
+    [
+      "East cloister",
+      [
+        18,
+        13,
+        4,
+        6
+      ],
+      "This route enters behind the last screen."
+    ],
+    [
+      "Screen hall",
+      [
+        7,
+        7,
+        20,
+        6
+      ],
+      "Three archers guard the north door. Keep a wall between shots."
+    ],
+    [
+      "Side archive",
+      [
+        2,
+        6,
+        5,
+        5
+      ],
+      "Optional archive duel; return to the screen hall."
+    ],
+    [
+      "Upper door",
+      [
+        22,
+        2,
+        5,
+        5
+      ],
+      "The roof stair lies beyond the seal."
+    ]
+  ],
+  "signs": [
+    [
+      "ARCHIVE <",
+      7,
+      8
+    ],
+    [
+      "NORTH DOOR ^",
+      23,
+      8
+    ]
+  ],
+  "choices": [
+    {
+      "name": "Two hall entrances",
+      "start": [
+        8.5,
+        22
+      ],
+      "end": [
+        15,
+        11
+      ],
+      "branches": [
+        [
+          7,
+          13,
+          4,
+          6
+        ],
+        [
+          18,
+          13,
+          4,
+          6
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "layout_style": "temple"
+}

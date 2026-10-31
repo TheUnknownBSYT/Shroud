@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "status": "design_only",
+  "biomes": [
+    {
+      "id": "grounds",
+      "name": "Training grounds",
+      "status": "planned control condition",
+      "settings": {
+        "speed": 300,
+        "sprint_speed": 480,
+        "acceleration": 0,
+        "friction": 0
+      },
+      "rule": "Normal immediate movement and full visibility; no added modifier.",
+      "response": "Use cover, timing and existing dash/parry without an environmental penalty.",
+      "implementation": "Current movement is the control. Per-run biome selection and fixed visual contrast still need wiring."
+    },
+    {
+      "id": "snow",
+      "name": "Snow / ice",
+      "status": "planned, inactive",
+      "settings": {
+        "speed": 300,
+        "sprint_speed": 480,
+        "acceleration": 1200,
+        "friction": 900
+      },
+      "rule": "Acceleration and braking replace instantaneous starts and stops.",
+      "response": "Release movement earlier, brake before corners, choose wider approaches.",
+      "implementation": "Use per-run motion configuration; cap or reset dash exit velocity before applying friction. Revalidate all turns and spawn runways."
+    },
+    {
+      "id": "marsh",
+      "name": "Marsh / mist",
+      "status": "planned, inactive",
+      "settings": {
+        "clear_radius_px": 380,
+        "fade_radius_px": 480
+      },
+      "rule": "Reduced distant visibility, with readable landmarks and guaranteed warning cues.",
+      "response": "Scout from cover, remember landmarks, avoid committing into an unseen threat.",
+      "implementation": "Needs visibility rendering, fair enemy perception/cues and map-overlay policy. Do not hide a projectile that can already damage the player."
+    },
+    {
+      "id": "wind",
+      "name": "Crosswind heights",
+      "status": "planned, inactive",
+      "settings": {
+        "projectile_lateral_acceleration": 160,
+        "gust_seconds": 2,
+        "period_seconds": 8,
+        "warning_seconds": 1
+      },
+      "rule": "Cued periodic lateral drift affects both friendly and hostile projectiles; ground movement stays normal.",
+      "response": "Wait for a lull, compensate aim, move closer or use melee and cover.",
+      "implementation": "Needs timed wind state and projectile integration, including reflections and Echo shots; no player knockback."
+    }
+  ]
+}

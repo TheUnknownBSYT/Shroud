@@ -5,7 +5,10 @@ __pycache__/
 *.egg-info/
 .DS_Store
 
-# Private learning notes and local upload workspace: never publish.
-CODE_WALKTHROUGH.local.md
+# All private notes, generated previews, backups and the upload checkout.
+/local/
+# Root discovery link points into local/.
 /AGENTS.md
+# Retain exclusions for old paths to prevent accidental reintroduction.
+CODE_WALKTHROUGH.local.md
 /.github-upload/

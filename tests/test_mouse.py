@@ -6,12 +6,13 @@ import pygame
 import pytest
 from pygame import Vector2
 
-import settings as S
-from combat import Projectile
-from enemy import Enemy
-from game import Game, InputHandler, Sandbox
-from level import Camera
-from player import Command, InputFrame, Player, ShadowEcho
+from shroud import settings as S
+from shroud.combat import Projectile
+from shroud.enemy import Enemy
+from shroud.game import Game, InputHandler, Sandbox
+from shroud.level import Camera
+from shroud.player import Command, InputFrame, Player, ShadowEcho
+from shroud.drawing import Renderer
 
 
 @pytest.fixture
@@ -74,6 +75,37 @@ def test_mouse_events_hold_and_release_once(monkeypatch, pygame_input):
     frame = reader.read([pygame.event.Event(pygame.MOUSEBUTTONUP, button=3, pos=(320, 400))], Vector2())
     assert [c.action for c in frame.commands] == ["release_throw"]
     assert frame.aim_target == Vector2(320, 400)
+
+
+@pytest.mark.parametrize("key,movement,direction", [
+    (pygame.K_w, (0, -1), "north"), (pygame.K_a, (-1, 0), "west"),
+    (pygame.K_s, (0, 1), "south"), (pygame.K_d, (1, 0), "east"),
+])
+def test_wasd_preserves_continuous_mouse_facing(monkeypatch, pygame_input, key, movement, direction):
+    pygame.display.set_mode((S.WIDTH, S.HEIGHT))
+    world = empty_world()
+    reader = InputHandler()
+    monkeypatch.setattr(pygame.key, "get_pressed", lambda: defaultdict(bool))
+    frame = reader.read([pygame.event.Event(pygame.MOUSEMOTION, pos=(650, 600))], world.player.position)
+    step(world, .2, target=frame.aim_target)
+    monkeypatch.setattr(pygame.key, "get_pressed", lambda: defaultdict(bool, {key: True}))
+    frame = reader.read([pygame.event.Event(pygame.KEYDOWN, key=key)], world.player.position)
+    assert frame.aim_target == Vector2(650, 600)
+    assert frame.movement == Vector2(movement)
+    world.step(S.SIMULATION_STEP, frame)
+    assert world.player.facing.x > .2 and world.player.facing.y > .2
+    assert reader.read([], world.player.position).aim_target == frame.aim_target
+
+
+def test_hud_motion_does_not_take_facing_and_charge_keeps_mouse_aim(monkeypatch, pygame_input):
+    monkeypatch.setattr(pygame.key, "get_pressed", lambda: defaultdict(bool))
+    reader = InputHandler()
+    assert reader.read([pygame.event.Event(pygame.MOUSEMOTION, pos=(400, 780))], Vector2()).aim_target is None
+    reader.read([pygame.event.Event(pygame.MOUSEBUTTONDOWN, button=1, pos=(600, 400))], Vector2())
+    frame = reader.read([pygame.event.Event(pygame.KEYDOWN, key=pygame.K_w)], Vector2())
+    assert frame.aim_target == Vector2(600, 400)
+    reader.read([pygame.event.Event(pygame.WINDOWFOCUSLOST)], Vector2())
+    assert reader.cursor is None and not reader.mouse_buttons
 
 
 @pytest.mark.parametrize("hold,spread", [(0, S.SHURIKEN_SPREAD), (0.225, S.SHURIKEN_SPREAD / 2), (0.6, 0)])
@@ -175,6 +207,7 @@ def test_pause_and_focus_loss_cancel_charge_without_firing(monkeypatch, event, p
     game.clock = SimpleNamespace(tick=lambda fps: 16, get_fps=lambda: 60)
     game.renderer = SimpleNamespace(draw=lambda *args: None, update=lambda *args: None)
     game.screen, game.debug, game.paused = None, False, False
+    game.selecting = game.map_open = False
     monkeypatch.setattr(pygame.event, "get", lambda: [event])
     monkeypatch.setattr(pygame.key, "get_pressed", lambda: defaultdict(bool))
     monkeypatch.setattr(pygame.display, "flip", lambda: None)

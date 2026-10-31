@@ -2,16 +2,16 @@
 import random
 import pytest
 from pygame import Vector2
-import settings as S
-from player import Animation, AnimationController
-from game import EventBus
-from player import Command, InputFrame
-from player import Player, PlayerState
-from enemy import Enemy, EnemyState
-from combat import Projectile
-from combat import segment_circle
-from game import Room
-from game import Sandbox
+from shroud import settings as S
+from shroud.player import Animation, AnimationController
+from shroud.game import EventBus
+from shroud.player import Command, InputFrame
+from shroud.player import Player, PlayerState
+from shroud.enemy import Enemy, EnemyState
+from shroud.combat import Projectile
+from shroud.combat import segment_circle
+from shroud.game import Room
+from shroud.game import Sandbox
 
 
 def advance(world, seconds, movement=None, commands=()):

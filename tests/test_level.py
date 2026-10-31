@@ -4,12 +4,16 @@ from types import SimpleNamespace
 import pygame
 import pytest
 from pygame import Vector2
-import settings as S
-from combat import Projectile, deal_damage, resolve_projectiles
-from enemy import Enemy, EnemyState
-from game import Game, Sandbox
-from level import Camera, Prop, Room, TRAINING_GROUNDS
-from player import Command, InputFrame
+from shroud import settings as S
+from shroud.combat import Projectile, deal_damage, resolve_projectiles
+from shroud.enemy import Enemy, EnemyState
+from shroud.game import Game, Sandbox
+from shroud.level import Camera, Prop, Room
+import json
+from pathlib import Path
+
+TRAINING_GROUNDS = json.loads((Path(__file__).parent / "fixtures/training_grounds.json").read_text())
+from shroud.player import Command, InputFrame
 
 
 @pytest.mark.parametrize("position,expected", [
@@ -205,7 +209,7 @@ def test_game_loop_converts_mouse_and_restart_snaps_camera(monkeypatch):
     pygame.display.init()
     pygame.font.init()
     try:
-        game = Game()
+        game = Game("training_01", seed=7)
         game.clock = SimpleNamespace(tick=lambda fps: 9, get_fps=lambda: 60)
         game.world.player.position = Vector2(2300, 3100)
         game.camera.follow(game.world.player.position, 0, snap=True)

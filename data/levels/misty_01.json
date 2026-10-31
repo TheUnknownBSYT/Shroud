@@ -1,0 +1,331 @@
+{
+  "id": "misty_01",
+  "name": "Lantern Causeway",
+  "chapter": "Misty Paths",
+  "size": [
+    32,
+    23
+  ],
+  "spawn": [
+    3,
+    17
+  ],
+  "exit": [
+    27,
+    3,
+    2,
+    2
+  ],
+  "briefing": "A lantern-led boardwalk and a moss island meet at the guarded far bank. Mist is decorative.",
+  "floors": [
+    [
+      "earth",
+      1,
+      13,
+      8,
+      7
+    ],
+    [
+      "stone",
+      9,
+      15,
+      12,
+      3
+    ],
+    [
+      "earth",
+      21,
+      10,
+      8,
+      10
+    ],
+    [
+      "stone",
+      25,
+      4,
+      4,
+      6
+    ],
+    [
+      "earth",
+      24,
+      1,
+      6,
+      3
+    ],
+    [
+      "stone",
+      6,
+      7,
+      3,
+      6
+    ],
+    [
+      "earth",
+      9,
+      6,
+      10,
+      4
+    ],
+    [
+      "stone",
+      19,
+      7,
+      6,
+      3
+    ]
+  ],
+  "props": [
+    [
+      "marsh_log",
+      6,
+      16,
+      0
+    ],
+    [
+      "marsh_stone_moss",
+      13,
+      16,
+      0
+    ],
+    [
+      "marsh_stone_moss",
+      12,
+      8,
+      0
+    ],
+    [
+      "marsh_log",
+      17,
+      7,
+      0
+    ],
+    [
+      "marsh_stone_moss",
+      24,
+      14,
+      0
+    ],
+    [
+      "marsh_lantern_stilted",
+      7,
+      13,
+      0
+    ],
+    [
+      "marsh_lantern_stilted",
+      22,
+      16,
+      0
+    ],
+    [
+      "marsh_lantern_stilted",
+      27,
+      4,
+      0
+    ],
+    [
+      "marsh_lantern_stilted",
+      2,
+      15,
+      0
+    ],
+    [
+      "marsh_log",
+      3,
+      18,
+      0
+    ],
+    [
+      "marsh_lantern_stilted",
+      10,
+      8,
+      0
+    ],
+    [
+      "marsh_lantern_stilted",
+      18,
+      17,
+      0
+    ],
+    [
+      "marsh_log",
+      28,
+      13,
+      90
+    ],
+    [
+      "marsh_lantern_stilted",
+      26,
+      19,
+      0
+    ]
+  ],
+  "decorations": [
+    [
+      "marsh_reed_base",
+      3,
+      19,
+      0
+    ],
+    [
+      "marsh_reed_foreground",
+      22,
+      19,
+      0
+    ],
+    [
+      "marsh_mist_overlay",
+      16,
+      8,
+      0
+    ],
+    [
+      "marsh_bridge",
+      10,
+      16.5,
+      0
+    ]
+  ],
+  "enemies": [
+    [
+      "causeway",
+      "enemy_ranged_idle",
+      16,
+      16.5,
+      true
+    ],
+    [
+      "island",
+      "enemy_ranged_idle",
+      15,
+      8,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      23,
+      12,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      27,
+      17,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      27,
+      11,
+      true
+    ]
+  ],
+  "gates": [
+    [
+      "seal",
+      [
+        25,
+        9.85,
+        4,
+        0.3
+      ]
+    ]
+  ],
+  "areas": [
+    [
+      "Reed landing",
+      [
+        1,
+        7,
+        8,
+        13
+      ],
+      "Follow lanterns east, or take the northern moss island."
+    ],
+    [
+      "Moss island",
+      [
+        9,
+        6,
+        16,
+        4
+      ],
+      "The island adds cover and one optional archer."
+    ],
+    [
+      "Causeway",
+      [
+        9,
+        15,
+        12,
+        3
+      ],
+      "A short boardwalk crosses open water."
+    ],
+    [
+      "Far bank",
+      [
+        21,
+        10,
+        8,
+        10
+      ],
+      "Clear three bank archers; the north lantern path opens."
+    ],
+    [
+      "North lantern",
+      [
+        24,
+        1,
+        6,
+        9
+      ],
+      "Follow the lantern to the seal."
+    ]
+  ],
+  "signs": [
+    [
+      "MOSS ISLAND ^",
+      6,
+      14
+    ],
+    [
+      "LANTERN PATH >",
+      10,
+      17
+    ]
+  ],
+  "choices": [
+    {
+      "name": "Boardwalk or moss island",
+      "start": [
+        7,
+        15
+      ],
+      "end": [
+        23,
+        16
+      ],
+      "branches": [
+        [
+          10,
+          6,
+          8,
+          4
+        ],
+        [
+          10,
+          15,
+          8,
+          3
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "layout_style": "misty"
+}

@@ -1,0 +1,294 @@
+{
+  "id": "training_01",
+  "name": "First Lantern",
+  "chapter": "Training Grounds",
+  "size": [
+    26,
+    20
+  ],
+  "spawn": [
+    3,
+    15
+  ],
+  "exit": [
+    21,
+    3,
+    2,
+    2
+  ],
+  "briefing": "Learn movement and Echo in a looped garden, then clear two targets to open the lantern exit.",
+  "floors": [
+    [
+      "earth",
+      1,
+      11,
+      8,
+      7
+    ],
+    [
+      "stone",
+      9,
+      13,
+      6,
+      3
+    ],
+    [
+      "earth",
+      7,
+      6,
+      3,
+      7
+    ],
+    [
+      "earth",
+      10,
+      6,
+      7,
+      3
+    ],
+    [
+      "stone",
+      15,
+      6,
+      9,
+      10
+    ],
+    [
+      "platform",
+      19,
+      2,
+      5,
+      4
+    ],
+    [
+      "mat",
+      17,
+      9,
+      3,
+      3
+    ]
+  ],
+  "props": [
+    [
+      "gate",
+      3,
+      14,
+      0
+    ],
+    [
+      "weapon_rack",
+      2.5,
+      12,
+      0
+    ],
+    [
+      "crate",
+      6,
+      13,
+      0
+    ],
+    [
+      "post",
+      12,
+      14,
+      0
+    ],
+    [
+      "tree",
+      8,
+      8,
+      0
+    ],
+    [
+      "pillar",
+      18,
+      8,
+      0
+    ],
+    [
+      "crate",
+      20,
+      13,
+      0
+    ],
+    [
+      "gate",
+      22,
+      5,
+      0
+    ],
+    [
+      "lantern",
+      20.5,
+      3,
+      0
+    ],
+    [
+      "lantern",
+      23,
+      3,
+      0
+    ],
+    [
+      "banner",
+      2,
+      16,
+      0
+    ],
+    [
+      "lantern",
+      8,
+      12,
+      0
+    ],
+    [
+      "lantern",
+      16,
+      7,
+      0
+    ],
+    [
+      "tree",
+      22.5,
+      8,
+      0
+    ]
+  ],
+  "decorations": [
+    [
+      "practice_mark",
+      6,
+      15,
+      0
+    ],
+    [
+      "grass",
+      4,
+      17,
+      0
+    ],
+    [
+      "leaf_scatter",
+      9,
+      7,
+      0
+    ]
+  ],
+  "enemies": [
+    [
+      "practice",
+      "target",
+      6,
+      15,
+      false
+    ],
+    [
+      "lesson",
+      "sentry",
+      19,
+      10,
+      true
+    ],
+    [
+      "lesson",
+      "straw_dummy",
+      22,
+      13,
+      false
+    ]
+  ],
+  "gates": [
+    [
+      "lesson",
+      [
+        19,
+        5.85,
+        5,
+        0.3
+      ]
+    ]
+  ],
+  "areas": [
+    [
+      "First steps",
+      [
+        1,
+        11,
+        8,
+        7
+      ],
+      "Move with WASD. J slashes; K throws. R restarts."
+    ],
+    [
+      "Quiet garden",
+      [
+        7,
+        6,
+        10,
+        7
+      ],
+      "Take the sheltered garden, or face the lower lane."
+    ],
+    [
+      "Echo lesson",
+      [
+        15,
+        6,
+        9,
+        10
+      ],
+      "Clear two marked targets. Dash leaves an Echo; slash to repeat."
+    ],
+    [
+      "Lantern exit",
+      [
+        19,
+        2,
+        5,
+        4
+      ],
+      "Step into the mint exit seal."
+    ]
+  ],
+  "signs": [
+    [
+      "GARDEN ^",
+      7,
+      11
+    ],
+    [
+      "COURT >",
+      10,
+      15
+    ]
+  ],
+  "choices": [
+    {
+      "name": "Garden or practice lane",
+      "start": [
+        8,
+        12
+      ],
+      "end": [
+        17,
+        9
+      ],
+      "branches": [
+        [
+          10,
+          6,
+          5,
+          3
+        ],
+        [
+          10,
+          13,
+          5,
+          3
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "layout_style": "training"
+}

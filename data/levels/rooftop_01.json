@@ -1,0 +1,312 @@
+{
+  "id": "rooftop_01",
+  "name": "Gutter Run",
+  "chapter": "Rooftops",
+  "size": [
+    36,
+    18
+  ],
+  "spawn": [
+    3,
+    13
+  ],
+  "exit": [
+    31,
+    3,
+    2,
+    2
+  ],
+  "briefing": "Two crossings meet on a vent roof. Use dash and Echo without crossing the solid roof edges.",
+  "floors": [
+    [
+      "stone",
+      1,
+      9,
+      8,
+      7
+    ],
+    [
+      "stone",
+      9,
+      11,
+      6,
+      3
+    ],
+    [
+      "stone",
+      15,
+      6,
+      8,
+      9
+    ],
+    [
+      "platform",
+      20,
+      2,
+      5,
+      4
+    ],
+    [
+      "stone",
+      25,
+      3,
+      9,
+      5
+    ],
+    [
+      "earth",
+      7,
+      4,
+      3,
+      5
+    ],
+    [
+      "earth",
+      10,
+      4,
+      7,
+      3
+    ]
+  ],
+  "props": [
+    [
+      "roof_vent",
+      6,
+      11,
+      0
+    ],
+    [
+      "roof_tower",
+      18,
+      9,
+      0
+    ],
+    [
+      "roof_vent",
+      21,
+      13,
+      0
+    ],
+    [
+      "roof_ridge",
+      12,
+      12,
+      90
+    ],
+    [
+      "roof_tower",
+      28,
+      6,
+      0
+    ],
+    [
+      "roof_lantern",
+      32,
+      4,
+      0
+    ],
+    [
+      "roof_banner",
+      22,
+      3,
+      0
+    ],
+    [
+      "roof_banner",
+      3,
+      10,
+      0
+    ],
+    [
+      "roof_lantern",
+      8,
+      13,
+      0
+    ],
+    [
+      "roof_lantern",
+      8,
+      5,
+      0
+    ],
+    [
+      "roof_vent",
+      15,
+      5,
+      0
+    ],
+    [
+      "roof_banner",
+      16,
+      13,
+      0
+    ],
+    [
+      "roof_lantern",
+      22,
+      7,
+      0
+    ],
+    [
+      "roof_banner",
+      26,
+      4,
+      0
+    ]
+  ],
+  "decorations": [
+    [
+      "roof_bridge",
+      10.5,
+      12.5,
+      0
+    ],
+    [
+      "roof_rope",
+      8,
+      6,
+      0
+    ]
+  ],
+  "enemies": [
+    [
+      "lane",
+      "enemy_ranged_idle",
+      13,
+      12.5,
+      true
+    ],
+    [
+      "bypass",
+      "enemy_ranged_idle",
+      12,
+      5.5,
+      true
+    ],
+    [
+      "watch",
+      "enemy_ranged_idle",
+      20,
+      7,
+      true
+    ],
+    [
+      "watch",
+      "enemy_ranged_idle",
+      21,
+      11,
+      true
+    ],
+    [
+      "last",
+      "enemy_ranged_idle",
+      29,
+      4.5,
+      true
+    ]
+  ],
+  "gates": [
+    [
+      "watch",
+      [
+        20,
+        5.85,
+        5,
+        0.3
+      ]
+    ]
+  ],
+  "areas": [
+    [
+      "Low roof",
+      [
+        1,
+        9,
+        8,
+        7
+      ],
+      "Dash leaves an Echo behind cover. Choose a crossing."
+    ],
+    [
+      "Gutter bridge",
+      [
+        9,
+        11,
+        6,
+        3
+      ],
+      "Keep moving through the exposed gutter."
+    ],
+    [
+      "High bypass",
+      [
+        7,
+        4,
+        10,
+        5
+      ],
+      "The upper ridge has one sheltered archer."
+    ],
+    [
+      "Vent roof",
+      [
+        15,
+        6,
+        10,
+        9
+      ],
+      "Clear two watch archers to open the upper balcony."
+    ],
+    [
+      "Lantern roof",
+      [
+        20,
+        2,
+        14,
+        6
+      ],
+      "Follow the balcony east to the exit seal."
+    ]
+  ],
+  "signs": [
+    [
+      "HIGH RIDGE ^",
+      7,
+      9
+    ],
+    [
+      "GUTTER >",
+      9,
+      13
+    ]
+  ],
+  "choices": [
+    {
+      "name": "Upper ridge or gutter",
+      "start": [
+        8,
+        10
+      ],
+      "end": [
+        18,
+        7
+      ],
+      "branches": [
+        [
+          10,
+          4,
+          5,
+          3
+        ],
+        [
+          10,
+          11,
+          5,
+          3
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "layout_style": "rooftop"
+}

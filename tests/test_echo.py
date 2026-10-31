@@ -1,11 +1,11 @@
 """Echo timing and combat checks without a display."""
 import pytest
 from pygame import Vector2
-import settings as S
-from combat import Projectile
-from enemy import Enemy
-from game import Sandbox
-from player import Command, EchoState, InputFrame
+from shroud import settings as S
+from shroud.combat import Projectile
+from shroud.enemy import Enemy
+from shroud.game import Sandbox
+from shroud.player import Command, EchoState, InputFrame
 
 
 def advance(world, seconds, commands=()):

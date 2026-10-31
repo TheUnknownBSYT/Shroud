@@ -1,0 +1,315 @@
+{
+  "id": "rooftop_02",
+  "name": "Chimney Switchbacks",
+  "chapter": "Rooftops",
+  "size": [
+    30,
+    29
+  ],
+  "spawn": [
+    4,
+    24
+  ],
+  "exit": [
+    24,
+    3,
+    2,
+    2
+  ],
+  "briefing": "An S-shaped roof ascent with a narrow northern bypass and staggered chimney cover.",
+  "floors": [
+    [
+      "stone",
+      1,
+      21,
+      10,
+      6
+    ],
+    [
+      "stone",
+      8,
+      13,
+      3,
+      8
+    ],
+    [
+      "stone",
+      11,
+      13,
+      13,
+      4
+    ],
+    [
+      "stone",
+      21,
+      6,
+      3,
+      7
+    ],
+    [
+      "stone",
+      10,
+      3,
+      17,
+      3
+    ],
+    [
+      "platform",
+      8,
+      6,
+      3,
+      7
+    ],
+    [
+      "stone",
+      24,
+      2,
+      4,
+      4
+    ]
+  ],
+  "props": [
+    [
+      "roof_tower",
+      6,
+      23,
+      0
+    ],
+    [
+      "roof_vent",
+      9.5,
+      18,
+      0
+    ],
+    [
+      "roof_tower",
+      13,
+      15,
+      0
+    ],
+    [
+      "roof_vent",
+      18,
+      14.5,
+      0
+    ],
+    [
+      "roof_tower",
+      22.5,
+      10,
+      0
+    ],
+    [
+      "roof_tower",
+      15,
+      4.5,
+      0
+    ],
+    [
+      "roof_vent",
+      20,
+      4,
+      0
+    ],
+    [
+      "roof_lantern",
+      25,
+      3,
+      0
+    ],
+    [
+      "roof_banner",
+      3,
+      22,
+      0
+    ],
+    [
+      "roof_lantern",
+      10,
+      25,
+      0
+    ],
+    [
+      "roof_lantern",
+      9,
+      12,
+      0
+    ],
+    [
+      "roof_banner",
+      12,
+      16,
+      0
+    ],
+    [
+      "roof_lantern",
+      23,
+      14,
+      0
+    ],
+    [
+      "roof_banner",
+      12,
+      4,
+      0
+    ],
+    [
+      "roof_lantern",
+      18,
+      5,
+      0
+    ]
+  ],
+  "decorations": [
+    [
+      "roof_rope",
+      9,
+      10,
+      90
+    ],
+    [
+      "roof_balcony",
+      25.5,
+      4.5,
+      0
+    ]
+  ],
+  "enemies": [
+    [
+      "lower",
+      "enemy_ranged_idle",
+      9.5,
+      23,
+      true
+    ],
+    [
+      "middle",
+      "enemy_ranged_idle",
+      15,
+      15,
+      true
+    ],
+    [
+      "middle",
+      "enemy_ranged_idle",
+      22,
+      15,
+      true
+    ],
+    [
+      "upper",
+      "enemy_ranged_idle",
+      22.5,
+      7.5,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      18,
+      4.5,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      23,
+      4.5,
+      true
+    ]
+  ],
+  "gates": [
+    [
+      "seal",
+      [
+        23.85,
+        2,
+        0.3,
+        4
+      ]
+    ]
+  ],
+  "areas": [
+    [
+      "Chimney foot",
+      [
+        1,
+        21,
+        10,
+        6
+      ],
+      "Climb north. Chimneys interrupt the long firing lanes."
+    ],
+    [
+      "Switchback",
+      [
+        8,
+        13,
+        16,
+        8
+      ],
+      "Turn east for the broad route, or north for the narrow shortcut."
+    ],
+    [
+      "Eastern climb",
+      [
+        21,
+        6,
+        3,
+        7
+      ],
+      "Use the chimney before committing to the next turn."
+    ],
+    [
+      "Ridge traverse",
+      [
+        8,
+        2,
+        20,
+        11
+      ],
+      "Clear both ridge archers to unlock the lantern roof."
+    ]
+  ],
+  "signs": [
+    [
+      "RIDGE SHORTCUT ^",
+      8,
+      14
+    ],
+    [
+      "SWITCHBACK >",
+      12,
+      16
+    ]
+  ],
+  "choices": [
+    {
+      "name": "Ladder roof or switchback",
+      "start": [
+        9.5,
+        15
+      ],
+      "end": [
+        22.5,
+        4.5
+      ],
+      "branches": [
+        [
+          8,
+          7,
+          3,
+          5
+        ],
+        [
+          21,
+          7,
+          3,
+          5
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "layout_style": "rooftop"
+}

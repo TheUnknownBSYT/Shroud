@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "design_only",
+  "enemies": [
+    {
+      "id": "archer",
+      "name": "Existing ranged enemy",
+      "counter": "Break line of sight, parry or close during recovery.",
+      "implementation": "Current ranged AI; control family.",
+      "playable": true,
+      "asset_folder": null
+    },
+    {
+      "id": "chain",
+      "name": "Chain duelist",
+      "counter": "Bait a long sweep, move outside its reach, punish the recovery.",
+      "implementation": "Proposed telegraph 0.8 s, sweep reach 180 px, recovery 0.9 s; never turn freely after commitment.",
+      "playable": false,
+      "asset_folder": "assets/characters/new_enemies/chain"
+    },
+    {
+      "id": "iron",
+      "name": "Iron guard",
+      "counter": "Flank the shield or bait a thrust and punish its exposed recovery.",
+      "implementation": "Proposed frontal 120-degree guard, 0.9 s thrust cue, 1.0 s recovery; damage/interrupt rules need playtesting.",
+      "playable": false,
+      "asset_folder": "assets/characters/new_enemies/iron"
+    },
+    {
+      "id": "thorn",
+      "name": "Thorn lantern",
+      "counter": "Wait out or route around a clearly marked expanding hazard; strike during contraction.",
+      "implementation": "Proposed 120 px zone, 1.0 s warning, 1.5 s active, 1.0 s recovery; never seal every viable route.",
+      "playable": false,
+      "asset_folder": "assets/characters/new_enemies/thorn"
+    },
+    {
+      "id": "bell",
+      "name": "Bell warden",
+      "counter": "Interrupt the windup or leave the marked ring before the delayed pulse.",
+      "implementation": "Proposed 220 px pulse, 1.2 s cue, 1.0 s recovery; visual cue accompanies sound; no forced audio reliance.",
+      "playable": false,
+      "asset_folder": "assets/characters/new_enemies/bell"
+    }
+  ]
+}

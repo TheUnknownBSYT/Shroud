@@ -1,0 +1,319 @@
+{
+  "id": "temple_01",
+  "name": "The Pilgrim Fork",
+  "chapter": "Temple",
+  "size": [
+    32,
+    23
+  ],
+  "spawn": [
+    3,
+    17
+  ],
+  "exit": [
+    28,
+    5,
+    2,
+    2
+  ],
+  "briefing": "Choose a guarded causeway or a longer statue gallery. Both meet at the inner seal.",
+  "floors": [
+    [
+      "earth",
+      1,
+      13,
+      7,
+      7
+    ],
+    [
+      "stone",
+      8,
+      15,
+      14,
+      3
+    ],
+    [
+      "earth",
+      5,
+      5,
+      4,
+      8
+    ],
+    [
+      "earth",
+      9,
+      5,
+      15,
+      4
+    ],
+    [
+      "stone",
+      22,
+      5,
+      4,
+      13
+    ],
+    [
+      "mat",
+      26,
+      3,
+      5,
+      7
+    ]
+  ],
+  "props": [
+    [
+      "temple_gate",
+      4,
+      15,
+      0
+    ],
+    [
+      "temple_statue",
+      6,
+      18,
+      0
+    ],
+    [
+      "temple_pillar",
+      11,
+      16,
+      0
+    ],
+    [
+      "temple_pillar",
+      18,
+      17,
+      0
+    ],
+    [
+      "temple_statue",
+      13,
+      6,
+      0
+    ],
+    [
+      "temple_pillar",
+      19,
+      7,
+      0
+    ],
+    [
+      "temple_weapon_rack",
+      23,
+      14,
+      0
+    ],
+    [
+      "temple_banner",
+      25,
+      6,
+      0
+    ],
+    [
+      "temple_lantern",
+      28,
+      4,
+      0
+    ],
+    [
+      "temple_banner",
+      2,
+      14,
+      0
+    ],
+    [
+      "temple_lantern",
+      7,
+      16,
+      0
+    ],
+    [
+      "temple_lantern",
+      10,
+      15.7,
+      0
+    ],
+    [
+      "temple_banner",
+      15,
+      17,
+      0
+    ],
+    [
+      "temple_lantern",
+      7,
+      6,
+      0
+    ],
+    [
+      "temple_armour_stand",
+      10,
+      6,
+      0
+    ],
+    [
+      "temple_lantern",
+      21,
+      8,
+      0
+    ],
+    [
+      "temple_pillar",
+      24.5,
+      17,
+      0
+    ],
+    [
+      "temple_lantern",
+      27,
+      8,
+      0
+    ]
+  ],
+  "decorations": [
+    [
+      "temple_threshold",
+      8,
+      16.5,
+      90
+    ],
+    [
+      "temple_stair",
+      27,
+      7,
+      0
+    ]
+  ],
+  "enemies": [
+    [
+      "shortcut",
+      "enemy_ranged_idle",
+      14,
+      16.5,
+      true
+    ],
+    [
+      "shortcut",
+      "enemy_ranged_idle",
+      20,
+      16.5,
+      true
+    ],
+    [
+      "gallery",
+      "enemy_ranged_idle",
+      17,
+      7.5,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      23.5,
+      10,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      24,
+      6.5,
+      true
+    ]
+  ],
+  "gates": [
+    [
+      "seal",
+      [
+        25.85,
+        5,
+        0.3,
+        4
+      ]
+    ]
+  ],
+  "areas": [
+    [
+      "Pilgrim entry",
+      [
+        1,
+        13,
+        7,
+        7
+      ],
+      "East: short guarded causeway. North: sheltered gallery."
+    ],
+    [
+      "Incense gallery",
+      [
+        5,
+        5,
+        17,
+        8
+      ],
+      "Use the statues to break the archer sightlines."
+    ],
+    [
+      "Stone causeway",
+      [
+        8,
+        15,
+        14,
+        3
+      ],
+      "A short route with two exposed archers."
+    ],
+    [
+      "Inner seal",
+      [
+        22,
+        3,
+        9,
+        15
+      ],
+      "Clear the two seal archers; exit east."
+    ]
+  ],
+  "signs": [
+    [
+      "GALLERY ^",
+      5,
+      13
+    ],
+    [
+      "CAUSEWAY >",
+      9,
+      17
+    ]
+  ],
+  "choices": [
+    {
+      "name": "Causeway or gallery",
+      "start": [
+        6,
+        16
+      ],
+      "end": [
+        24,
+        12
+      ],
+      "branches": [
+        [
+          9,
+          5,
+          13,
+          4
+        ],
+        [
+          9,
+          15,
+          13,
+          3
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "layout_style": "temple"
+}

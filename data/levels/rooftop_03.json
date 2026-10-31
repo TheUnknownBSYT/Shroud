@@ -1,0 +1,345 @@
+{
+  "id": "rooftop_03",
+  "name": "Twin Eaves",
+  "chapter": "Rooftops",
+  "size": [
+    40,
+    24
+  ],
+  "spawn": [
+    3,
+    12
+  ],
+  "exit": [
+    35,
+    11,
+    2,
+    2
+  ],
+  "briefing": "Parallel eaves linked by a central cross roof let you change approach mid-encounter.",
+  "floors": [
+    [
+      "stone",
+      1,
+      8,
+      7,
+      9
+    ],
+    [
+      "stone",
+      8,
+      5,
+      19,
+      3
+    ],
+    [
+      "stone",
+      5,
+      5,
+      3,
+      3
+    ],
+    [
+      "stone",
+      5,
+      17,
+      3,
+      4
+    ],
+    [
+      "stone",
+      8,
+      18,
+      19,
+      3
+    ],
+    [
+      "stone",
+      27,
+      5,
+      7,
+      16
+    ],
+    [
+      "platform",
+      16,
+      8,
+      3,
+      10
+    ],
+    [
+      "platform",
+      34,
+      10,
+      4,
+      5
+    ]
+  ],
+  "props": [
+    [
+      "roof_vent",
+      11,
+      6.5,
+      0
+    ],
+    [
+      "roof_tower",
+      22,
+      6.5,
+      0
+    ],
+    [
+      "roof_tower",
+      12,
+      19.5,
+      0
+    ],
+    [
+      "roof_vent",
+      23,
+      19.5,
+      0
+    ],
+    [
+      "roof_ridge",
+      17.5,
+      12,
+      0
+    ],
+    [
+      "roof_tower",
+      29,
+      8,
+      0
+    ],
+    [
+      "roof_vent",
+      30,
+      17,
+      0
+    ],
+    [
+      "roof_lantern",
+      36,
+      13,
+      0
+    ],
+    [
+      "roof_banner",
+      3,
+      9,
+      0
+    ],
+    [
+      "roof_lantern",
+      7,
+      7,
+      0
+    ],
+    [
+      "roof_lantern",
+      7,
+      19,
+      0
+    ],
+    [
+      "roof_banner",
+      15,
+      7,
+      0
+    ],
+    [
+      "roof_banner",
+      19,
+      20,
+      0
+    ],
+    [
+      "roof_lantern",
+      18,
+      9,
+      0
+    ],
+    [
+      "roof_lantern",
+      28,
+      19,
+      0
+    ],
+    [
+      "roof_banner",
+      33,
+      6,
+      0
+    ]
+  ],
+  "decorations": [
+    [
+      "roof_rope",
+      17.5,
+      10,
+      90
+    ],
+    [
+      "roof_banner",
+      6,
+      9,
+      0
+    ]
+  ],
+  "enemies": [
+    [
+      "north",
+      "enemy_ranged_idle",
+      14,
+      6.5,
+      true
+    ],
+    [
+      "north",
+      "enemy_ranged_idle",
+      25,
+      6.5,
+      true
+    ],
+    [
+      "south",
+      "enemy_ranged_idle",
+      10,
+      19.5,
+      true
+    ],
+    [
+      "south",
+      "enemy_ranged_idle",
+      20,
+      19.5,
+      true
+    ],
+    [
+      "cross",
+      "enemy_ranged_idle",
+      17.5,
+      15,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      29,
+      11,
+      true
+    ],
+    [
+      "seal",
+      "enemy_ranged_idle",
+      29,
+      14,
+      true
+    ]
+  ],
+  "gates": [
+    [
+      "seal",
+      [
+        33.85,
+        10,
+        0.3,
+        5
+      ]
+    ]
+  ],
+  "areas": [
+    [
+      "Eaves landing",
+      [
+        1,
+        5,
+        7,
+        16
+      ],
+      "Choose either eave. The central roof lets you switch sides."
+    ],
+    [
+      "North eave",
+      [
+        8,
+        5,
+        19,
+        3
+      ],
+      "Vents break the northern firing lane."
+    ],
+    [
+      "South eave",
+      [
+        8,
+        18,
+        19,
+        3
+      ],
+      "A long open approach between tower shelters."
+    ],
+    [
+      "Cross roof",
+      [
+        16,
+        8,
+        3,
+        10
+      ],
+      "Change sides here; the ridge is solid cover."
+    ],
+    [
+      "East tower",
+      [
+        27,
+        5,
+        11,
+        16
+      ],
+      "Defeat two seal archers; the eastern balcony opens."
+    ]
+  ],
+  "signs": [
+    [
+      "NORTH EAVE ^",
+      5,
+      9
+    ],
+    [
+      "SOUTH EAVE v",
+      5,
+      16
+    ]
+  ],
+  "choices": [
+    {
+      "name": "North or south eave",
+      "start": [
+        6,
+        12
+      ],
+      "end": [
+        29,
+        12
+      ],
+      "branches": [
+        [
+          10,
+          5,
+          5,
+          3
+        ],
+        [
+          10,
+          18,
+          5,
+          3
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "layout_style": "rooftop"
+}

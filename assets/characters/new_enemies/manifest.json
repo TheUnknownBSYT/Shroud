@@ -1,0 +1,578 @@
+[
+  {
+    "path": "assets/characters/new_enemies/bell/Enemy artwork.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      92,
+      187,
+      205,
+      56
+    ],
+    "transparent_pixels": 95796,
+    "partial_alpha_pixels": 455,
+    "sha256": "ffefe540c734c68b0cd056e396ee7816f1a6821a159349cd8f2f06dd6b3fe7a3",
+    "original_path": "newenemies/bell/Enemy artwork.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/bell/Enemy artwork-1.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      85,
+      65,
+      198,
+      171
+    ],
+    "transparent_pixels": 85740,
+    "partial_alpha_pixels": 776,
+    "sha256": "b510fccc5774dd3a22c8a6eb3c922a610a9b42860deb623c2d1681fef7da9bf1",
+    "original_path": "newenemies/bell/Enemy artwork-1.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/bell/Enemy artwork-2.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      118,
+      91,
+      155,
+      148
+    ],
+    "transparent_pixels": 90871,
+    "partial_alpha_pixels": 540,
+    "sha256": "5044c6af37a6718cf5781244263176aa817888cf86ff5fbde467e0a41e967a7e",
+    "original_path": "newenemies/bell/Enemy artwork-2.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/bell/Enemy artwork-3.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      109,
+      63,
+      161,
+      180
+    ],
+    "transparent_pixels": 86946,
+    "partial_alpha_pixels": 717,
+    "sha256": "67387f1658cf8a9b4b2929a7d43cffe3ff7ed4388d6c5cfee44b7e06e26c286b",
+    "original_path": "newenemies/bell/Enemy artwork-3.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/bell/Enemy artwork-4.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      80,
+      65,
+      223,
+      171
+    ],
+    "transparent_pixels": 87139,
+    "partial_alpha_pixels": 835,
+    "sha256": "06d1eb9f7032b9dc809d024e0a463b051e5f6e7782b75908f94369b4424e24c8",
+    "original_path": "newenemies/bell/Enemy artwork-4.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/bell/Enemy artwork-5.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      78,
+      48,
+      205,
+      188
+    ],
+    "transparent_pixels": 86640,
+    "partial_alpha_pixels": 814,
+    "sha256": "ca0285be10d203425dd558bc9e8d09d1d80ad8a3425d5f5f91ee558112a43515",
+    "original_path": "newenemies/bell/Enemy artwork-5.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/bell/Enemy artwork-6.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      50,
+      65,
+      177,
+      171
+    ],
+    "transparent_pixels": 87405,
+    "partial_alpha_pixels": 788,
+    "sha256": "caa8841c8fb3a79d179a8d0f79fcf0bcc6dfd4922ffd803750ab5e465248d8d5",
+    "original_path": "newenemies/bell/Enemy artwork-6.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/bell/Enemy artwork-7.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      101,
+      65,
+      181,
+      171
+    ],
+    "transparent_pixels": 85114,
+    "partial_alpha_pixels": 668,
+    "sha256": "fcaa6fbb612f198bef57e948aaba28e092f9364480fd2af3d2440288c8aaa8b8",
+    "original_path": "newenemies/bell/Enemy artwork-7.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/chain/enemy_chain_duelist_hurt.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      94,
+      93,
+      189,
+      143
+    ],
+    "transparent_pixels": 91229,
+    "partial_alpha_pixels": 934,
+    "sha256": "7d02b38b0dc1f49117ea9845b839dc72a6060c58166c26c50e99751b7a1ca9b9",
+    "original_path": "newenemies/chain/enemy_chain_duelist_hurt.png",
+    "state_mapping": "filename-described"
+  },
+  {
+    "path": "assets/characters/new_enemies/chain/enemy_chain_duelist_idle.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      102,
+      93,
+      189,
+      144
+    ],
+    "transparent_pixels": 90469,
+    "partial_alpha_pixels": 1035,
+    "sha256": "82a7287cf9c71712522b3366ce2720bde30f8e071c1bb9e08d64d06cd39d49c6",
+    "original_path": "newenemies/chain/enemy_chain_duelist_idle.png",
+    "state_mapping": "filename-described"
+  },
+  {
+    "path": "assets/characters/new_enemies/chain/enemy_chain_duelist_move.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      29,
+      94,
+      212,
+      155
+    ],
+    "transparent_pixels": 89849,
+    "partial_alpha_pixels": 1611,
+    "sha256": "a3d43792c8c19d97babfe5e6f7ae27f058b9afc85caf980efe0440968d676a6e",
+    "original_path": "newenemies/chain/enemy_chain_duelist_move.png",
+    "state_mapping": "filename-described"
+  },
+  {
+    "path": "assets/characters/new_enemies/chain/enemy_chain_duelist_defeated.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      103,
+      194,
+      199,
+      50
+    ],
+    "transparent_pixels": 97877,
+    "partial_alpha_pixels": 684,
+    "sha256": "013046909adc4ecc2804a97c8e989d938c1b9d5e65bd9ec9aeb79d3416f5095b",
+    "original_path": "newenemies/chain/enemy_chain_duelist_defeated.png",
+    "state_mapping": "filename-described"
+  },
+  {
+    "path": "assets/characters/new_enemies/chain/enemy_chain_duelist_recovery.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      102,
+      132,
+      201,
+      109
+    ],
+    "transparent_pixels": 94055,
+    "partial_alpha_pixels": 868,
+    "sha256": "0cc2619f75c8ae308702ce11a50238267a40c2820f082367af0cb4004bd36852",
+    "original_path": "newenemies/chain/enemy_chain_duelist_recovery.png",
+    "state_mapping": "filename-described"
+  },
+  {
+    "path": "assets/characters/new_enemies/chain/enemy_chain_duelist_interrupted.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      101,
+      93,
+      199,
+      155
+    ],
+    "transparent_pixels": 91532,
+    "partial_alpha_pixels": 1144,
+    "sha256": "57afa525bdd755524f5cbeefd74a859c9cdbe53df96ed62998a6cecc8a290cc0",
+    "original_path": "newenemies/chain/enemy_chain_duelist_interrupted.png",
+    "state_mapping": "filename-described"
+  },
+  {
+    "path": "assets/characters/new_enemies/chain/enemy_chain_duelist_chain_attack.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      100,
+      70,
+      202,
+      168
+    ],
+    "transparent_pixels": 90220,
+    "partial_alpha_pixels": 1440,
+    "sha256": "3e920704a5a23af9aa96e4828f88d9cecfddb3530c0d681fa4d04e9f6ffd2d02",
+    "original_path": "newenemies/chain/enemy_chain_duelist_chain_attack.png",
+    "state_mapping": "filename-described"
+  },
+  {
+    "path": "assets/characters/new_enemies/chain/enemy_chain_duelist_chain_windup.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      35,
+      28,
+      189,
+      208
+    ],
+    "transparent_pixels": 88544,
+    "partial_alpha_pixels": 1361,
+    "sha256": "910ab53ac9e537fa551f65cf4cae328a1eca465eb9c27dc393a4485b0e14cbfd",
+    "original_path": "newenemies/chain/enemy_chain_duelist_chain_windup.png",
+    "state_mapping": "filename-described"
+  },
+  {
+    "path": "assets/characters/new_enemies/iron/Enemy artwork.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      78,
+      175,
+      213,
+      77
+    ],
+    "transparent_pixels": 92567,
+    "partial_alpha_pixels": 582,
+    "sha256": "4b3b4df1c5f0d623d14336e195587c3541c4f2a18fd7d633a40446e510fcc125",
+    "original_path": "newenemies/iron/Enemy artwork.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/iron/Enemy artwork-1.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      65,
+      87,
+      178,
+      149
+    ],
+    "transparent_pixels": 84544,
+    "partial_alpha_pixels": 511,
+    "sha256": "b4a7f056d5114c0c1f7a92008b6b396f273f214d551639613138183fc57a2876",
+    "original_path": "newenemies/iron/Enemy artwork-1.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/iron/Enemy artwork-2.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      40,
+      86,
+      261,
+      162
+    ],
+    "transparent_pixels": 83494,
+    "partial_alpha_pixels": 885,
+    "sha256": "94c3be2c882a002bb94dc42cf3b8c9f711ea41b5b419f4abe09d4c13740f8210",
+    "original_path": "newenemies/iron/Enemy artwork-2.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/iron/Enemy artwork-3.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      78,
+      87,
+      226,
+      162
+    ],
+    "transparent_pixels": 83490,
+    "partial_alpha_pixels": 735,
+    "sha256": "4f59a3dfef0e2ffec0cc141595979d56200193577c48e56ed5bc5aaee25cad5b",
+    "original_path": "newenemies/iron/Enemy artwork-3.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/iron/Enemy artwork-4.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      72,
+      27,
+      215,
+      212
+    ],
+    "transparent_pixels": 80848,
+    "partial_alpha_pixels": 872,
+    "sha256": "3cc2388df81e260876496311af1605f148d4dac75731ac545428e6baee3e022d",
+    "original_path": "newenemies/iron/Enemy artwork-4.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/iron/Enemy artwork-5.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      73,
+      86,
+      215,
+      150
+    ],
+    "transparent_pixels": 79913,
+    "partial_alpha_pixels": 717,
+    "sha256": "934421ce5bb4c88f3c690a51b77f9cb6042c091f9679d81b4371053437ed62cd",
+    "original_path": "newenemies/iron/Enemy artwork-5.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/iron/Enemy artwork-6.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      46,
+      86,
+      238,
+      150
+    ],
+    "transparent_pixels": 81735,
+    "partial_alpha_pixels": 850,
+    "sha256": "b7d7440806756a621751f7533d6091d919c4648007c2ca432d21dcd4e6963278",
+    "original_path": "newenemies/iron/Enemy artwork-6.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/iron/Enemy artwork-7.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      72,
+      87,
+      201,
+      149
+    ],
+    "transparent_pixels": 80263,
+    "partial_alpha_pixels": 642,
+    "sha256": "bc503caac8e471b1e9f8cb965577c0daa5c22a405001e382a3c79f24c9286870",
+    "original_path": "newenemies/iron/Enemy artwork-7.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/thorn/Enemy artwork.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      88,
+      203,
+      155,
+      37
+    ],
+    "transparent_pixels": 99079,
+    "partial_alpha_pixels": 602,
+    "sha256": "fdcac51953dcf652e1bec810c7c89948fec99463b1d2ab4281de1317a06990c5",
+    "original_path": "newenemies/thorn/Enemy artwork.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/thorn/Enemy artwork-1.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      113,
+      69,
+      134,
+      139
+    ],
+    "transparent_pixels": 93582,
+    "partial_alpha_pixels": 1110,
+    "sha256": "b43314be312e05805c6e032cafabd67de4287de54b4dfb8aad2e0d0dc31052c1",
+    "original_path": "newenemies/thorn/Enemy artwork-1.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/thorn/Enemy artwork-2.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      95,
+      112,
+      139,
+      119
+    ],
+    "transparent_pixels": 94664,
+    "partial_alpha_pixels": 898,
+    "sha256": "78447cc17dd02cff69f3376711b336ec3bfeb6b27f5b1f14f15f392091033fce",
+    "original_path": "newenemies/thorn/Enemy artwork-2.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/thorn/Enemy artwork-3.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      45,
+      68,
+      189,
+      174
+    ],
+    "transparent_pixels": 91336,
+    "partial_alpha_pixels": 1413,
+    "sha256": "8e1742c80ef0c64a15a14b9f017441453d67c0abdcf56272e73360a011a93c3d",
+    "original_path": "newenemies/thorn/Enemy artwork-3.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/thorn/Enemy artwork-4.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      35,
+      67,
+      250,
+      179
+    ],
+    "transparent_pixels": 91455,
+    "partial_alpha_pixels": 1700,
+    "sha256": "6668edade828e5ef688c11e3a70eacd57e6f2313655579368ea8c4942294d3b2",
+    "original_path": "newenemies/thorn/Enemy artwork-4.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/thorn/Enemy artwork-5.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      55,
+      68,
+      211,
+      162
+    ],
+    "transparent_pixels": 91961,
+    "partial_alpha_pixels": 1277,
+    "sha256": "b5af32bc1d9957f2acbf42395338b81a59a0e99749517af1ef38d4edf06d747f",
+    "original_path": "newenemies/thorn/Enemy artwork-5.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/thorn/Enemy artwork-6.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      69,
+      82,
+      176,
+      135
+    ],
+    "transparent_pixels": 94007,
+    "partial_alpha_pixels": 1161,
+    "sha256": "7cf78e2b2aafe2f008e2514c2e902115893c197982a1e54b5b73dd2ef53f810d",
+    "original_path": "newenemies/thorn/Enemy artwork-6.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  },
+  {
+    "path": "assets/characters/new_enemies/thorn/Enemy artwork-7.png",
+    "size": [
+      320,
+      320
+    ],
+    "bounds": [
+      75,
+      89,
+      170,
+      137
+    ],
+    "transparent_pixels": 93459,
+    "partial_alpha_pixels": 1103,
+    "sha256": "6436d5673bc03ece64cfd3b2156d74dccbac9dbf43bdd4e4a64774aee95b4bac",
+    "original_path": "newenemies/thorn/Enemy artwork-7.png",
+    "state_mapping": "unconfirmed; preserve original filename"
+  }
+]
