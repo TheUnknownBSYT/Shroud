@@ -1,108 +1,115 @@
 # SHROUD
 
-A Python / pygame-ce action game built from 18 handcrafted layouts. Each playthrough
-samples **five distinct layouts**, and each level load independently rolls one of
-four biomes: training grounds, snow, marsh or crosswind. Layouts, biomes and future
-enemy rosters are separate choices. Biomes currently change floor/boundary artwork;
-slippery movement, limited visibility, wind physics and four new enemy AIs are
-planned in `design/`. The existing ranged enemies and practice targets are playable.
+SHROUD is a top-down action game built with Python and pygame-ce. Fight through
+handcrafted maps using slashes, shuriken, dashes and a Shadow Echo that repeats
+your next attack from the spot you left behind.
 
-## Run
+Each run contains **five different layouts** sampled from a collection of 18.
+Every level independently receives a training grounds, snow, marsh or crosswind
+biome. Clear the required enemy groups, open the seals and reach the exit.
 
-Requires Python 3.10+; run from this source checkout (maps/art are not bundled in a wheel).
+## Install and play
+
+Requires **Python 3.10 or newer**.
 
 ```sh
+git clone https://github.com/TheUnknownBSYT/Shroud.git
+cd Shroud
 python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python main.py
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python main.py
 ```
 
-On Windows use `py -m venv .venv` and `.venv\Scripts\python`.
+On Windows, create and activate the environment with:
 
-```sh
-.venv/bin/python main.py --levels 5 --seed 42
-.venv/bin/python main.py --level snow_01 --levels 3
-.venv/bin/python main.py --list-levels
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python main.py
 ```
 
-`--levels` accepts 1–18; the default is `RUN_LENGTH` in `shroud/settings.py`.
-`--level` pins the first layout, with the remainder sampled without repeats.
-`--seed` reproduces layout/biome choices for the same loading actions; combat
-spread and visual effects have their own randomness. Biome draws may repeat.
-Map IDs/names such as `snow_01` are stable layout labels, not biome restrictions.
+Run the game from the cloned source tree so the map data and artwork are available.
 
-## Controls and progression
+## Controls
 
 | Input | Action |
 | --- | --- |
-| WASD / arrows | Move; mouse aim remains independent |
-| Tap Space | Release within 0.18 s to dash and leave an Echo |
-| Hold Space | Sprint after 0.18 s; release to stop; attacks disabled during sprint |
-| LMB hold / release | Charge then slash; opening attack window can reflect bolts |
-| RMB hold / release | Focus then throw; 0.45 s removes the initial ±3° spread |
+| WASD / arrow keys | Move |
+| Mouse | Aim independently while moving |
+| Tap Space | Dash on release and leave a Shadow Echo |
+| Hold Space | Sprint; release to stop |
+| Hold / release left mouse | Charge and release a slash |
+| Hold / release right mouse | Focus and throw a shuriken |
 | J / K | Immediate slash / shuriken |
-| Enter | Next run level after completion; retry latest refuge after death |
-| R | Reload the current run slot and roll its biome again |
-| F2 | Start a new run with the selected layout first |
-| Tab | Pause and show the whole map |
-| P / F1 / Esc | Pause / debug overlay / quit (or close an overlay) |
+| Enter | Continue after completion or retry after death |
+| R | Restart the current level with a newly rolled biome |
+| F2 | Start a new run with a selected first layout |
+| Tab | Pause and show the full map |
+| P | Pause / resume |
+| F1 | Toggle collision and combat debugging |
+| Esc | Close an overlay, or quit |
 
-Defeat the gold-marked seal groups and reach the exit. The HUD shows the run
-position and current biome; completion stops after the configured number of
-levels. Refuges restore health once and enable a checkpoint retry. Death retries
-keep the same biome; a full R reload rolls again without adding a run slot.
-F2 abandons the current run and starts a new one. Progress lives in memory only.
+Space held for 0.18 seconds starts sprinting; a shorter press dashes on release.
+Sprinting blocks attacks. Slashing toward an incoming bolt during the opening
+attack window can reflect it. Dashes deal damage but do not grant invulnerability.
 
-An accepted dash leaves one stationary Shadow Echo. Your next accepted attack
-captures its direction/charge; after 0.35 s the Echo repeats once from that spot.
-An unused Echo expires after 3 s. A new dash replaces it. Pause freezes timers;
-death/reload removes it. Dashes deal damage without granting invulnerability.
-Mouse attacks lock their direction on release; the artwork has four directions.
-Shuriken travel 520 px with a forgiving 14 px radius. Sentries attack within
-620 px and require clear line of sight. There is no player profiling or saved history.
+## Shadow Echo and progression
 
-## Project layout and editing
+A dash leaves one stationary Echo. Your next accepted slash or throw queues its
+repeat after **0.35 seconds**, preserving the attack direction and slash charge.
+An unused Echo expires after **3 seconds**; another dash replaces it.
 
-```text
-main.py             Launcher and CLI
-shroud/             Input, combat, player/enemy states, rendering and run loading
-  settings.py       The single active tuning file
-  campaign.py       Layout catalogue, fresh loading and random finite runs
-  assets.py         Asset catalogue, visual palettes and four biome mappings
-  level.py          World geometry, collision and camera
-assets/             Character, environment and effect PNGs; measured catalog.json
-  characters/new_enemies/  Four preserved enemy art families for later AI work
-data/levels/        18 layouts, independent of runtime biome
-design/            Future biome rules, enemy counters and 144 encounter drafts
-tests/             Gameplay/run/geometry regressions; one deliberate world fixture
-tools/             Optional map-gallery exporter
-local/             Ignored private notes, previews, references and Git checkout
-```
+Gold markers identify enemies required to open a seal. Other encounters can be
+left unfinished. After opening all seals, reach the exit and press Enter to
+continue. The run ends after its configured number of levels.
 
-Edit tile-unit geometry in `data/levels/<id>.json`; floor materials are `earth`,
-`stone`, `platform`, `mat`. The loader adds the selected biome at runtime.
-`layout_style` preserves authored obstacle/boundary collision geometry; it does
-not choose the biome. Cover props retain their authored appearance. Floor and
-boundary skins vary, while routes, gate groups and collision stay consistent.
-Asset collision shapes use source pixels, scaled by 0.75; tiles are 96 world px.
-Reload with R/F2 to reread an edited map. The 120 Hz simulation is separate from
-60 FPS rendering. All runtime paths resolve relative to source, not the shell cwd.
+Refuges restore health once and unlock a checkpoint retry. Enter after death
+retries that checkpoint with the same biome. R restarts the entire current level
+and rolls its biome again. F2 starts a fresh run. Progress is held in memory and
+is lost when the game closes.
 
-`design/biomes.json`, `enemies.json` and `encounters.json` describe the planned
-18 × 4 = 72 map/biome cells and two rosters per cell (144 drafts). New attacks and
-biome mechanics require implementation/playtesting before those drafts are enabled.
-Risk appetite, adaptability and fortitude remain future design hypotheses.
-
-## Checks and local development material
+## Run options
 
 ```sh
-.venv/bin/python -m pytest -q
-.venv/bin/python -m shroud.level_validation
-.venv/bin/python main.py --headless --levels 5 --seed 42 --frames 120 --screenshot /tmp/shroud.png
-.venv/bin/python -m tools.export_map_gallery
+python main.py --levels 3                   # Choose a run length from 1 to 18
+python main.py --level rooftop_03           # Choose the first layout
+python main.py --levels 5 --seed 42         # Reproduce layout and biome draws
+python main.py --list-levels                # List all available layouts
 ```
 
-The exporter writes previews into ignored `local/map_gallery/`. Detailed learning
-notes and the next-commit summary also live under `local/`; the game and public
-tests do not require that folder. `AGENTS.md` is an ignored discovery link to the
-local instructions. Virtual environments and Python caches are also ignored.
+Layouts do not repeat within a run; biome draws can repeat. A seed reproduces
+layout/biome choices for the same sequence of level loads. Combat spread and
+visual effects have their own randomness. Map names and IDs such as `snow_01`
+identify geometry and do not restrict the selected biome.
+
+## Current development status
+
+- All 18 layouts support all four biome appearances. **Biome effects are visual
+  only:** slippery movement, reduced visibility and projectile wind are planned.
+- Ranged enemies and practice targets are playable. Four additional enemy art
+  families are included for future behaviors.
+- Future biome rules, enemy counterplay and 144 encounter drafts are described in
+  [design/biomes.json](design/biomes.json), [design/enemies.json](design/enemies.json)
+  and [design/encounters.json](design/encounters.json).
+- Player profiling, behavioral scoring and saved progression are not implemented.
+
+## Development
+
+Tune gameplay in [shroud/settings.py](shroud/settings.py). Edit layouts in
+`data/levels/`; positions use tile units, with 96 world pixels per tile. Floor
+materials are `earth`, `stone`, `platform` and `mat`. Runtime biome selection
+changes their appearance while preserving route and collision geometry.
+Reload with R or F2 after editing a layout.
+
+```sh
+python -m pytest -q
+python -m shroud.level_validation
+python main.py --headless --levels 5 --seed 42 --frames 120 --screenshot /tmp/shroud.png
+python -m tools.export_map_gallery
+```
+
+The tests cover combat, Echo timing, input, run progression and route clearance
+across all 72 layout–biome combinations. The gallery exporter writes map and
+biome previews to the ignored `local/map_gallery/` directory.
