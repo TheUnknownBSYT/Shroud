@@ -68,6 +68,9 @@ def map_image(data, extent=(1090, 1030)):
         art(name, ((x + .5) * S.TILE_SIZE, (y + .5) * S.TILE_SIZE), S.ENVIRONMENT_SCALE)
     for prop in room.decorations + sorted(room.props, key=lambda p: p.position.y):
         art(prop.asset, prop.position, S.ENVIRONMENT_SCALE, prop.angle)
+    for cover in room.bamboo:
+        art(cover.prop.asset, cover.prop.position, S.ENVIRONMENT_SCALE)
+        pygame.draw.circle(canvas, (177, 223, 127), point(cover.position), 6, 1)
     for i, (_, asset, x, y, active) in enumerate(data['enemies']):
         art(asset, (x * S.TILE_SIZE, y * S.TILE_SIZE), S.SPRITE_SIZE / 320)
         marker((x * S.TILE_SIZE, y * S.TILE_SIZE), i + 1, (244, 148, 135) if active else (183, 188, 196))
@@ -87,7 +90,7 @@ def map_image(data, extent=(1090, 1030)):
 
 
 def export():
-    """Rebuild map sheets, all 72 biome previews, an overview and enemy pose sheets."""
+    """Rebuild map sheets, all 90 biome previews, an overview and enemy pose sheets."""
     pygame.font.init()
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'maps').mkdir(exist_ok=True)
@@ -97,7 +100,7 @@ def export():
     overview = pygame.Surface((1800, 2100))
     overview.fill(INK)
     paragraph(overview, 'SHROUD / 18 PURPOSEFUL LAYOUTS', 36, 22, 90, 42)
-    paragraph(overview, 'Actual layouts / example biome skins. Every layout supports all four biomes.', 36, 73, 120, 24)
+    paragraph(overview, 'Actual layouts / example biome skins. Every layout supports all five biomes.', 36, 73, 120, 24)
     for index, info in enumerate(plan['maps']):
         data = load_level(info['id'], BIOME_IDS[index % len(BIOME_IDS)])
         sheet = pygame.Surface((1680, 1280))
@@ -111,12 +114,12 @@ def export():
         y = paragraph(sheet, 'FUTURE OBSERVATION', 1150, y + 10, 38, 26, ACCENT)
         y = paragraph(sheet, info['primary_measure'] + ': ' + info['confound'], 1150, y, 39, 25)
         y = paragraph(sheet, 'BIOMES / FUTURE RULES', 1150, y + 10, 38, 26, ACCENT)
-        y = paragraph(sheet, 'Grounds: normal control. Snow: braking. Marsh: visibility. Crosswind: projectile timing.', 1150, y, 39, 25)
+        y = paragraph(sheet, 'Grounds: normal. Bamboo: breakable cover on three pilots. Planned: snow braking, marsh visibility, crosswind projectiles.', 1150, y, 39, 25)
         y = paragraph(sheet, 'ENCOUNTER STUDY', 1150, y + 10, 38, 26, ACCENT)
         contrast = next(e for e in plan['encounters'] if e['map_id'] == info['id'] and e['variant'] == 'contrast')
         families = sorted({a['family'] for a in contrast['assignments'] if a['family'] != 'practice_target'})
-        y = paragraph(sheet, 'Isolation: ' + info['base_families'][0] + '. Contrast: ' + ' + '.join(families) + '. New AI and biome effects are not implemented.', 1150, y, 39, 25)
-        paragraph(sheet, 'S spawn / E exit / R refuge / numbered enemy anchors / orange gates / A-B route regions', 40, 1190, 130, 25)
+        y = paragraph(sheet, 'Isolation: ' + info['base_families'][0] + '. Contrast: ' + ' + '.join(families) + '. New AI and snow/marsh/wind effects are planned.', 1150, y, 39, 25)
+        paragraph(sheet, 'S spawn / E exit / R refuge / numbered enemy anchors / orange gates / A-B routes / green rings: bamboo cover', 40, 1190, 130, 25)
         paragraph(sheet, 'Route regions are authoring alternatives, not a prescribed path. Full art bounds are not collision bounds.', 40, 1225, 135, 23, (161, 180, 183))
         pygame.image.save(sheet, OUT / 'maps' / f'{info["id"]}.png')
         variants = OUT / 'variants' / info['id']
@@ -141,7 +144,7 @@ def export():
             paragraph(sheet, file.stem.replace('enemy_chain_duelist_', ''), x, y + 290, 32, 21)
         pygame.image.save(sheet, OUT / 'enemies' / f'{family}.png')
     pygame.quit()
-    print('Exported 18 map sheets, 72 biome previews, overview and 4 enemy contact sheets into local/map_gallery/.')
+    print('Exported 18 map sheets, 90 biome previews, overview and 4 enemy contact sheets into local/map_gallery/.')
 
 
 if __name__ == '__main__':

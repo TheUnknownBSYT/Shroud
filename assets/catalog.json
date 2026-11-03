@@ -3204,5 +3204,177 @@
         28
       ]
     ]
+  },
+  "bamboo_floor_01": {
+    "path": "environments/bamboo/env_bamboo_floor_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "bamboo_floor_02": {
+    "path": "environments/bamboo/env_bamboo_floor_02.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "bamboo_path_straight": {
+    "path": "environments/bamboo/env_bamboo_path_straight_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "bamboo_path_corner": {
+    "path": "environments/bamboo/env_bamboo_path_corner_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "bamboo_path_join": {
+    "path": "environments/bamboo/env_bamboo_path_join_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "transparent_pixels": 0,
+    "partial_alpha_pixels": 0,
+    "solids": []
+  },
+  "bamboo_cluster": {
+    "path": "environments/bamboo/env_bamboo_cluster_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      14,
+      4,
+      109,
+      119
+    ],
+    "transparent_pixels": 12066,
+    "partial_alpha_pixels": 224,
+    "solids": [],
+    "projectile_shape": [
+      14,
+      4,
+      109,
+      119
+    ],
+    "footprint_shape": [
+      24,
+      88,
+      80,
+      32
+    ]
+  },
+  "bamboo_cut": {
+    "path": "environments/bamboo/env_bamboo_cut_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      38,
+      42,
+      59,
+      51
+    ],
+    "transparent_pixels": 14242,
+    "partial_alpha_pixels": 118,
+    "solids": []
+  },
+  "bamboo_stem": {
+    "path": "environments/bamboo/env_bamboo_stem_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      35,
+      12,
+      57,
+      104
+    ],
+    "transparent_pixels": 14809,
+    "partial_alpha_pixels": 132,
+    "solids": []
+  },
+  "bamboo_canopy": {
+    "path": "environments/bamboo/env_bamboo_canopy_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      7,
+      7,
+      117,
+      108
+    ],
+    "transparent_pixels": 12942,
+    "partial_alpha_pixels": 3442,
+    "solids": []
+  },
+  "bamboo_bush": {
+    "path": "environments/bamboo/env_bamboo_bush_01.png",
+    "size": [
+      128,
+      128
+    ],
+    "bounds": [
+      24,
+      17,
+      82,
+      97
+    ],
+    "transparent_pixels": 11428,
+    "partial_alpha_pixels": 218,
+    "solids": []
   }
 }

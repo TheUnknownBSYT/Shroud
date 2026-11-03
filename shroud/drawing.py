@@ -44,6 +44,8 @@ class Renderer:
         palette = world.room.palette
         names = set(world.room.tiles.values()) | {palette["outside"], palette["fence"]}
         names.update(prop.asset for prop in world.room.props + world.room.decorations)
+        if world.room.bamboo:
+            names.update(("bamboo_cluster", "bamboo_cut"))
         names.update(enemy.sprite for enemy in world.enemies)
         names.update(name for name in CATALOG if name.startswith(("enemy_ranged_", "fx_", "shadow_echo_", "projectile_")))
         for name in names:
@@ -141,6 +143,22 @@ class Renderer:
             image.set_alpha(105)
         self.scene.blit(image, image.get_rect(center=self.point(prop.position)))
 
+    def _bamboo(self, screen, world):
+        prop = screen.prop
+        image = self._asset(prop.asset).copy()
+        if not screen.broken:
+            # Telegraphs and actors stay readable through the dense walls.
+            overlapping = any(prop.rect.collidepoint(actor.position)
+                              for actor in [world.player, *world.enemies] if actor.alive)
+            image.set_alpha(85 if overlapping else 230)
+            center = self.point(screen.position)
+            pygame.draw.ellipse(self.scene, (139, 190, 107), (center.x - 30, center.y - 10, 60, 20), 1)
+            for notch in range(screen.shots_taken):
+                x = 30 + notch * 24
+                pygame.draw.lines(image, (241, 219, 139), False,
+                                  [(x - 5, 48), (x + 4, 53), (x - 3, 59)], 3)
+        self.scene.blit(image, image.get_rect(center=self.point(prop.position)))
+
     def draw(self, screen, world, debug, fps, paused):
         self._ground(world)
         visible = self.camera.visible_rect.inflate(180, 180)
@@ -161,6 +179,9 @@ class Renderer:
                 bodies = prop.colliders()
                 depth = max(body.bottom for body in bodies) if bodies else prop.position.y
                 objects.append((depth, "prop", prop))
+        for screen_cover in world.room.bamboo:
+            if visible.colliderect(screen_cover.prop.rect):
+                objects.append((screen_cover.position.y + 12, "bamboo", screen_cover))
         for enemy in world.enemies:
             if visible.collidepoint(enemy.position):
                 objects.append((enemy.position.y + 24, "enemy", enemy))
@@ -170,6 +191,8 @@ class Renderer:
         for _, kind, entity in sorted(objects, key=lambda item: item[0]):
             if kind == "prop":
                 self._prop(entity, world)
+            elif kind == "bamboo":
+                self._bamboo(entity, world)
             elif kind == "enemy":
                 self._enemy(entity)
             elif kind == "echo":
@@ -382,10 +405,10 @@ class Renderer:
         for effect in world.impacts:
             position = self.point(effect.position)
             progress = 1 - effect.remaining / 0.32
-            name = {"parry": "fx_deflect", "echo": "fx_echo_activation", "wall": "fx_impact_dust",
+            name = {"parry": "fx_deflect", "echo": "fx_echo_activation", "wall": "fx_impact_dust", "bamboo": "fx_impact_dust", "bamboo_hit": "fx_impact_dust",
                     "defeat": "fx_defeat"}.get(effect.kind, "fx_hit")
             self._effect(name, progress, effect.position)
-            color = {"parry": MINT, "echo": MINT, "hurt": RED, "defeat": GOLD}.get(effect.kind, PAPER)
+            color = {"parry": MINT, "echo": MINT, "hurt": RED, "defeat": GOLD, "bamboo": (177, 223, 127), "bamboo_hit": (241, 219, 139)}.get(effect.kind, PAPER)
             radius = int(8 + progress * (44 if effect.kind == "parry" else 24))
             pygame.draw.circle(self.scene, color, position, radius, max(1, int(3 * (1 - progress))))
             if effect.kind != "wall":
@@ -428,7 +451,8 @@ class Renderer:
             self.text(screen, key, (x, 55), MUTED, self.small)
             pygame.draw.rect(screen, (51, 70, 63), (x, 80, 170, 3), border_radius=1)
             pygame.draw.rect(screen, MINT if cooldown <= 0 else RED, (x, 80, 170 * max(0, 1 - cooldown / duration), 3), border_radius=1)
-        self.text(screen, self._objective(world), (48, 108), MUTED, self.small)
+        hint = "Bamboo walls: slash a path or go around. Three shots break a cluster." if world.room.bamboo and not world.room.gates_cleared else self._objective(world)
+        self.text(screen, hint, (48, 108), MUTED, self.small)
         self.text(screen, "WASD Move  Hold SPACE Run", (48, 758), PAPER, self.small)
         self.text(screen, "LMB  Charge   RMB  Focus   J / K  Quick attacks", (306, 758), MUTED, self.small)
         self.text(screen, "R Restart  TAB Map  F2 Levels  P Pause", (896, 758), PAPER, self.small)
@@ -481,6 +505,9 @@ class Renderer:
             pygame.draw.rect(screen, (80, 102, 96), (*point((x * S.TILE_SIZE, y * S.TILE_SIZE)), S.TILE_SIZE * scale + 1, S.TILE_SIZE * scale + 1))
         for wall in room.walls:
             pygame.draw.rect(screen, (30, 42, 43), (*point(wall.topleft), max(1, wall.width * scale), max(1, wall.height * scale)))
+        for cover in room.bamboo:
+            if not cover.broken:
+                pygame.draw.rect(screen, (177, 223, 127), (*point(cover.footprint.topleft), max(2, cover.footprint.width * scale), max(2, cover.footprint.height * scale)))
         for enemy in world.enemies:
             if enemy.alive:
                 required = any(enemy.group == name for name, _ in room.gates)
@@ -502,6 +529,9 @@ def draw_debug(surface: pygame.Surface, world, font: pygame.font.Font, fps: floa
     for wall in world.room.walls_near(camera.visible_rect):
         if camera.visible_rect.colliderect(wall):
             pygame.draw.rect(surface, (255, 194, 74), wall.move(point((0, 0))), 1)
+    for cover in world.room.bamboo:
+        if not cover.broken:
+            pygame.draw.rect(surface, (177, 223, 127), cover.hitbox.move(point((0, 0))), 1)
     if player.damage_active:
         reach = player.attack.reach if player.attack.kind == "slash" else player.radius + 10
         pygame.draw.circle(surface, (255, 92, 97), point(player.position), reach, 1)

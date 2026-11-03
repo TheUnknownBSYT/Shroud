@@ -80,6 +80,31 @@ def segment_circle(start: Vector2, end: Vector2, center: Vector2, radius: float)
     return t if 0 <= t <= 1 else None
 
 
+def segment_rect(start, end, rect):
+    """First contact fraction with a closed rectangle, including initial overlap."""
+    enter, leave = 0.0, 1.0
+    delta = end - start
+    for axis, low, high in ((0, rect.left, rect.right), (1, rect.top, rect.bottom)):
+        if abs(delta[axis]) < 1e-12:
+            if not low <= start[axis] <= high:
+                return None
+            continue
+        near, far = sorted(((low - start[axis]) / delta[axis], (high - start[axis]) / delta[axis]))
+        enter, leave = max(enter, near), min(leave, far)
+        if enter > leave:
+            return None
+    return enter
+
+
+def damage_bamboo(world, screen, *, cut=False, position=None):
+    if screen.broken:
+        return
+    screen.shots_taken = S.BAMBOO_SHOT_HITS if cut else screen.shots_taken + 1
+    screen.broken = screen.shots_taken >= S.BAMBOO_SHOT_HITS
+    world.impact(screen.position if position is None else position,
+                 "bamboo" if screen.broken else "bamboo_hit")
+
+
 @dataclass
 class Projectile:
     position: Vector2
@@ -140,6 +165,13 @@ def resolve_melee(world, attacker) -> None:
     attack = attacker.attack
     if attack is None or not attacker.damage_active:
         return
+    if attack.kind == "slash":
+        for screen in world.room.bamboo:
+            if (not screen.broken
+                    and in_arc(attacker.position, attack.direction, screen.position,
+                               screen.hitbox.width / 2, attack.reach)
+                    and not world.room.projectile_blocked(attacker.position, screen.position, 0)):
+                damage_bamboo(world, screen, cut=True)
     for enemy in world.enemies:
         if not enemy.alive or enemy.entity_id in attack.hit_entities:
             continue
@@ -168,7 +200,7 @@ def parry_contact(attacker, projectile):
     return None
 
 
-def resolve_enemy_projectile(world, projectile):
+def resolve_enemy_projectile(world, projectile, stop_at=2.0):
     player = world.player
     defenders = []
     if player.alive:
@@ -176,7 +208,7 @@ def resolve_enemy_projectile(world, projectile):
     if world.echo is not None:
         defenders.append(world.echo)
     defender = None
-    first_contact = 2.0
+    first_contact = stop_at
     for candidate in defenders:
         contact = parry_contact(candidate, projectile)
         if contact is not None and contact < first_contact:
@@ -191,6 +223,7 @@ def resolve_enemy_projectile(world, projectile):
         )
     # An Echo farther along the bolt's path cannot undo an earlier player hit.
     if body_contact is not None and body_contact < first_contact:
+        projectile.position = projectile.previous.lerp(projectile.position, body_contact)
         deal_damage(world, player, projectile.damage, projectile.kind)
         projectile.alive = False
     elif defender is not None:
@@ -208,9 +241,9 @@ def resolve_enemy_projectile(world, projectile):
         world.impact(projectile.position, "parry")
 
 
-def resolve_friendly_projectile(world, projectile):
+def resolve_friendly_projectile(world, projectile, stop_at=2.0):
     nearest_enemy = None
-    first_contact = 2.0
+    first_contact = stop_at
     for enemy in world.enemies:
         if not enemy.alive:
             continue
@@ -222,6 +255,7 @@ def resolve_friendly_projectile(world, projectile):
             nearest_enemy = enemy
             first_contact = contact
     if nearest_enemy is not None:
+        projectile.position = projectile.previous.lerp(projectile.position, first_contact)
         deal_damage(world, nearest_enemy, projectile.damage, projectile.kind, projectile.owner)
         projectile.alive = False
 
@@ -232,14 +266,22 @@ def resolve_projectiles(world, dt: float) -> None:
             continue
         projectile.advance(dt)
         start, end = projectile.previous, projectile.position
-        if world.room.projectile_blocked(start, end, projectile.radius):
-            projectile.alive = False
-            world.impact(end, "wall")
-            continue
+        obstacle = world.room.projectile_contact(start, end, projectile.radius)
+        stop_at = obstacle[0] if obstacle else 2.0
+        original_team = projectile.team
         if projectile.team == "enemy":
-            resolve_enemy_projectile(world, projectile)
+            resolve_enemy_projectile(world, projectile, stop_at)
         elif projectile.team == "player":
-            resolve_friendly_projectile(world, projectile)
+            resolve_friendly_projectile(world, projectile, stop_at)
+        # A nearer actor/parry resolves first. Reflection cancels the old trajectory.
+        if obstacle and projectile.alive and projectile.team == original_team:
+            fraction, screen = obstacle
+            projectile.position = start.lerp(end, fraction)
+            projectile.alive = False
+            if screen is not None:
+                damage_bamboo(world, screen, position=projectile.position)
+            else:
+                world.impact(projectile.position, "wall")
         if projectile.expired:
             projectile.alive = False
     world.projectiles = [projectile for projectile in world.projectiles if projectile.alive]

@@ -35,11 +35,14 @@ def load_level(level_id, biome="grounds"):
 class Run:
     """A fixed-length sample without repeated layouts; biome is rolled on scene load."""
 
-    def __init__(self, length=S.RUN_LENGTH, first=None, rng=None):
+    def __init__(self, length=S.RUN_LENGTH, first=None, rng=None, biome=None):
         if not 1 <= length <= len(LEVEL_IDS):
             raise ValueError(f"Run length must be between 1 and {len(LEVEL_IDS)}.")
         if first is not None and first not in LEVEL_IDS:
             raise ValueError(f"Unknown starting level {first!r}.")
+        if biome is not None and biome not in BIOME_IDS:
+            raise ValueError(f"Unknown biome {biome!r}.")
+        self.biome_override = biome
         self.rng = rng if rng is not None else random.Random()
         pool = [level_id for level_id in LEVEL_IDS if level_id != first]
         self.level_ids = tuple(([first] if first else []) + self.rng.sample(pool, length - (1 if first is not None else 0)))
@@ -55,4 +58,4 @@ class Run:
 
     def load_current(self):
         """Roll with Python's random library; independent draws may repeat a biome."""
-        return load_level(self.current, self.rng.choice(BIOME_IDS))
+        return load_level(self.current, self.biome_override or self.rng.choice(BIOME_IDS))

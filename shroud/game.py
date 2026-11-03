@@ -102,6 +102,9 @@ class Sandbox:
 
     def reset(self) -> None:
         self.checkpoint = None
+        for screen in self.room.bamboo:
+            screen.broken = False
+            screen.shots_taken = 0
         self.player = Player(self.room.spawn.copy())
         self.echo = None
         self.enemies = []
@@ -224,13 +227,14 @@ class Sandbox:
 
 
 class Game:
-    def __init__(self, level_id=None, run_length=S.RUN_LENGTH, seed=None) -> None:
+    def __init__(self, level_id=None, run_length=S.RUN_LENGTH, seed=None, biome=None) -> None:
         pygame.display.set_caption("SHROUD | Handcrafted Journeys")
         self.screen = pygame.display.set_mode((S.WIDTH, S.HEIGHT))
         self.clock = pygame.time.Clock()
         self.run_rng = random.Random(seed)
         self.run_length = run_length
-        self.run_state = Run(run_length, first=level_id, rng=self.run_rng)
+        self.biome_override = biome
+        self.run_state = Run(run_length, first=level_id, rng=self.run_rng, biome=biome)
         self.input = InputHandler()
         self.debug = False
         self._load_current()
@@ -252,7 +256,7 @@ class Game:
     def load(self, level_id):
         """F2 starts a fresh fixed-length run with this chosen layout first."""
         previous = self.run_state
-        self.run_state = Run(self.run_length, first=level_id, rng=self.run_rng)
+        self.run_state = Run(self.run_length, first=level_id, rng=self.run_rng, biome=self.biome_override)
         try:
             self._load_current()
         except Exception:

@@ -48,6 +48,8 @@ SHURIKEN_RANGE = 520.0
 SHURIKEN_RADIUS = 14.0
 MAX_SHURIKEN = 5
 
+BAMBOO_SHOT_HITS = 3  # Shots chip cover; an active slash cuts immediately.
+
 MOUSE_AIM_RESPONSE = 24.0  # Higher values track the cursor more tightly.
 MOUSE_AIM_DEADZONE = 8.0
 SHURIKEN_SPREAD = 3.0  # Degrees either side of aim for a quick mouse throw.

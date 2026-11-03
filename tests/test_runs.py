@@ -67,7 +67,7 @@ def test_biome_is_rolled_on_each_load_without_mutating_source():
 
 @pytest.mark.parametrize('level_id', LEVEL_IDS)
 @pytest.mark.parametrize('biome', BIOME_IDS)
-def test_all_72_layout_biome_pairs_keep_routes_and_collision(level_id, biome):
+def test_all_layout_biome_pairs_keep_routes_and_collision(level_id, biome):
     data = load_level(level_id, biome)
     room, control = Room(data), Room(load_level(level_id))
     assert room.biome == biome

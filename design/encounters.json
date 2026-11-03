@@ -7639,6 +7639,1744 @@
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
       "test": "Voluntary continuation across stages: Wait for a lull, compensate aim, move closer or use melee and cover.",
       "acceptance": "Check every assigned attack footprint, sightline, telegraph and escape route with this biome before enabling. Preserve noncombat targets and checkpoint semantics."
+    },
+    {
+      "id": "training_01__bamboo__isolation",
+      "map_id": "training_01",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "R1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "practice",
+          "family": "practice_target"
+        },
+        {
+          "spawn_index": 1,
+          "group": "lesson",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 2,
+          "group": "lesson",
+          "family": "practice_target"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "training_01__bamboo__contrast",
+      "map_id": "training_01",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "R1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "practice",
+          "family": "practice_target"
+        },
+        {
+          "spawn_index": 1,
+          "group": "lesson",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 2,
+          "group": "lesson",
+          "family": "practice_target"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "temple_01__bamboo__isolation",
+      "map_id": "temple_01",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "R1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "shortcut",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 1,
+          "group": "shortcut",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 2,
+          "group": "gallery",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 3,
+          "group": "seal",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "archer"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "temple_01__bamboo__contrast",
+      "map_id": "temple_01",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "R1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "shortcut",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 1,
+          "group": "shortcut",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 2,
+          "group": "gallery",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 3,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "archer"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "temple_02__bamboo__isolation",
+      "map_id": "temple_02",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "R2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "outer",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 1,
+          "group": "outer",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 2,
+          "group": "archive",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 3,
+          "group": "screen",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 4,
+          "group": "screen",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 5,
+          "group": "screen",
+          "family": "bell"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "temple_02__bamboo__contrast",
+      "map_id": "temple_02",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "R2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "outer",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 1,
+          "group": "outer",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 2,
+          "group": "archive",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 3,
+          "group": "screen",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 4,
+          "group": "screen",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 5,
+          "group": "screen",
+          "family": "chain"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "temple_04__bamboo__isolation",
+      "map_id": "temple_04",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "R1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "ring",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 1,
+          "group": "ring",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 2,
+          "group": "ring",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 3,
+          "group": "ring",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 4,
+          "group": "sanctum",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 5,
+          "group": "sanctum",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 7,
+          "group": "seal",
+          "family": "iron"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "temple_04__bamboo__contrast",
+      "map_id": "temple_04",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "R1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "ring",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 1,
+          "group": "ring",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 2,
+          "group": "ring",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 3,
+          "group": "ring",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 4,
+          "group": "sanctum",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 5,
+          "group": "sanctum",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 7,
+          "group": "seal",
+          "family": "thorn"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "rooftop_01__bamboo__isolation",
+      "map_id": "rooftop_01",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "A1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "lane",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 1,
+          "group": "bypass",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 2,
+          "group": "watch",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 3,
+          "group": "watch",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 4,
+          "group": "last",
+          "family": "chain"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "rooftop_01__bamboo__contrast",
+      "map_id": "rooftop_01",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "A1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "lane",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 1,
+          "group": "bypass",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 2,
+          "group": "watch",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 3,
+          "group": "watch",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 4,
+          "group": "last",
+          "family": "chain"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "rooftop_02__bamboo__isolation",
+      "map_id": "rooftop_02",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "A1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "lower",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 1,
+          "group": "middle",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 2,
+          "group": "middle",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 3,
+          "group": "upper",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "thorn"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "rooftop_02__bamboo__contrast",
+      "map_id": "rooftop_02",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "A1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "lower",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 1,
+          "group": "middle",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 2,
+          "group": "middle",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 3,
+          "group": "upper",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "chain"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "rooftop_03__bamboo__isolation",
+      "map_id": "rooftop_03",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "A2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "north",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 1,
+          "group": "north",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 2,
+          "group": "south",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 3,
+          "group": "south",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 4,
+          "group": "cross",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "archer"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "rooftop_03__bamboo__contrast",
+      "map_id": "rooftop_03",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "A2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "north",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 1,
+          "group": "north",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 2,
+          "group": "south",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 3,
+          "group": "south",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 4,
+          "group": "cross",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "archer"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "misty_01__bamboo__isolation",
+      "map_id": "misty_01",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "R2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "causeway",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 1,
+          "group": "island",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 2,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 3,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "bell"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "misty_01__bamboo__contrast",
+      "map_id": "misty_01",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "R2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "causeway",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 1,
+          "group": "island",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 2,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 3,
+          "group": "seal",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "bell"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "misty_02__bamboo__isolation",
+      "map_id": "misty_02",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "A2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "west",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 1,
+          "group": "cross",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 2,
+          "group": "south",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 3,
+          "group": "south",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "thorn"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "misty_02__bamboo__contrast",
+      "map_id": "misty_02",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "A2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "west",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 1,
+          "group": "cross",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 2,
+          "group": "south",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 3,
+          "group": "south",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "thorn"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "misty_03__bamboo__isolation",
+      "map_id": "misty_03",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "F2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "north",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 1,
+          "group": "north",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 2,
+          "group": "cross",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 3,
+          "group": "cross",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 4,
+          "group": "south",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "iron"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "misty_03__bamboo__contrast",
+      "map_id": "misty_03",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "F2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "north",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 1,
+          "group": "north",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 2,
+          "group": "cross",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 3,
+          "group": "cross",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 4,
+          "group": "south",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "iron"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "autumn_02__bamboo__isolation",
+      "map_id": "autumn_02",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "R1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "ring",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 1,
+          "group": "ring",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 2,
+          "group": "ring",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 3,
+          "group": "ring",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 4,
+          "group": "inner",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 5,
+          "group": "inner",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 7,
+          "group": "seal",
+          "family": "thorn"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "autumn_02__bamboo__contrast",
+      "map_id": "autumn_02",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "R1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "ring",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 1,
+          "group": "ring",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 2,
+          "group": "ring",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 3,
+          "group": "ring",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 4,
+          "group": "inner",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 5,
+          "group": "inner",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 7,
+          "group": "seal",
+          "family": "bell"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "autumn_03__bamboo__isolation",
+      "map_id": "autumn_03",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "F1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "island",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 1,
+          "group": "island",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 2,
+          "group": "north",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 3,
+          "group": "east",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "chain"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "autumn_03__bamboo__contrast",
+      "map_id": "autumn_03",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "F1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "island",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 1,
+          "group": "island",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 2,
+          "group": "north",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 3,
+          "group": "east",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "chain"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "autumn_04__bamboo__isolation",
+      "map_id": "autumn_04",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "F2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "grove",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 1,
+          "group": "grove",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 2,
+          "group": "grove",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 3,
+          "group": "harvest",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 4,
+          "group": "harvest",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 5,
+          "group": "upper",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 6,
+          "group": "upper",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 7,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 8,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 9,
+          "group": "seal",
+          "family": "bell"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "autumn_04__bamboo__contrast",
+      "map_id": "autumn_04",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "F2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "grove",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 1,
+          "group": "grove",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 2,
+          "group": "grove",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 3,
+          "group": "harvest",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 4,
+          "group": "harvest",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 5,
+          "group": "upper",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 6,
+          "group": "upper",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 7,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 8,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 9,
+          "group": "seal",
+          "family": "thorn"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "snow_01__bamboo__isolation",
+      "map_id": "snow_01",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "A1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "ice",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 1,
+          "group": "ridge",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 2,
+          "group": "seal",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 3,
+          "group": "seal",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "archer"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "snow_01__bamboo__contrast",
+      "map_id": "snow_01",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "A1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "ice",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 1,
+          "group": "ridge",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 2,
+          "group": "seal",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 3,
+          "group": "seal",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "archer"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "snow_02__bamboo__isolation",
+      "map_id": "snow_02",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "A2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "west",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 1,
+          "group": "middle",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 2,
+          "group": "south",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 3,
+          "group": "south",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "iron"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "snow_02__bamboo__contrast",
+      "map_id": "snow_02",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "A2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "west",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 1,
+          "group": "middle",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 2,
+          "group": "south",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 3,
+          "group": "south",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 4,
+          "group": "seal",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "thorn"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "iron"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "snow_04__bamboo__isolation",
+      "map_id": "snow_04",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "F2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "pass",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 1,
+          "group": "pass",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 2,
+          "group": "ridge",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 3,
+          "group": "lower",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 4,
+          "group": "lower",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 7,
+          "group": "seal",
+          "family": "chain"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "snow_04__bamboo__contrast",
+      "map_id": "snow_04",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "F2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "pass",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 1,
+          "group": "pass",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 2,
+          "group": "ridge",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 3,
+          "group": "lower",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 4,
+          "group": "lower",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 5,
+          "group": "seal",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 6,
+          "group": "seal",
+          "family": "chain"
+        },
+        {
+          "spawn_index": 7,
+          "group": "seal",
+          "family": "bell"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "final_01__bamboo__isolation",
+      "map_id": "final_01",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "A2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "temple",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 1,
+          "group": "temple",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 2,
+          "group": "temple",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 3,
+          "group": "roof",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 4,
+          "group": "marsh",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 5,
+          "group": "autumn",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 6,
+          "group": "snow",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 7,
+          "group": "snow",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 8,
+          "group": "snow",
+          "family": "iron"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "final_01__bamboo__contrast",
+      "map_id": "final_01",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "A2",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "temple",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 1,
+          "group": "temple",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 2,
+          "group": "temple",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 3,
+          "group": "roof",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 4,
+          "group": "marsh",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 5,
+          "group": "autumn",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 6,
+          "group": "snow",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 7,
+          "group": "snow",
+          "family": "archer"
+        },
+        {
+          "spawn_index": 8,
+          "group": "snow",
+          "family": "iron"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "final_02__bamboo__isolation",
+      "map_id": "final_02",
+      "biome_id": "bamboo",
+      "variant": "isolation",
+      "status": "planned_unvalidated",
+      "measure": "F1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "temple",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 1,
+          "group": "temple",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 2,
+          "group": "temple",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 3,
+          "group": "roof",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 4,
+          "group": "roof",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 5,
+          "group": "grove",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 6,
+          "group": "grove",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 7,
+          "group": "field",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 8,
+          "group": "field",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 9,
+          "group": "field",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 10,
+          "group": "dawn",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 11,
+          "group": "dawn",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 12,
+          "group": "dawn",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 13,
+          "group": "dawn",
+          "family": "bell"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+    },
+    {
+      "id": "final_02__bamboo__contrast",
+      "map_id": "final_02",
+      "biome_id": "bamboo",
+      "variant": "contrast",
+      "status": "planned_unvalidated",
+      "measure": "F1",
+      "assignments": [
+        {
+          "spawn_index": 0,
+          "group": "temple",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 1,
+          "group": "temple",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 2,
+          "group": "temple",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 3,
+          "group": "roof",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 4,
+          "group": "roof",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 5,
+          "group": "grove",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 6,
+          "group": "grove",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 7,
+          "group": "field",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 8,
+          "group": "field",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 9,
+          "group": "field",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 10,
+          "group": "dawn",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 11,
+          "group": "dawn",
+          "family": "iron"
+        },
+        {
+          "spawn_index": 12,
+          "group": "dawn",
+          "family": "bell"
+        },
+        {
+          "spawn_index": 13,
+          "group": "dawn",
+          "family": "iron"
+        }
+      ],
+      "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
+      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
+      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
     }
   ]
 }

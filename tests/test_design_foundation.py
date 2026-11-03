@@ -4,7 +4,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from shroud.campaign import LEVEL_IDS, load_level
+from shroud.campaign import LEVEL_IDS, BIOME_IDS, load_level
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -33,11 +33,11 @@ def test_every_planned_assignment_preserves_authored_anchors_and_targets():
     for info in plan['maps']:
         choices = load_level(info['id']).get('choices', [])
         assert info['decision'] == (choices[0] if choices else None)
-    assert {b['id'] for b in biomes} == {'grounds', 'snow', 'marsh', 'wind'}
+    assert {b['id'] for b in biomes} == set(BIOME_IDS)
     families = {e['id'] for e in enemies}
     assert len(families) == 5
     assert {e['id'] for e in enemies if e['playable']} == {'archer'}
-    assert len({e['id'] for e in plan['encounters']}) == 144
+    assert len({e['id'] for e in plan['encounters']}) == 180
     cells = Counter()
     for encounter in plan['encounters']:
         data = load_level(encounter['map_id'])

@@ -5,6 +5,7 @@ import pygame
 from pygame import Vector2
 from shroud import settings as S
 from shroud.assets import CATALOG, PALETTES, BIOME_THEMES, floor_asset
+from shroud.combat import segment_rect
 
 # One authoritative catalogue: source canvas sizes and base-only collision shapes.
 ASSET_SIZES = {name: tuple(info["size"]) for name, info in CATALOG.items()}
@@ -43,6 +44,53 @@ class Prop:
         return result
 
 
+@dataclass
+class BambooScreen:
+
+    position: Vector2
+    broken: bool = False
+    shots_taken: int = 0
+
+    @property
+    def prop(self):
+        asset = "bamboo_cut" if self.broken else "bamboo_cluster"
+        # Align the cluster's source-space base (y=104) with its ground anchor.
+        return Prop(asset, self.position - Vector2(0, 40 * S.ENVIRONMENT_SCALE))
+
+    def _shape(self, key):
+        x, y, width, height = CATALOG["bamboo_cluster"][key]
+        return pygame.FRect(self.prop.position.x + (x - 64) * S.ENVIRONMENT_SCALE,
+                            self.prop.position.y + (y - 64) * S.ENVIRONMENT_SCALE,
+                            width * S.ENVIRONMENT_SCALE, height * S.ENVIRONMENT_SCALE)
+
+    @property
+    def hitbox(self):
+        """Shots hit the visible cluster, including stems above its ground footprint."""
+        return self._shape("projectile_shape")
+
+    @property
+    def footprint(self):
+        return self._shape("footprint_shape")
+
+
+def bamboo_positions(data):
+    """Expand authored axis-aligned walls into touching clusters, without random placement."""
+    points = [tuple(point) for point in data.get("bamboo_screens", [])]
+    shape = CATALOG["bamboo_cluster"]["footprint_shape"]
+    for wall in data.get("bamboo_walls", []):
+        start, end = Vector2(wall["start"]), Vector2(wall["end"])
+        delta = end - start
+        if delta.x and delta.y:
+            raise ValueError("Bamboo walls must be horizontal or vertical")
+        axis = 0 if delta.x else 1
+        spacing = shape[2 + axis] * S.ENVIRONMENT_SCALE / S.TILE_SIZE
+        steps = ceil(abs(delta[axis]) / spacing)
+        points.extend(tuple(start.lerp(end, i / steps)) if steps else tuple(start)
+                      for i in range(steps + 1))
+    # Shared endpoints in adjoining walls are one cluster, not stacked hit points.
+    return [Vector2(point) * S.TILE_SIZE for point in dict.fromkeys(points)]
+
+
 class Camera:
     def __init__(self, bounds, viewport=None):
         self.bounds = pygame.FRect(bounds)
@@ -79,6 +127,7 @@ class Room:
         self.tiles = {}
         self.props = []
         self.decorations = []
+        self.bamboo = []
         self.gates = []
         self.open_gates = set()
         if data is None:
@@ -111,12 +160,19 @@ class Room:
                     center = Vector2(x + .5 + dx / 2, y + .5 + dy / 2) * tile
                     self.props.append(Prop(self.palette["wall"], center, angle,
                                            PALETTES[data.get("layout_style", "training")]["wall"]))
+                    if self.biome == "bamboo" and (x * 7 + y * 11) % 4 == 0:
+                        # Decorative stems stay outside walkable cells; screens are authored below.
+                        outside = center + Vector2(dx, dy) * tile * .65
+                        self.decorations.append(Prop("bamboo_stem", outside))
+                        self.decorations.append(Prop("bamboo_canopy", outside - Vector2(0, tile * .35)))
         self.walls = []
         for prop in self.props:
             self.walls.extend(prop.colliders())
         self.enemy_spawns = [Vector2(x, y) * tile for _, _, x, y, _ in data["enemies"]]
         self.gates = [(name, pygame.FRect(*(value * tile for value in rect)))
                       for name, rect in data["gates"]]
+        if self.biome == "bamboo":
+            self.bamboo = [BambooScreen(point) for point in bamboo_positions(data)]
 
     def refresh_gates(self, enemies):
         if enemies:
@@ -145,6 +201,22 @@ class Room:
             indices.update(self.collision_cells.get(cell, []))
         return [self.walls[index] for index in sorted(indices)]
 
+    def movement_walls_near(self, rect):
+        walls = self.walls_near(rect)
+        for cover in self.bamboo:
+            if not cover.broken:
+                footprint = cover.footprint
+                if rect.colliderect(footprint):
+                    walls.append(footprint)
+        return walls
+
+    def movement_blocked(self, start, end, radius):
+        """Authoring clearance uses the same intact bamboo footprints as actual movement."""
+        if self.projectile_blocked(start, end, radius):
+            return True
+        return any(not cover.broken and segment_rect(start, end, cover.footprint.inflate(radius * 2, radius * 2)) is not None
+                   for cover in self.bamboo)
+
     def move(self, position, displacement, radius):
         steps = max(1, ceil(displacement.length() / max(radius * .5, 1)))
         step = displacement / steps
@@ -153,7 +225,7 @@ class Room:
             for axis in (0, 1):
                 result[axis] += step[axis]
                 body = pygame.FRect(result.x - radius, result.y - radius, radius * 2, radius * 2)
-                for wall in self.walls_near(body):
+                for wall in self.movement_walls_near(body):
                     if body.colliderect(wall):
                         if step[axis] > 0:
                             result[axis] = (wall.left if axis == 0 else wall.top) - radius
@@ -165,11 +237,40 @@ class Room:
         return result
 
     def projectile_blocked(self, start, end, radius):
+        """Static obstruction for sight and melee; bamboo is see-through."""
         if not self.bounds.inflate(-radius * 2, -radius * 2).collidepoint(end):
             return True
         area = pygame.FRect(min(start.x, end.x), min(start.y, end.y),
                             abs(end.x - start.x), abs(end.y - start.y)).inflate(radius * 2 + 2, radius * 2 + 2)
         return any(wall.inflate(radius * 2, radius * 2).clipline(start, end) for wall in self.walls_near(area))
+
+    def projectile_contact(self, start, end, radius):
+        """Nearest shot obstruction as (fraction, bamboo or None); walls win ties."""
+        allowed = self.bounds.inflate(-radius * 2, -radius * 2)
+        nearest = None
+        if not allowed.collidepoint(start):
+            nearest = (0.0, None)
+        elif not allowed.collidepoint(end):
+            delta = end - start
+            exits = []
+            for axis, low, high in ((0, allowed.left, allowed.right), (1, allowed.top, allowed.bottom)):
+                if delta[axis]:
+                    exits.append(((high if delta[axis] > 0 else low) - start[axis]) / delta[axis])
+            # FRect containment rounds to float32; Vector2 keeps double precision.
+            nearest = (max(0.0, min(1.0, min(exits))), None)
+        area = pygame.FRect(min(start.x, end.x), min(start.y, end.y),
+                            abs(end.x - start.x), abs(end.y - start.y)).inflate(radius * 2 + 2, radius * 2 + 2)
+        for wall in self.walls_near(area):
+            contact = segment_rect(start, end, wall.inflate(radius * 2, radius * 2))
+            if contact is not None and (nearest is None or contact < nearest[0]):
+                nearest = (contact, None)
+        for screen in self.bamboo:
+            if screen.broken:
+                continue
+            contact = segment_rect(start, end, screen.hitbox.inflate(radius * 2, radius * 2))
+            if contact is not None and (nearest is None or contact < nearest[0]):
+                nearest = (contact, screen)
+        return nearest
 
     def area_at(self, position):
         if self.data:

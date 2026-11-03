@@ -4,11 +4,12 @@ import os
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="SHROUD — Handcrafted Journeys")
-    from shroud.campaign import LEVEL_IDS, load_level
+    from shroud.campaign import LEVEL_IDS, BIOME_IDS, load_level
     from shroud.settings import RUN_LENGTH
     parser.add_argument("--level", choices=LEVEL_IDS, default=None, help="Pin the first layout; remaining layouts are random")
     parser.add_argument("--list-levels", action="store_true", help="List available layouts and exit")
     parser.add_argument("--levels", type=int, default=RUN_LENGTH, help="Layouts per run (1–18; default: %(default)s)")
+    parser.add_argument("--biome", choices=BIOME_IDS, help="Pin the biome for testing; otherwise roll on each load")
     parser.add_argument("--seed", type=int, help="Reproduce layout and biome choices")
     parser.add_argument("--headless", action="store_true", help="Use SDL's dummy display for smoke checks")
     parser.add_argument("--frames", type=int, help="Exit after this many rendered frames")
@@ -31,7 +32,7 @@ def main() -> None:
     try:
         pygame.display.init()
         pygame.font.init()
-        Game(args.level, run_length=args.levels, seed=args.seed).run(args.frames, args.screenshot)
+        Game(args.level, run_length=args.levels, seed=args.seed, biome=args.biome).run(args.frames, args.screenshot)
     except (FileNotFoundError, ValueError, pygame.error) as error:
         parser.exit(1, f"SHROUD could not start: {error}\nCheck the named asset or level file and display availability.\n")
     finally:

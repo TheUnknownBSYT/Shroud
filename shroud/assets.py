@@ -37,17 +37,24 @@ PALETTES = {
         "wall": "snow_wall_straight", "fence": "snow_fence", "outside": "snow_pond_frozen",
         "tint": (110, 140, 160), "accent": (211, 237, 249),
     },
+    "bamboo": {
+        "floors": ("bamboo_floor_01", "bamboo_path_straight", "bamboo_path_straight", "bamboo_path_join"),
+        "wall": "wall", "fence": "fence", "outside": "bamboo_floor_02",
+        "tint": (65, 95, 72), "accent": (177, 223, 127),
+    },
 }
 
 
 # Runtime conditions are independent of each layout's authored cover/style.
-BIOME_THEMES = {"grounds": "training", "snow": "snow", "marsh": "misty", "wind": "rooftop"}
-BIOME_NAMES = {"grounds": "Training grounds", "snow": "Snow", "marsh": "Marsh", "wind": "Crosswind"}
+BIOME_THEMES = {"grounds": "training", "snow": "snow", "marsh": "misty", "wind": "rooftop", "bamboo": "bamboo"}
+BIOME_NAMES = {"grounds": "Training grounds", "snow": "Snow", "marsh": "Marsh", "wind": "Crosswind", "bamboo": "Bamboo grove"}
 
 
 def floor_asset(biome, material, x, y):
     if biome == "training" and material in ("earth", "stone"):
         return f"floor_{material}_0{1 + (x + y) % 2}"
+    if biome == "bamboo" and material == "earth":
+        return f"bamboo_floor_0{1 + (x + y) % 2}"
     if biome == "snow" and material == "earth":
         return f"snow_floor_packed_0{1 + (x + y) % 2}"
     if material in ("earth", "stone", "platform", "mat"):

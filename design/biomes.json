@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "status": "design_only",
+  "status": "mechanic_specifications",
   "biomes": [
     {
       "id": "grounds",
       "name": "Training grounds",
-      "status": "planned control condition",
+      "status": "implemented control",
       "settings": {
         "speed": 300,
         "sprint_speed": 480,
@@ -14,7 +14,7 @@
       },
       "rule": "Normal immediate movement and full visibility; no added modifier.",
       "response": "Use cover, timing and existing dash/parry without an environmental penalty.",
-      "implementation": "Current movement is the control. Per-run biome selection and fixed visual contrast still need wiring."
+      "implementation": "Normal motion; selected per run load independently of layout."
     },
     {
       "id": "snow",
@@ -55,6 +55,26 @@
       "rule": "Cued periodic lateral drift affects both friendly and hostile projectiles; ground movement stays normal.",
       "response": "Wait for a lull, compensate aim, move closer or use melee and cover.",
       "implementation": "Needs timed wind state and projectile integration, including reflections and Echo shots; no player knockback."
+    },
+    {
+      "id": "bamboo",
+      "name": "Bamboo grove",
+      "status": "breakable-cover pilot on three layouts; visual skin on all 18",
+      "settings": {
+        "projectile_hits_to_break": 3,
+        "blocks_movement": true,
+        "blocks_sight": false,
+        "slash_breaks": true,
+        "dash_breaks": false
+      },
+      "pilot_layouts": [
+        "temple_01",
+        "rooftop_03",
+        "snow_01"
+      ],
+      "rule": "Solid bamboo walls: each cluster absorbs three shots or one slash. The breaking shot is consumed. Clear bypass routes remain.",
+      "response": "Preserve cover, cut a movement shortcut or firing lane, or go around while enemies wear down the wall.",
+      "implementation": "Authored bamboo_walls expand into touching clusters on three pilots. Full visible shot hitboxes, separate solid ground footprints, visible damage and reset/retry restoration."
     }
   ]
 }

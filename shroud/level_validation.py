@@ -4,8 +4,8 @@ import pygame
 from pygame import Vector2
 from shroud import settings as S
 from shroud.assets import CATALOG, asset_path
-from shroud.campaign import LEVEL_IDS, load_level
-from shroud.level import Room
+from shroud.campaign import LEVEL_IDS, BIOME_IDS, load_level
+from shroud.level import Room, BambooScreen, bamboo_positions
 
 SPACING = S.TILE_SIZE / 2
 
@@ -25,7 +25,7 @@ def reachable(room, start, excluded=None):
             tile = int(point.x // S.TILE_SIZE), int(point.y // S.TILE_SIZE)
             if tile not in room.tiles or (excluded is not None and excluded.collidepoint(point)):
                 continue
-            if not room.projectile_blocked(Vector2(cell) * SPACING, point, S.PLAYER_RADIUS):
+            if not room.movement_blocked(Vector2(cell) * SPACING, point, S.PLAYER_RADIUS):
                 parents[other] = cell
                 queue.append(other)
     return parents
@@ -52,6 +52,8 @@ def validate_level(data):
 
     names = set(room.tiles.values()) | {p.asset for p in room.props + room.decorations}
     names.update(enemy[1] for enemy in data["enemies"])
+    if data.get("bamboo_screens") or data.get("bamboo_walls"):
+        names.update(("bamboo_cluster", "bamboo_cut"))
     for name in sorted(names):
         require(name in CATALOG, f"unknown asset {name}")
         if name in CATALOG:
@@ -71,6 +73,18 @@ def validate_level(data):
         require(a.distance_to(room.spawn) > S.ENEMY_RADIUS + S.PLAYER_RADIUS, f"enemy {i} overlaps player spawn")
         for b in room.enemy_spawns[i + 1:]:
             require(a.distance_to(b) >= S.ENEMY_RADIUS * 2, f"enemy {i} overlaps another enemy")
+    # Check optional bamboo anchors even when validating another biome's skin.
+    screens = [BambooScreen(point) for point in bamboo_positions(data)]
+    for index, cover in enumerate(screens):
+        box = cover.footprint
+        for corner in (box.topleft, box.topright, box.bottomleft, box.bottomright):
+            require((int(corner[0] // S.TILE_SIZE), int(corner[1] // S.TILE_SIZE)) in room.tiles,
+                    f"bamboo {index} outside walkable floor")
+        require(not any(box.colliderect(wall) for wall in room.walls_near(box)), f"bamboo {index} overlaps solid or gate")
+        require(not box.inflate(64, 64).colliderect(room.exit_rect), f"bamboo {index} crowds exit")
+        for name, point, radius in placements:
+            require(not box.inflate(radius * 2 + 64, radius * 2 + 64).collidepoint(point),
+                    f"bamboo {index} crowds {name}")
     groups = {name for name, _ in room.gates}
     require(groups <= {e[0] for e in data["enemies"]}, "gate refers to empty enemy group")
     # Fixed point: only open a gate if every defender is reachable with CURRENT gates.
@@ -107,9 +121,10 @@ def validate_level(data):
 def main():
     failed = False
     for level_id in LEVEL_IDS:
-        errors = validate_level(load_level(level_id))
-        print(f"{level_id}: " + ("; ".join(errors) if errors else "OK"))
-        failed |= bool(errors)
+        for biome in BIOME_IDS:
+            errors = validate_level(load_level(level_id, biome))
+            print(f"{level_id}/{biome}: " + ("; ".join(errors) if errors else "OK"))
+            failed |= bool(errors)
     raise SystemExit(1 if failed else 0)
 
 
