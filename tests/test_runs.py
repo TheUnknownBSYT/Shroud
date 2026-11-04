@@ -112,3 +112,61 @@ def test_game_finishes_exactly_five_levels_and_restart_keeps_slot(monkeypatch):
         assert len(game.run_state.level_ids) == 5
     finally:
         pygame.quit()
+
+
+@pytest.mark.parametrize('chosen', ['snow', 'wind', 'bamboo'])
+def test_f2_biome_choice_matches_loaded_rules_and_persists_on_restart(monkeypatch, chosen):
+    monkeypatch.setenv('SDL_VIDEODRIVER', 'dummy')
+    pygame.display.init();pygame.font.init()
+    try:
+        game = Game('training_01', seed=3)
+        game.clock = SimpleNamespace(tick=lambda fps: 9, get_fps=lambda: 60)
+        key = lambda code: pygame.event.Event(pygame.KEYDOWN, key=code, repeat=False)
+        choices = (None, *BIOME_IDS)
+        batches = iter([[key(pygame.K_F2)],
+                        [key(pygame.K_b) for _ in range(choices.index(chosen))],
+                        [key(pygame.K_RETURN)]])
+        monkeypatch.setattr(pygame.event, 'get', lambda: next(batches))
+        game.run(frame_limit=3)
+        assert game.biome_override == game.world.room.biome == chosen
+        assert not game.selecting
+        game._load_current()
+        assert game.world.room.biome == chosen
+        if chosen == 'bamboo':assert game.world.room.bamboo
+        if chosen == 'wind':assert game.world.room.rules.wind_force(6.5).length() > 0
+        if chosen == 'snow':assert game.world.player.motion.friction > 0
+    finally:pygame.quit()
+
+
+def test_selector_cancel_keeps_active_biome_and_random_can_replace_a_pin(monkeypatch):
+    monkeypatch.setenv('SDL_VIDEODRIVER', 'dummy')
+    pygame.display.init();pygame.font.init()
+    try:
+        game = Game('training_01', biome='bamboo', seed=4)
+        original = game.world
+        game.clock = SimpleNamespace(tick=lambda fps: 9, get_fps=lambda: 60)
+        key = lambda code: pygame.event.Event(pygame.KEYDOWN, key=code, repeat=False)
+        batches = iter([[key(pygame.K_F2)], [key(pygame.K_b)], [key(pygame.K_ESCAPE)],
+                        [key(pygame.K_F2)], [key(pygame.K_b)], [key(pygame.K_RETURN)]])
+        monkeypatch.setattr(pygame.event, 'get', lambda: next(batches))
+        game.run(frame_limit=3)
+        assert game.world is original and game.biome_override == 'bamboo'
+        game.run(frame_limit=3)
+        assert game.world is not original and game.biome_override is None
+        assert game.run_state.biome_override is None
+    finally:pygame.quit()
+
+
+def test_selector_displays_choices_and_dimensions_instead_of_chapter_biomes(monkeypatch):
+    monkeypatch.setenv('SDL_VIDEODRIVER', 'dummy')
+    pygame.display.init();pygame.font.init()
+    try:
+        game = Game('training_01', seed=4)
+        labels = []
+        monkeypatch.setattr(game.renderer, 'text', lambda surface, text, *args: labels.append(text))
+        game.renderer.draw_selector(game.screen, LEVEL_IDS.index('snow_01'), 'wind')
+        assert {'Random', 'Grounds', 'Snow', 'Marsh', 'Wind', 'Bamboo'} <= set(labels)
+        assert any(text.startswith('Wind: 3s calm') for text in labels)
+        assert sum(text.endswith(' tiles') for text in labels) == len(LEVEL_IDS)
+        assert labels.count('Snow') == 1  # Only the biome choice, never a layout's old chapter label.
+    finally:pygame.quit()

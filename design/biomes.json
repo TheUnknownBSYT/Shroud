@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "status": "mechanic_specifications",
+  "status": "implemented_biome_rules",
   "biomes": [
     {
       "id": "grounds",
       "name": "Training grounds",
-      "status": "implemented control",
+      "status": "implemented on all 18 layouts",
       "settings": {
         "speed": 300,
         "sprint_speed": 480,
@@ -19,47 +19,49 @@
     {
       "id": "snow",
       "name": "Snow / ice",
-      "status": "planned, inactive",
+      "status": "implemented on all 18 layouts",
       "settings": {
-        "speed": 300,
-        "sprint_speed": 480,
-        "acceleration": 1200,
-        "friction": 900
+        "acceleration": 960,
+        "friction": 675
       },
       "rule": "Acceleration and braking replace instantaneous starts and stops.",
       "response": "Release movement earlier, brake before corners, choose wider approaches.",
-      "implementation": "Use per-run motion configuration; cap or reset dash exit velocity before applying friction. Revalidate all turns and spawn runways."
+      "implementation": "Per-room acceleration/braking; layout-specific tuning. Dash exit capped at walking speed; blocked velocity components cleared. Reset/retry begins at rest."
     },
     {
       "id": "marsh",
       "name": "Marsh / mist",
-      "status": "planned, inactive",
+      "status": "implemented on all 18 layouts",
       "settings": {
-        "clear_radius_px": 380,
-        "fade_radius_px": 480
+        "clear_radius": 380.0,
+        "fade_radius": 480.0
       },
       "rule": "Reduced distant visibility, with readable landmarks and guaranteed warning cues.",
       "response": "Scout from cover, remember landmarks, avoid committing into an unseen threat.",
-      "implementation": "Needs visibility rendering, fair enemy perception/cues and map-overlay policy. Do not hide a projectile that can already damage the player."
+      "implementation": "Cached radial fog with layout-specific clear/fade radii. Enemies acquire and retain targets only in the clear circle; telegraphs and all projectiles draw above fog. Tab preserves landmarks but hides distant enemies."
     },
     {
       "id": "wind",
       "name": "Crosswind heights",
-      "status": "planned, inactive",
+      "status": "implemented on all 18 layouts",
       "settings": {
-        "projectile_lateral_acceleration": 160,
-        "gust_seconds": 2,
-        "period_seconds": 8,
-        "warning_seconds": 1
+        "wind_acceleration": 400,
+        "wind_direction": [
+          1,
+          0
+        ],
+        "gust_seconds": 8,
+        "period_seconds": 12,
+        "warning_seconds": 1.0
       },
-      "rule": "Cued periodic lateral drift affects both friendly and hostile projectiles; ground movement stays normal.",
+      "rule": "A cued world-direction force changes all projectile velocities during gusts. Ground movement stays normal; shots parallel to the wind also gain or lose speed.",
       "response": "Wait for a lull, compensate aim, move closer or use melee and cover.",
-      "implementation": "Needs timed wind state and projectile integration, including reflections and Echo shots; no player knockback."
+      "implementation": "Three seconds calm, one-second warning, eight-second gust; direction/strength authored per layout. Shared midpoint displacement for player/enemy/Echo/reflected shots; range counts travelled path. Reset/retry restarts calm."
     },
     {
       "id": "bamboo",
       "name": "Bamboo grove",
-      "status": "breakable-cover pilot on three layouts; visual skin on all 18",
+      "status": "implemented on all 18 layouts",
       "settings": {
         "projectile_hits_to_break": 3,
         "blocks_movement": true,
@@ -67,14 +69,10 @@
         "slash_breaks": true,
         "dash_breaks": false
       },
-      "pilot_layouts": [
-        "temple_01",
-        "rooftop_03",
-        "snow_01"
-      ],
       "rule": "Solid bamboo walls: each cluster absorbs three shots or one slash. The breaking shot is consumed. Clear bypass routes remain.",
       "response": "Preserve cover, cut a movement shortcut or firing lane, or go around while enemies wear down the wall.",
-      "implementation": "Authored bamboo_walls expand into touching clusters on three pilots. Full visible shot hitboxes, separate solid ground footprints, visible damage and reset/retry restoration."
+      "implementation": "124 authored wall segments expand into 894 clusters across all 18 layouts. Full visible shot bounds, solid ground footprints, damage notches, three-shot/one-slash destruction, reset/retry restoration. Required encounters and route alternatives stay reachable with walls intact."
     }
-  ]
+  ],
+  "layout_tuning_source": "data/levels/<id>.json: biome_settings and bamboo_walls"
 }

@@ -311,5 +311,84 @@
     }
   ],
   "checkpoints": [],
-  "layout_style": "rooftop"
+  "layout_style": "rooftop",
+  "bamboo_walls": [
+    {
+      "start": [
+        8.75,
+        17.0
+      ],
+      "end": [
+        8.75,
+        20.0
+      ]
+    },
+    {
+      "start": [
+        12,
+        14
+      ],
+      "end": [
+        14,
+        14
+      ]
+    },
+    {
+      "start": [
+        17,
+        16
+      ],
+      "end": [
+        20,
+        16
+      ]
+    },
+    {
+      "start": [
+        21.75,
+        10.0
+      ],
+      "end": [
+        21.75,
+        12.0
+      ]
+    },
+    {
+      "start": [
+        9,
+        8
+      ],
+      "end": [
+        9,
+        10
+      ]
+    },
+    {
+      "start": [
+        12,
+        4
+      ],
+      "end": [
+        15,
+        4
+      ]
+    }
+  ],
+  "biome_settings": {
+    "snow": {
+      "acceleration": 1280,
+      "friction": 900
+    },
+    "marsh": {
+      "clear_radius": 360,
+      "fade_radius": 460
+    },
+    "wind": {
+      "wind_direction": [
+        1,
+        0
+      ],
+      "wind_acceleration": 400
+    }
+  }
 }

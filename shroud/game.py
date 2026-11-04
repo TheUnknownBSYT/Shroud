@@ -9,7 +9,7 @@ from shroud.enemy import Enemy, EnemyState
 from shroud.combat import Projectile, make_shuriken, resolve_melee, resolve_projectiles
 from shroud.drawing import Renderer
 from shroud.level import Camera, Room
-from shroud.campaign import LEVEL_IDS, SELECTOR_ROWS, load_level, Run
+from shroud.campaign import LEVEL_IDS, BIOME_IDS, SELECTOR_ROWS, load_level, Run
 
 class EventBus:
     """Optional game-event callbacks. Nothing is recorded or saved."""
@@ -105,7 +105,8 @@ class Sandbox:
         for screen in self.room.bamboo:
             screen.broken = False
             screen.shots_taken = 0
-        self.player = Player(self.room.spawn.copy())
+        self.player = Player(self.room.spawn.copy(), self.room.rules)
+        self.biome_elapsed = 0.0
         self.echo = None
         self.enemies = []
         if self.room.data:
@@ -161,6 +162,7 @@ class Sandbox:
         if dt <= 0 or self.complete:
             return
         self.time += dt
+        self.biome_elapsed += dt
         if self.player.alive:
             self.elapsed += dt
         for effect in self.impacts:
@@ -191,12 +193,17 @@ class Sandbox:
             self.echo = ShadowEcho(self.player.position, self.player.facing)
         elif action in ("slash", "throw") and self.echo is not None:
             self.echo.queue(action, self.player.facing, self.player.action_charge)
-        self.player.position = self.room.move(self.player.position, self.player.velocity * dt, self.player.radius)
+        before = self.player.position.copy()
+        displacement = self.player.velocity * dt
+        self.player.position = self.room.move(before, displacement, self.player.radius)
+        for axis in (0, 1):
+            if abs(self.player.position[axis] - before[axis] - displacement[axis]) > .001:
+                self.player.velocity[axis] = 0  # No stored ice momentum pushing into a wall.
         resolve_melee(self, self.player)
         if self.echo is not None:
             resolve_melee(self, self.echo)
         for enemy in self.enemies:
-            can_attack = self.player.alive
+            can_attack = self.player.alive and self.room.rules.visible_enemy(self.player.position, enemy.position)
             if self.room.data and can_attack:
                 can_attack = not self.room.projectile_blocked(enemy.position, self.player.position, 0)
             projectile = enemy.tick(dt, self.player.position, can_attack)
@@ -251,16 +258,19 @@ class Game:
         renderer = Renderer(world, camera)
         self.world, self.camera, self.renderer = world, camera, renderer
         self.selection = LEVEL_IDS.index(self.run_state.current)
+        self.selector_biome = self.biome_override
         self.selecting = self.paused = self.map_open = False
 
-    def load(self, level_id):
-        """F2 starts a fresh fixed-length run with this chosen layout first."""
-        previous = self.run_state
-        self.run_state = Run(self.run_length, first=level_id, rng=self.run_rng, biome=self.biome_override)
+    def load(self, level_id, *, biome_override=...):
+        """Start a run; omitted biome preserves choice, explicit None selects Random."""
+        chosen = self.biome_override if biome_override is ... else biome_override
+        new_run = Run(self.run_length, first=level_id, rng=self.run_rng, biome=chosen)
+        previous, previous_biome = self.run_state, self.biome_override
+        self.run_state, self.biome_override = new_run, chosen
         try:
             self._load_current()
         except Exception:
-            self.run_state = previous
+            self.run_state, self.biome_override = previous, previous_biome
             raise
 
     def advance(self):
@@ -303,6 +313,8 @@ class Game:
                     continue
                 if command.action == "select_level":
                     self.selecting = not self.selecting
+                    if self.selecting:
+                        self.selector_biome = self.biome_override
                     self.world.player.cancel_hold()
                     self.world.player.buffered = None
                     pending.clear()
@@ -314,8 +326,11 @@ class Game:
                     elif command.action in ("up", "down", "left", "right"):
                         change = {"up": -1, "down": 1, "left": -SELECTOR_ROWS, "right": SELECTOR_ROWS}[command.action]
                         self.selection = (self.selection + change) % len(LEVEL_IDS)
+                    elif command.action == "select_biome":
+                        choices = (None, *BIOME_IDS)
+                        self.selector_biome = choices[(choices.index(self.selector_biome) + 1) % len(choices)]
                     elif command.action == "confirm":
-                        self.load(LEVEL_IDS[self.selection])
+                        self.load(LEVEL_IDS[self.selection], biome_override=self.selector_biome)
                         pending.clear()
                         accumulator = 0
                         inputs.movement = Vector2()
@@ -368,7 +383,7 @@ class Game:
                 accumulator = 0
             self.renderer.draw(self.screen, self.world, self.debug, self.clock.get_fps(), self.paused)
             if self.selecting:
-                self.renderer.draw_selector(self.screen, self.selection)
+                self.renderer.draw_selector(self.screen, self.selection, self.selector_biome)
             elif self.map_open:
                 self.renderer.draw_map(self.screen, self.world)
             pygame.display.flip()

@@ -16,7 +16,7 @@
     2,
     2
   ],
-  "briefing": "A lantern-led boardwalk and a moss island meet at the guarded far bank. Mist is decorative.",
+  "briefing": "A lantern-led boardwalk and an island route meet at the guarded far bank.",
   "floors": [
     [
       "earth",
@@ -327,5 +327,84 @@
     }
   ],
   "checkpoints": [],
-  "layout_style": "misty"
+  "layout_style": "misty",
+  "bamboo_walls": [
+    {
+      "start": [
+        11.0,
+        15.75
+      ],
+      "end": [
+        14.0,
+        15.75
+      ]
+    },
+    {
+      "start": [
+        17.5,
+        17
+      ],
+      "end": [
+        19.5,
+        17
+      ]
+    },
+    {
+      "start": [
+        10.5,
+        7
+      ],
+      "end": [
+        13,
+        7
+      ]
+    },
+    {
+      "start": [
+        16.5,
+        9
+      ],
+      "end": [
+        18,
+        9
+      ]
+    },
+    {
+      "start": [
+        22,
+        14
+      ],
+      "end": [
+        22,
+        17
+      ]
+    },
+    {
+      "start": [
+        25,
+        12.5
+      ],
+      "end": [
+        25,
+        15
+      ]
+    }
+  ],
+  "biome_settings": {
+    "snow": {
+      "acceleration": 960,
+      "friction": 675
+    },
+    "marsh": {
+      "clear_radius": 360,
+      "fade_radius": 460
+    },
+    "wind": {
+      "wind_direction": [
+        0,
+        1
+      ],
+      "wind_acceleration": 400
+    }
+  }
 }

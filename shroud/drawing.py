@@ -8,7 +8,7 @@ from shroud.player import PlayerState, EchoState, AnimationController, SpriteLib
 from shroud.enemy import EnemyState
 from shroud.level import Camera, Prop
 from shroud.assets import CATALOG, BIOME_NAMES, asset_path
-from shroud.campaign import LEVEL_IDS, SELECTOR_ROWS, load_level
+from shroud.campaign import LEVEL_IDS, BIOME_IDS, SELECTOR_ROWS, load_level
 
 INK = (20, 31, 32)
 
@@ -62,6 +62,16 @@ class Renderer:
         self.trails = []
         self.trail_timer = 0.0
         self.rng = random.Random(6)
+        self.mist = None
+        rules = world.room.rules
+        if rules.fade_radius:
+            # Cache the radial alpha field; moving it costs one blit per frame.
+            self.mist = pygame.Surface((S.WIDTH * 2, S.HEIGHT * 2), pygame.SRCALPHA)
+            self.mist.fill((24, 43, 42, 255))
+            for radius in range(math.ceil(rules.fade_radius), math.floor(rules.clear_radius), -2):
+                alpha = round(255 * min(1, (radius - rules.clear_radius) / (rules.fade_radius - rules.clear_radius)))
+                pygame.draw.circle(self.mist, (24, 43, 42, alpha), (S.WIDTH, S.HEIGHT), radius)
+            pygame.draw.circle(self.mist, (24, 43, 42, 0), (S.WIDTH, S.HEIGHT), round(rules.clear_radius))
 
     def text(self, surface: pygame.Surface, text: str, position: tuple[float, float],
              color: tuple = PAPER, font: pygame.font.Font | None = None) -> None:
@@ -162,13 +172,6 @@ class Renderer:
     def draw(self, screen, world, debug, fps, paused):
         self._ground(world)
         visible = self.camera.visible_rect.inflate(180, 180)
-        for enemy in world.enemies:
-            if enemy.state == EnemyState.ATTACK and visible.collidepoint(enemy.position):
-                position = self.point(enemy.position)
-                tip = position + enemy.aim * 220
-                pygame.draw.line(self.scene, (157, 119, 92), position, tip, 1)
-                progress = 1 - enemy.timer / S.ENEMY_TELEGRAPH
-                pygame.draw.circle(self.scene, GOLD, position, int(42 - progress * 10), 2)
         for position, frame, age in self.trails:
             ghost = frame.copy()
             ghost.set_alpha(int(100 * age / .16))
@@ -208,6 +211,14 @@ class Renderer:
                 position = Vector2(rect.center)
                 position[1 if vertical else 0] = (rect.top if vertical else rect.left) + (i + .5) * S.TILE_SIZE
                 self._prop(Prop(world.room.palette["fence"], position, 90 if vertical else 0), world)
+        self._weather(world)
+        # Telegraphs and every incoming projectile stay readable above the mist.
+        for enemy in world.enemies:
+            if enemy.state == EnemyState.ATTACK and visible.collidepoint(enemy.position):
+                position = self.point(enemy.position)
+                pygame.draw.line(self.scene, (157, 119, 92), position, position + enemy.aim * 220, 1)
+                progress = 1 - enemy.timer / S.ENEMY_TELEGRAPH
+                pygame.draw.circle(self.scene, GOLD, position, int(42 - progress * 10), 2)
         for projectile in world.projectiles:
             if not visible.collidepoint(projectile.position):
                 continue
@@ -245,6 +256,27 @@ class Renderer:
             for text, font, y, color in ((title, self.large, 343, PAPER), (subtitle, self.font, 404, MINT)):
                 label = font.render(text, True, color)
                 screen.blit(label, label.get_rect(center=(S.WIDTH / 2, y)))
+
+    def _weather(self, world):
+        if self.mist is not None:
+            self.scene.blit(self.mist, self.point(world.player.position) - Vector2(S.WIDTH, S.HEIGHT))
+        rules = world.room.rules
+        if rules.wind_acceleration:
+            phase, _ = rules.wind_phase(world.biome_elapsed)
+            if phase != "calm":
+                direction = Vector2(rules.wind_direction).normalize()
+                color = GOLD if phase == "warning" else MINT
+                origin = Vector2(S.WIDTH - 125, S.WORLD_VIEW[1] + 35)
+                tip = origin + direction * 32
+                pygame.draw.line(self.scene, color, origin - direction * 25, tip, 3)
+                for angle in (-30, 30):
+                    pygame.draw.line(self.scene, color, tip, tip - direction.rotate(angle) * 12, 3)
+                if phase == "gust":
+                    for i in range(18):
+                        offset = direction * world.biome_elapsed * 180
+                        start = Vector2((i * 173 + offset.x) % S.WIDTH,
+                                        S.WORLD_VIEW[1] + (i * 97 + offset.y) % S.WORLD_VIEW[3])
+                        pygame.draw.line(self.scene, (136, 165, 162), start, start + direction * 24, 1)
 
     def _completion(self, screen, world):
         shade = pygame.Surface((S.WIDTH, S.HEIGHT), pygame.SRCALPHA)
@@ -452,6 +484,19 @@ class Renderer:
             pygame.draw.rect(screen, (51, 70, 63), (x, 80, 170, 3), border_radius=1)
             pygame.draw.rect(screen, MINT if cooldown <= 0 else RED, (x, 80, 170 * max(0, 1 - cooldown / duration), 3), border_radius=1)
         hint = "Bamboo walls: slash a path or go around. Three shots break a cluster." if world.room.bamboo and not world.room.gates_cleared else self._objective(world)
+        if world.room.biome == "snow" and not world.room.gates_cleared:
+            hint = "Ice: release movement early to brake; sprinting needs more stopping room."
+        elif world.room.biome == "marsh" and not world.room.gates_cleared:
+            hint = "Mist: scout the next clearing. TAB shows landmarks; distant enemies stay hidden."
+        elif world.room.rules.wind_acceleration:
+            phase, remaining = world.room.rules.wind_phase(world.biome_elapsed)
+            direction = Vector2(world.room.rules.wind_direction)
+            bearing = ("EAST" if direction.x > 0 else "WEST") if abs(direction.x) >= abs(direction.y) else ("SOUTH" if direction.y > 0 else "NORTH")
+            hint = {"calm": f"Wind calm / warning in {remaining:.1f}s",
+                    "warning": f"WIND {bearing} IN {remaining:.1f}s / shots will drift",
+                    "gust": f"WIND {bearing} / {remaining:.1f}s / all shots drift; close in or wait"}[phase]
+            if world.room.gates_cleared:
+                hint += " / Seals open: reach the exit."
         self.text(screen, hint, (48, 108), MUTED, self.small)
         self.text(screen, "WASD Move  Hold SPACE Run", (48, 758), PAPER, self.small)
         self.text(screen, "LMB  Charge   RMB  Focus   J / K  Quick attacks", (306, 758), MUTED, self.small)
@@ -469,17 +514,36 @@ class Renderer:
         remaining = sum(enemy.alive and enemy.group in groups for enemy in world.enemies)
         return f"{objective}   /   {remaining} seal targets left"
 
-    def draw_selector(self, screen, selected):
+    def draw_selector(self, screen, selected, biome=None):
         screen.fill(INK)
-        self.text(screen, "CHOOSE A RUN'S FIRST LAYOUT", (52, 34), PAPER, self.title)
-        self.text(screen, "WASD / arrows select    ENTER new run    F2 / ESC return", (54, 86), MUTED)
+        self.text(screen, "CHOOSE LAYOUT AND BIOME", (52, 34), PAPER, self.title)
+        self.text(screen, "WASD / arrows: layout    B: biome    ENTER: new run    F2 / ESC: cancel", (54, 86), MUTED)
         for index, level_id in enumerate(LEVEL_IDS):
             data = load_level(level_id)
             x, y = 54 + (index // SELECTOR_ROWS) * 620, 134 + (index % SELECTOR_ROWS) * 45
             if index == selected:
                 pygame.draw.rect(screen, (48, 70, 65), (x - 12, y - 7, 586, 39), border_radius=6)
             self.text(screen, f"{index + 1:02}  {data['name']}", (x, y), MINT if index == selected else PAPER)
-            self.text(screen, data["chapter"], (x + 386, y + 2), MUTED, self.small)
+            self.text(screen, f"{data['size'][0]} x {data['size'][1]} tiles", (x + 440, y + 2), MUTED, self.small)
+        self.text(screen, "BIOME / B TO CHANGE", (54, 555), MUTED, self.small)
+        labels = {None: "Random", "grounds": "Grounds", "snow": "Snow",
+                  "marsh": "Marsh", "wind": "Wind", "bamboo": "Bamboo"}
+        for index, choice in enumerate((None, *BIOME_IDS)):
+            x = 54 + index * 196
+            pygame.draw.rect(screen, (48, 70, 65) if choice == biome else (28, 42, 43),
+                             (x - 12, 580, 182, 38), border_radius=6)
+            self.text(screen, labels[choice], (x, 590), MINT if choice == biome else MUTED)
+        descriptions = {
+            None: "Random: each level load rolls one of five biomes equally; repeats are possible.",
+            "grounds": "Grounds: immediate movement and full visibility.",
+            "snow": "Snow: slippery starts, wider turns and longer braking distances.",
+            "marsh": "Marsh: distant scenery and enemies fade; incoming shots stay visible.",
+            "wind": "Wind: 3s calm, 1s warning, then 8s of strong gusts that bend every shot.",
+            "bamboo": "Bamboo: solid walls on every layout; one slash or three shots cut a cluster.",
+        }
+        self.text(screen, descriptions[biome], (54, 636), PAPER)
+        self.text(screen, "A chosen biome stays selected for the run and restarts. Layout names do not set the biome.",
+                  (54, 666), MUTED, self.small)
         selected_data = load_level(LEVEL_IDS[selected])
         # Wrap by measured font width so authored briefings cannot run off screen.
         words, line, y = selected_data["briefing"].split(), "", 704
@@ -509,7 +573,7 @@ class Renderer:
             if not cover.broken:
                 pygame.draw.rect(screen, (177, 223, 127), (*point(cover.footprint.topleft), max(2, cover.footprint.width * scale), max(2, cover.footprint.height * scale)))
         for enemy in world.enemies:
-            if enemy.alive:
+            if enemy.alive and room.rules.visible_enemy(world.player.position, enemy.position):
                 required = any(enemy.group == name for name, _ in room.gates)
                 pygame.draw.circle(screen, GOLD if required else MUTED, point(enemy.position), 3)
         for checkpoint in room.data.get("checkpoints", []):

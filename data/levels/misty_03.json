@@ -368,5 +368,94 @@
     }
   ],
   "checkpoints": [],
-  "layout_style": "misty"
+  "layout_style": "misty",
+  "bamboo_walls": [
+    {
+      "start": [
+        7,
+        10
+      ],
+      "end": [
+        7,
+        13
+      ]
+    },
+    {
+      "start": [
+        10.5,
+        5.75
+      ],
+      "end": [
+        13.5,
+        5.75
+      ]
+    },
+    {
+      "start": [
+        18,
+        7.5
+      ],
+      "end": [
+        21,
+        7.5
+      ]
+    },
+    {
+      "start": [
+        14,
+        13
+      ],
+      "end": [
+        16,
+        13
+      ]
+    },
+    {
+      "start": [
+        12,
+        22
+      ],
+      "end": [
+        16,
+        22
+      ]
+    },
+    {
+      "start": [
+        26,
+        18
+      ],
+      "end": [
+        26,
+        20
+      ]
+    },
+    {
+      "start": [
+        26,
+        10
+      ],
+      "end": [
+        26,
+        12
+      ]
+    }
+  ],
+  "biome_settings": {
+    "snow": {
+      "acceleration": 1120,
+      "friction": 825
+    },
+    "marsh": {
+      "clear_radius": 360,
+      "fade_radius": 460
+    },
+    "wind": {
+      "wind_direction": [
+        0,
+        1
+      ],
+      "wind_acceleration": 400
+    }
+  }
 }

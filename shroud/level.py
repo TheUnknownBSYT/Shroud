@@ -6,6 +6,7 @@ from pygame import Vector2
 from shroud import settings as S
 from shroud.assets import CATALOG, PALETTES, BIOME_THEMES, floor_asset
 from shroud.combat import segment_rect
+from shroud.biomes import BiomeRules
 
 # One authoritative catalogue: source canvas sizes and base-only collision shapes.
 ASSET_SIZES = {name: tuple(info["size"]) for name, info in CATALOG.items()}
@@ -121,6 +122,7 @@ class Camera:
 class Room:
     def __init__(self, data=None):
         self.data = data
+        self.rules = BiomeRules.from_level(data)
         self.biome = data.get("biome", "grounds") if data else "grounds"
         self.theme = BIOME_THEMES[self.biome]
         self.palette = PALETTES[self.theme]

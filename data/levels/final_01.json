@@ -16,7 +16,7 @@
     2,
     2
   ],
-  "briefing": "Temple screens, a marsh side passage, roof cover, autumn trees, and a snowy final basin in one connected journey.",
+  "briefing": "A courtyard, side passage, roof gallery and wide final basin form one connected journey.",
   "floors": [
     [
       "earth",
@@ -466,5 +466,114 @@
       ]
     }
   ],
-  "layout_style": "temple"
+  "layout_style": "temple",
+  "bamboo_walls": [
+    {
+      "start": [
+        12,
+        26
+      ],
+      "end": [
+        15,
+        26
+      ]
+    },
+    {
+      "start": [
+        18.5,
+        23
+      ],
+      "end": [
+        21,
+        23
+      ]
+    },
+    {
+      "start": [
+        22.5,
+        26.0
+      ],
+      "end": [
+        22.5,
+        28.5
+      ]
+    },
+    {
+      "start": [
+        10.5,
+        13
+      ],
+      "end": [
+        10.5,
+        15
+      ]
+    },
+    {
+      "start": [
+        15.0,
+        11.75
+      ],
+      "end": [
+        18.0,
+        11.75
+      ]
+    },
+    {
+      "start": [
+        27.5,
+        22.75
+      ],
+      "end": [
+        30.0,
+        22.75
+      ]
+    },
+    {
+      "start": [
+        33.75,
+        16.0
+      ],
+      "end": [
+        33.75,
+        19.0
+      ]
+    },
+    {
+      "start": [
+        29,
+        11
+      ],
+      "end": [
+        31,
+        11
+      ]
+    },
+    {
+      "start": [
+        35.0,
+        5.5
+      ],
+      "end": [
+        37.0,
+        5.5
+      ]
+    }
+  ],
+  "biome_settings": {
+    "snow": {
+      "acceleration": 1120,
+      "friction": 825
+    },
+    "marsh": {
+      "clear_radius": 380,
+      "fade_radius": 480
+    },
+    "wind": {
+      "wind_direction": [
+        1,
+        0
+      ],
+      "wind_acceleration": 450
+    }
+  }
 }

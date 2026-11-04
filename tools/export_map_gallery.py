@@ -1,4 +1,4 @@
-"""Export actual authored geometry and editorial intent; never execute planned mechanics.
+"""Export authored geometry and editorial intent; biome physics are tested in gameplay.
 
 Run from the project root: .venv/bin/python -m tools.export_map_gallery
 """
@@ -113,12 +113,12 @@ def export():
         y = paragraph(sheet, info['reason'], 1150, y, 39, 25)
         y = paragraph(sheet, 'FUTURE OBSERVATION', 1150, y + 10, 38, 26, ACCENT)
         y = paragraph(sheet, info['primary_measure'] + ': ' + info['confound'], 1150, y, 39, 25)
-        y = paragraph(sheet, 'BIOMES / FUTURE RULES', 1150, y + 10, 38, 26, ACCENT)
-        y = paragraph(sheet, 'Grounds: normal. Bamboo: breakable cover on three pilots. Planned: snow braking, marsh visibility, crosswind projectiles.', 1150, y, 39, 25)
+        y = paragraph(sheet, 'PLAYABLE BIOMES', 1150, y + 10, 38, 26, ACCENT)
+        y = paragraph(sheet, 'Grounds: normal. Snow: braking. Marsh: limited visibility. Wind: cued projectile drift. Bamboo: cuttable walls on all 18 maps.', 1150, y, 39, 25)
         y = paragraph(sheet, 'ENCOUNTER STUDY', 1150, y + 10, 38, 26, ACCENT)
         contrast = next(e for e in plan['encounters'] if e['map_id'] == info['id'] and e['variant'] == 'contrast')
         families = sorted({a['family'] for a in contrast['assignments'] if a['family'] != 'practice_target'})
-        y = paragraph(sheet, 'Isolation: ' + info['base_families'][0] + '. Contrast: ' + ' + '.join(families) + '. New AI and snow/marsh/wind effects are planned.', 1150, y, 39, 25)
+        y = paragraph(sheet, 'Isolation: ' + info['base_families'][0] + '. Contrast: ' + ' + '.join(families) + '. New enemy AI remains planned.', 1150, y, 39, 25)
         paragraph(sheet, 'S spawn / E exit / R refuge / numbered enemy anchors / orange gates / A-B routes / green rings: bamboo cover', 40, 1190, 130, 25)
         paragraph(sheet, 'Route regions are authoring alternatives, not a prescribed path. Full art bounds are not collision bounds.', 40, 1225, 135, 23, (161, 180, 183))
         pygame.image.save(sheet, OUT / 'maps' / f'{info["id"]}.png')

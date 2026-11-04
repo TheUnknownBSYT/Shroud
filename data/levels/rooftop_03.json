@@ -403,5 +403,22 @@
         10
       ]
     }
-  ]
+  ],
+  "biome_settings": {
+    "snow": {
+      "acceleration": 960,
+      "friction": 675
+    },
+    "marsh": {
+      "clear_radius": 380,
+      "fade_radius": 480
+    },
+    "wind": {
+      "wind_direction": [
+        0,
+        -1
+      ],
+      "wind_acceleration": 450
+    }
+  }
 }

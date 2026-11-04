@@ -7665,8 +7665,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "training_01__bamboo__contrast",
@@ -7693,8 +7693,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "temple_01__bamboo__isolation",
@@ -7731,8 +7731,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "temple_01__bamboo__contrast",
@@ -7769,8 +7769,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "temple_02__bamboo__isolation",
@@ -7812,8 +7812,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "temple_02__bamboo__contrast",
@@ -7855,8 +7855,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "temple_04__bamboo__isolation",
@@ -7908,8 +7908,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "temple_04__bamboo__contrast",
@@ -7961,8 +7961,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "rooftop_01__bamboo__isolation",
@@ -7999,8 +7999,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "rooftop_01__bamboo__contrast",
@@ -8037,8 +8037,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "rooftop_02__bamboo__isolation",
@@ -8080,8 +8080,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "rooftop_02__bamboo__contrast",
@@ -8123,8 +8123,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "rooftop_03__bamboo__isolation",
@@ -8171,8 +8171,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "rooftop_03__bamboo__contrast",
@@ -8219,8 +8219,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "misty_01__bamboo__isolation",
@@ -8257,8 +8257,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "misty_01__bamboo__contrast",
@@ -8295,8 +8295,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "misty_02__bamboo__isolation",
@@ -8343,8 +8343,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "misty_02__bamboo__contrast",
@@ -8391,8 +8391,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "misty_03__bamboo__isolation",
@@ -8439,8 +8439,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "misty_03__bamboo__contrast",
@@ -8487,8 +8487,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "autumn_02__bamboo__isolation",
@@ -8540,8 +8540,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "autumn_02__bamboo__contrast",
@@ -8593,8 +8593,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "autumn_03__bamboo__isolation",
@@ -8641,8 +8641,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "autumn_03__bamboo__contrast",
@@ -8689,8 +8689,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "autumn_04__bamboo__isolation",
@@ -8752,8 +8752,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "autumn_04__bamboo__contrast",
@@ -8815,8 +8815,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "snow_01__bamboo__isolation",
@@ -8853,8 +8853,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "snow_01__bamboo__contrast",
@@ -8891,8 +8891,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "snow_02__bamboo__isolation",
@@ -8939,8 +8939,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "snow_02__bamboo__contrast",
@@ -8987,8 +8987,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "snow_04__bamboo__isolation",
@@ -9040,8 +9040,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "snow_04__bamboo__contrast",
@@ -9093,8 +9093,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "final_01__bamboo__isolation",
@@ -9151,8 +9151,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "final_01__bamboo__contrast",
@@ -9209,8 +9209,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "final_02__bamboo__isolation",
@@ -9292,8 +9292,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     },
     {
       "id": "final_02__bamboo__contrast",
@@ -9375,8 +9375,8 @@
         }
       ],
       "control": "Same authored spawn positions, gate memberships, player resources and reward. Counterbalance order; do not compare raw completion times across layouts.",
-      "test": "Changing firing lanes: preserve, cut or bait destruction of cover; use the map-specific decision and original enemy anchors.",
-      "acceptance": "Validate the new enemy AI against breakable cover and its warning cues. Authored screen placement exists only on temple_01, rooftop_03 and snow_01; author and validate anchors on remaining layouts before studying this mechanic there."
+      "test": "Choose between a clear bypass, cutting a movement shortcut and retaining shot protection; reassess when enemy fire breaks the wall.",
+      "acceptance": "Bamboo walls and bypasses are implemented and route-validated on this map. Validate each planned enemy AI and its warning cues before using this roster for a study."
     }
   ]
 }

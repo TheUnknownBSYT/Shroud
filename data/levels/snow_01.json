@@ -16,7 +16,7 @@
     2,
     2
   ],
-  "briefing": "Broad icy stone lanes leave room for future slippery movement; physics remain familiar today.",
+  "briefing": "Broad lanes and a parallel ridge offer two approaches to the guarded final basin.",
   "floors": [
     [
       "earth",
@@ -417,5 +417,22 @@
         19
       ]
     }
-  ]
+  ],
+  "biome_settings": {
+    "snow": {
+      "acceleration": 800,
+      "friction": 560
+    },
+    "marsh": {
+      "clear_radius": 400,
+      "fade_radius": 500
+    },
+    "wind": {
+      "wind_direction": [
+        0,
+        1
+      ],
+      "wind_acceleration": 400
+    }
+  }
 }

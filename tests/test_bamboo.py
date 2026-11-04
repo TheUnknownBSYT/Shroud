@@ -1,4 +1,4 @@
-"""Destructible cover, first-contact ordering and the three authored bamboo pilots."""
+"""Destructible cover, first-contact ordering and all authored bamboo layouts."""
 import random
 from types import SimpleNamespace
 
@@ -6,7 +6,7 @@ import pygame
 import pytest
 from pygame import Vector2
 from shroud import settings as S
-from shroud.campaign import BIOME_IDS, Run, load_level
+from shroud.campaign import LEVEL_IDS, BIOME_IDS, Run, load_level
 from shroud.combat import Projectile, make_slash, resolve_melee, resolve_projectiles, segment_rect
 from shroud.enemy import Enemy, EnemyState
 from shroud.game import Sandbox, Game
@@ -167,11 +167,11 @@ def test_reset_and_checkpoint_retry_restore_cover():
     assert not world.room.bamboo[0].broken and world.checkpoint is None
 
 
-@pytest.mark.parametrize('level_id', ['temple_01', 'rooftop_03', 'snow_01'])
-def test_pilot_anchors_activate_only_in_bamboo(level_id):
+@pytest.mark.parametrize('level_id', LEVEL_IDS)
+def test_authored_walls_activate_only_in_bamboo(level_id):
     for biome in BIOME_IDS:
         room = Room(load_level(level_id, biome))
-        assert len(room.bamboo) >= 40 if biome == 'bamboo' else len(room.bamboo) == 0
+        assert len(room.bamboo) >= 20 if biome == 'bamboo' else len(room.bamboo) == 0
     assert validate_level(load_level(level_id, 'bamboo')) == []
 
 

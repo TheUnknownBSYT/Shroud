@@ -19,6 +19,16 @@ SPRINT_SPEED = 480.0
 SPRINT_HOLD_TIME = 0.18  # Shorter Space presses dash on release.
 ACCELERATION = 0.0  # Zero means immediate response; positive values are pixels/s².
 FRICTION = 0.0      # Zero means immediate stop.
+# Per-level biome_settings may override only the keys present for that biome.
+# Speeds remain shared; snow changes how quickly movement reaches/stops at them.
+BIOME_SETTINGS = {
+    "grounds": {},
+    "snow": {"acceleration": 960.0, "friction": 675.0},
+    "marsh": {"clear_radius": 380.0, "fade_radius": 480.0},
+    "wind": {"wind_acceleration": 400.0, "wind_direction": (1, 0),
+             "gust_seconds": 8.0, "period_seconds": 12.0, "warning_seconds": 1.0},
+    "bamboo": {},
+}
 PLAYER_HEALTH = 5
 PLAYER_RADIUS = 16.0
 HIT_STUN = 0.16
@@ -78,6 +88,7 @@ BINDINGS = {
     "debug": ("f1",), "reset": ("r",), "pause": ("p",),
     "quit": ("escape",),
     "select_level": ("f2",), "confirm": ("return",),
+    "select_biome": ("b",),  # Cycle the biome in the F2 selector.
     "map": ("tab",),
 }
 MOUSE_BINDINGS = {1: "slash", 3: "throw"}

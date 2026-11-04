@@ -518,5 +518,104 @@
       ]
     }
   ],
-  "layout_style": "autumn"
+  "layout_style": "autumn",
+  "bamboo_walls": [
+    {
+      "start": [
+        9,
+        19
+      ],
+      "end": [
+        9,
+        22
+      ]
+    },
+    {
+      "start": [
+        10,
+        14
+      ],
+      "end": [
+        13,
+        14
+      ]
+    },
+    {
+      "start": [
+        18,
+        13
+      ],
+      "end": [
+        21,
+        13
+      ]
+    },
+    {
+      "start": [
+        13,
+        26
+      ],
+      "end": [
+        16,
+        26
+      ]
+    },
+    {
+      "start": [
+        27,
+        21
+      ],
+      "end": [
+        29,
+        21
+      ]
+    },
+    {
+      "start": [
+        19,
+        6
+      ],
+      "end": [
+        22,
+        6
+      ]
+    },
+    {
+      "start": [
+        27.0,
+        12.75
+      ],
+      "end": [
+        29.5,
+        12.75
+      ]
+    },
+    {
+      "start": [
+        33,
+        10
+      ],
+      "end": [
+        33,
+        11.5
+      ]
+    }
+  ],
+  "biome_settings": {
+    "snow": {
+      "acceleration": 1120,
+      "friction": 825
+    },
+    "marsh": {
+      "clear_radius": 360,
+      "fade_radius": 460
+    },
+    "wind": {
+      "wind_direction": [
+        1,
+        0
+      ],
+      "wind_acceleration": 400
+    }
+  }
 }

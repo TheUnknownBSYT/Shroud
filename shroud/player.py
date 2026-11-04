@@ -9,6 +9,7 @@ import pygame
 from pygame import Vector2
 from shroud import settings as S
 from shroud.combat import Entity, Attack, make_slash, slash_active, parry_active
+from shroud.biomes import BiomeRules
 
 
 def direction_name(facing):
@@ -43,8 +44,9 @@ class PlayerState(Enum):
 
 
 class Player(Entity):
-    def __init__(self, position: Vector2) -> None:
+    def __init__(self, position: Vector2, motion=None) -> None:
         super().__init__(0, position, S.PLAYER_RADIUS, S.PLAYER_HEALTH)
+        self.motion = motion if motion is not None else BiomeRules()
         self.state = PlayerState.IDLE
         self.velocity = Vector2()
         self.facing = Vector2(1, 0)
@@ -145,6 +147,9 @@ class Player(Entity):
         durations = {PlayerState.DASHING: S.DASH_DURATION, PlayerState.ATTACKING: S.SLASH_DURATION,
                      PlayerState.THROWING: S.THROW_DURATION, PlayerState.STUNNED: S.HIT_STUN}
         if self.state in durations and self.state_time + 1e-8 >= durations[self.state]:
+            if self.state == PlayerState.DASHING:
+                # Ice must not carry dash speed into several seconds of sliding.
+                self.velocity = self.velocity.clamp_magnitude(S.PLAYER_SPEED)
             self.state, self.state_time, self.attack = PlayerState.IDLE, 0.0, None
         free = self.state in (PlayerState.IDLE, PlayerState.MOVING)
         if free:
@@ -177,7 +182,7 @@ class Player(Entity):
             self.velocity = Vector2()
         else:
             target = direction * (S.SPRINT_SPEED if self.sprinting else S.PLAYER_SPEED)
-            rate = S.ACCELERATION if direction.length_squared() else S.FRICTION
+            rate = self.motion.acceleration if direction.length_squared() else self.motion.friction
             if rate > 0:
                 self.velocity = self.velocity.move_towards(target, rate * dt)
             else:

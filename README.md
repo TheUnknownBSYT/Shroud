@@ -45,7 +45,8 @@ Run the game from the cloned source tree so the map data and artwork are availab
 | J / K | Immediate slash / shuriken |
 | Enter | Continue after completion or retry after death |
 | R | Restart the current level with a newly rolled biome |
-| F2 | Start a new run with a selected first layout |
+| F2 | Choose the first layout and biome for a new run |
+| B (in F2 menu) | Cycle Random / Grounds / Snow / Marsh / Wind / Bamboo |
 | Tab | Pause and show the full map |
 | P | Pause / resume |
 | F1 | Toggle collision and combat debugging |
@@ -84,26 +85,38 @@ Layouts do not repeat within a run; biome draws can repeat. A seed reproduces
 layout/biome choices for the same sequence of level loads. Combat spread and
 visual effects have their own randomness. Map names and IDs such as `snow_01`
 identify geometry and do not restrict the selected biome. `--biome` pins a biome
-for the run, including restarts and F2 selection; omit it for random selection.
+for the run and restarts; omit it for random selection. In F2, press B to choose
+any biome or return to Random, then Enter to start. Random gives each biome a 20%
+chance per load, so a five-level run need not contain every biome. The selector
+shows layout dimensions separately from the biome choice.
 
-## Bamboo cover
+## Biomes
 
-Connected bamboo walls block walking and dashing on three pilot layouts. Slash
-with the player or Echo to cut an opening, or take a clear route around the wall.
-Each cluster absorbs three friendly or hostile shots; the breaking shot is also
-consumed. Pale notches show damage. Cutting opens both movement and firing lanes.
-Enemies can aim through bamboo, but their shots hit the visible stems. Cut pieces
-remain until restart/checkpoint retry. Bamboo never counts as a seal target.
+Every layout supports all five gameplay conditions:
+
+| Biome | What changes |
+| --- | --- |
+| Training grounds | Immediate movement and full visibility |
+| Snow | Accelerate into movement and slide when braking; sprint needs more stopping room |
+| Marsh | Distant scenery and enemies fade into mist; enemies attack only inside the clear radius. Incoming shots remain visible, and Tab keeps landmarks but hides distant enemies |
+| Crosswind | Three seconds calm, one-second directional warning, then an eight-second gust. Wind bends all shots, including Echo and reflected shots |
+| Bamboo | Authored solid walls on every map; cut a shortcut or take a clear route around them |
+
+Bamboo clusters absorb three friendly or hostile shots, including the breaking
+shot. One player/Echo slash cuts a cluster immediately. Pale notches show damage.
+Walking and dashing stop at intact walls. Cutting opens movement and firing lanes
+for both sides. Restart/checkpoint retry restores all bamboo.
+
+Snow, mist and wind strength/direction are tuned per layout. Retry starts with
+zero movement momentum and a calm wind cycle. Wind affects projectiles in the
+shown world direction; it never pushes the player.
 
 ## Current development status
 
-- All 18 layouts support five biome appearances. Bamboo has playable breakable
-  cover on **Pilgrim Fork (`temple_01`), Twin Eaves (`rooftop_03`) and Blue Approach
-  (`snow_01`)**. Other layouts currently use its visual skin only.
-- Slippery snow movement, marsh visibility and projectile wind are still planned.
+- All 18 layouts support five playable biomes, including authored bamboo walls.
 - Ranged enemies and practice targets are playable. Four additional enemy art
   families are included for future behaviors.
-- Future biome rules, enemy counterplay and 180 encounter drafts are described in
+- Biome rules, planned enemy counterplay and 180 future encounter drafts are described in
   [design/biomes.json](design/biomes.json), [design/enemies.json](design/enemies.json)
   and [design/encounters.json](design/encounters.json).
 - Player profiling, behavioral scoring and saved progression are not implemented.
@@ -113,7 +126,11 @@ remain until restart/checkpoint retry. Bamboo never counts as a seal target.
 Tune gameplay in [shroud/settings.py](shroud/settings.py). Edit layouts in
 `data/levels/`; positions use tile units, with 96 world pixels per tile. Floor
 materials are `earth`, `stone`, `platform` and `mat`. Runtime biome selection
-changes their appearance while preserving route and collision geometry.
+changes their appearance and gameplay rules. Static geometry stays fixed; bamboo
+adds destructible walls with validated bypasses. Each JSON has `biome_settings`
+for snow acceleration/braking, marsh radii and wind direction/strength, plus
+`bamboo_walls` start/end segments. Shared defaults live in `BIOME_SETTINGS` in
+settings.py; `shroud/biomes.py` merges and validates per-room values.
 Reload with R or F2 after editing a layout.
 
 ```sh

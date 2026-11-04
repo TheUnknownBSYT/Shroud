@@ -122,11 +122,14 @@ class Projectile:
     def __post_init__(self) -> None:
         self.previous = self.position.copy()
 
-    def advance(self, dt: float) -> None:
+    def advance(self, dt: float, acceleration=None) -> None:
         self.previous = self.position.copy()
-        distance = min(self.velocity.length() * dt, max(0, self.max_range - self.travelled))
-        if self.velocity.length_squared():
-            self.position += self.velocity.normalize() * distance
+        acceleration = Vector2() if acceleration is None else acceleration
+        displacement = self.velocity * dt + acceleration * (.5 * dt * dt)
+        self.velocity += acceleration * dt
+        distance = min(displacement.length(), max(0, self.max_range - self.travelled))
+        if displacement.length_squared():
+            self.position += displacement.normalize() * distance
         self.travelled += distance
 
     @property
@@ -261,10 +264,11 @@ def resolve_friendly_projectile(world, projectile, stop_at=2.0):
 
 
 def resolve_projectiles(world, dt: float) -> None:
+    wind = world.room.rules.wind_force(world.biome_elapsed)
     for projectile in world.projectiles:
         if not projectile.alive:
             continue
-        projectile.advance(dt)
+        projectile.advance(dt, wind)
         start, end = projectile.previous, projectile.position
         obstacle = world.room.projectile_contact(start, end, projectile.radius)
         stop_at = obstacle[0] if obstacle else 2.0
