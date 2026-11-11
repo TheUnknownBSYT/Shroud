@@ -115,6 +115,18 @@ def validate_level(data):
         room.open_gates = set(checkpoint["requires"])
         room.refresh_gates([])
         require(path_to(reachable(room, room.spawn), Vector2(checkpoint["spawn"]) * S.TILE_SIZE) is not None, f"refuge {checkpoint['name']} requires a later gate")
+    caches = data.get("caches", [])
+    require(len({cache["id"] for cache in caches}) == len(caches), "duplicate cache id")
+    for cache in caches:
+        require(cache["category"] in ("technique", "burst"), f"unknown cache category: {cache['id']}")
+        requires = set(cache.get("requires", []))
+        require(requires <= groups, f"cache {cache['id']} references unknown group")
+        room.open_gates = requires
+        room.refresh_gates([])
+        position = Vector2(cache["position"]) * S.TILE_SIZE
+        require(not room.movement_blocked(position, position, 32), f"cache {cache['id']} overlaps cover")
+        require(path_to(reachable(room, room.spawn), position) is not None,
+                f"cache {cache['id']} unreachable at its unlock stage")
     return errors
 
 

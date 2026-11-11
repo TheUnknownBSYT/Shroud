@@ -90,5 +90,6 @@ BINDINGS = {
     "select_level": ("f2",), "confirm": ("return",),
     "select_biome": ("b",),  # Cycle the biome in the F2 selector.
     "map": ("tab",),
+    "interact": ("e",), "burst": ("q",),
 }
 MOUSE_BINDINGS = {1: "slash", 3: "throw"}

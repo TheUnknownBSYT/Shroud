@@ -43,6 +43,9 @@ Run the game from the cloned source tree so the map data and artwork are availab
 | Hold / release left mouse | Charge and release a slash |
 | Hold / release right mouse | Focus and throw a shuriken |
 | J / K | Immediate slash / shuriken |
+| E | Open a nearby available scroll cache |
+| Q | Consume the stored burst (when no burst is active) |
+| 1 / 2 or click (scroll screen) | Select a scroll; Enter or Confirm applies it |
 | Enter | Continue after completion or retry after death |
 | R | Restart the current level with a newly rolled biome |
 | F2 | Choose the first layout and biome for a new run |
@@ -70,6 +73,50 @@ Refuges restore health once and unlock a checkpoint retry. Enter after death
 retries that checkpoint with the same biome. R restarts the entire current level
 and rolls its biome again. F2 starts a fresh run. Progress is held in memory and
 is lost when the game closes.
+
+## Scroll caches and power-ups
+
+Try the five authored caches in **First Lantern**:
+
+```sh
+python main.py --level training_01 --biome grounds --seed 7
+```
+
+Three technique caches and two burst caches reward the starting area, garden
+detour and cleared courtyard. Encounter caches unlock when the lesson seal opens.
+Other layouts do not have caches yet. The usual random starting-layout behavior
+is unchanged; choose First Lantern with the command above or F2 to try them.
+
+Press **E** nearby to pause and reveal two distinct scrolls from one category.
+Click or press **1/2** to select, then **Enter** or Confirm to take it. Hovering
+does not select. **Esc** closes unclaimed; reopening preserves the same offers.
+If fewer than two techniques remain eligible, the cache stays unclaimed.
+
+| Run technique | Rank I / II / III total bonus |
+| --- | --- |
+| Sharpening | Slash damage +15% / +25% / +30% |
+| Reach | Slash reach +10% / +20% / +25%; parry reach stays unchanged |
+| Quick Charge | Full slash charge time -15% / -25% / -30% |
+| Footwork | Dash cooldown -15% / -25% / -30% |
+
+Repeat picks increase rank; capped techniques leave future offer pools. Bonuses
+are relative to base values. Slash damage retains integer rounding; cards show
+the actual quick-slash damage and other current-to-upgraded values. Charged
+slashes and Echo use the upgraded damage/reach. **P** shows technique details.
+Techniques survive level transitions and clear on death, restart or run end.
+
+A burst occupies one stored slot. **Q** consumes it for **10 simulation seconds**:
+**Smoke Veil** cancels enemy windups and blocks new targeting/shots; existing
+projectiles still hurt. **Haste** multiplies normal walking speed by 1.5, including
+walking while aiming/attacking; sprint and dash retain their original speeds.
+Only one burst can be active. A stored replacement can wait during it, but Q
+cannot consume that replacement until the active burst ends. Replacing an occupied
+stored slot requires a second confirmation; cancel keeps the old charge.
+
+All menus and focus loss freeze burst time. P resumes after focus loss. UI clicks
+never attack, and leaving a menu requires a fresh attack/Space press. Bursts clear
+on death, restart and final completion. The HUD shows acquired ranks, stored/active
+bursts, paused countdowns and expiry. No progress is saved to disk.
 
 ## Run options
 
@@ -120,6 +167,8 @@ shown world direction; it never pushes the player.
   [design/biomes.json](design/biomes.json), [design/enemies.json](design/enemies.json)
   and [design/encounters.json](design/encounters.json).
 - Player profiling, behavioral scoring and saved progression are not implemented.
+- Stage 1 power-ups are playable in First Lantern. Remaining techniques, Frenzy,
+  Flow and full profiling-ready event records are reserved for stage 2.
 
 ## Development
 

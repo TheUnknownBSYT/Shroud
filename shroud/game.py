@@ -4,10 +4,11 @@ import random
 import pygame
 from pygame import Vector2
 from shroud import settings as S
-from shroud.player import Player, Command, InputFrame, ShadowEcho, EchoState
+from shroud.player import Player, PlayerState, Command, InputFrame, ShadowEcho, EchoState
 from shroud.enemy import Enemy, EnemyState
 from shroud.combat import Projectile, make_shuriken, resolve_melee, resolve_projectiles
 from shroud.drawing import Renderer
+from shroud.rewards import RunRewards, Choice, load_caches, nearby_cache
 from shroud.level import Camera, Room
 from shroud.campaign import LEVEL_IDS, BIOME_IDS, SELECTOR_ROWS, load_level, Run
 
@@ -94,18 +95,22 @@ class Impact:
 
 
 class Sandbox:
-    def __init__(self, events: EventBus | None = None, room=None) -> None:
+    def __init__(self, events: EventBus | None = None, room=None, rewards=None) -> None:
         self.events = events if events is not None else EventBus()
         self.room = room if room is not None else Room()
         self.time = 0.0
-        self.reset()
+        self.rewards = rewards if rewards is not None else RunRewards()
+        self.reset(clear_rewards=False)
 
-    def reset(self) -> None:
+    def reset(self, clear_rewards=True) -> None:
+        if clear_rewards:
+            self.rewards.reset()
+        self.caches = load_caches(self.room.data)
         self.checkpoint = None
         for screen in self.room.bamboo:
             screen.broken = False
             screen.shots_taken = 0
-        self.player = Player(self.room.spawn.copy(), self.room.rules)
+        self.player = Player(self.room.spawn.copy(), self.room.rules, self.rewards)
         self.biome_elapsed = 0.0
         self.echo = None
         self.enemies = []
@@ -176,6 +181,9 @@ class Sandbox:
             p.kind == "shuriken" and p.owner == "player" for p in self.projectiles
         )
         for command in inputs.commands:
+            if command.action == "burst" and self.player.alive:
+                self.rewards.activate(self.events)
+                continue
             if command.action == "throw" and player_shuriken >= S.MAX_SHURIKEN:
                 continue
             self.player.queue(command)
@@ -192,7 +200,7 @@ class Sandbox:
             # Capture before movement, and replace even an already queued Echo.
             self.echo = ShadowEcho(self.player.position, self.player.facing)
         elif action in ("slash", "throw") and self.echo is not None:
-            self.echo.queue(action, self.player.facing, self.player.action_charge)
+            self.echo.queue(action, self.player.facing, self.player.action_charge, self.player.attack)
         before = self.player.position.copy()
         displacement = self.player.velocity * dt
         self.player.position = self.room.move(before, displacement, self.player.radius)
@@ -203,7 +211,7 @@ class Sandbox:
         if self.echo is not None:
             resolve_melee(self, self.echo)
         for enemy in self.enemies:
-            can_attack = self.player.alive and self.room.rules.visible_enemy(self.player.position, enemy.position)
+            can_attack = self.player.alive and self.rewards.active != "smoke_veil" and self.room.rules.visible_enemy(self.player.position, enemy.position)
             if self.room.data and can_attack:
                 can_attack = not self.room.projectile_blocked(enemy.position, self.player.position, 0)
             projectile = enemy.tick(dt, self.player.position, can_attack)
@@ -211,8 +219,14 @@ class Sandbox:
                 self.projectiles.append(projectile)
         resolve_projectiles(self, dt)
         self.update_checkpoint()
+        was_haste = self.rewards.active == "haste"
+        self.rewards.tick(dt, self.events)
+        if was_haste and self.rewards.active != "haste" and self.player.state != PlayerState.DASHING:
+            limit = S.SPRINT_SPEED if self.player.sprinting else self.rewards.effective().move_speed
+            self.player.velocity = self.player.velocity.clamp_magnitude(limit)
         if not self.player.alive:
             self.echo = None
+            self.rewards.reset()
         elif (self.room.data and self.room.exit_rect.collidepoint(self.player.position)
               and self.room.gates_cleared):
             self.complete = True
@@ -220,6 +234,8 @@ class Sandbox:
             self.player.buffered = None
             self.echo = None
             self.projectiles.clear()
+            if getattr(self, "run_position", 1) == getattr(self, "run_length", 1):
+                self.rewards.reset()
 
     def update_echo(self, dt):
         if self.echo is None:
@@ -228,7 +244,7 @@ class Sandbox:
         if action:
             self.impact(self.echo.position, "echo")
         if action == "throw":
-            self.projectiles.append(make_shuriken(self.echo.position, self.echo.facing, owner="echo"))
+            self.projectiles.append(self.echo.projectile)
         if self.echo.state == EchoState.EXPIRED:
             self.echo = None
 
@@ -239,6 +255,10 @@ class Game:
         self.screen = pygame.display.set_mode((S.WIDTH, S.HEIGHT))
         self.clock = pygame.time.Clock()
         self.run_rng = random.Random(seed)
+        self.rewards = RunRewards(random.Random(seed))
+        self.choice = None
+        self.reward_notice = ""
+        self.reward_notice_time = 0.0
         self.run_length = run_length
         self.biome_override = biome
         self.run_state = Run(run_length, first=level_id, rng=self.run_rng, biome=biome)
@@ -248,7 +268,7 @@ class Game:
 
     def _load_current(self):
         """Build a random biome for this run slot before replacing the current scene."""
-        world = Sandbox(room=Room(self.run_state.load_current()))
+        world = Sandbox(room=Room(self.run_state.load_current()), rewards=self.rewards)
         world.run_position = self.run_state.index + 1
         world.run_length = len(self.run_state.level_ids)
         following = self.run_state.following
@@ -257,7 +277,12 @@ class Game:
         camera.follow(world.player.position, 0, snap=True)
         renderer = Renderer(world, camera)
         self.world, self.camera, self.renderer = world, camera, renderer
+        self.choice = None
+        self.reward_notice = ""
+        self.reward_notice_time = 0.0
         self.selection = LEVEL_IDS.index(self.run_state.current)
+        for name in ("reward_confirmed", "burst_activated", "burst_expired"):
+            world.events.subscribe(name, lambda payload, name=name: self.reward_notification(name, payload))
         self.selector_biome = self.biome_override
         self.selecting = self.paused = self.map_open = False
 
@@ -266,11 +291,14 @@ class Game:
         chosen = self.biome_override if biome_override is ... else biome_override
         new_run = Run(self.run_length, first=level_id, rng=self.run_rng, biome=chosen)
         previous, previous_biome = self.run_state, self.biome_override
+        previous_rewards = self.rewards
+        self.rewards = RunRewards(self.rewards.rng)
         self.run_state, self.biome_override = new_run, chosen
         try:
             self._load_current()
         except Exception:
             self.run_state, self.biome_override = previous, previous_biome
+            self.rewards = previous_rewards
             raise
 
     def advance(self):
@@ -284,45 +312,119 @@ class Game:
             raise
         return True
 
+    def cancel_combat_input(self):
+        self.world.player.cancel_hold()
+        self.world.player.buffered = None
+        self.world.player.set_sprint(False)
+        self.input.cancel_space()
+        if hasattr(self.input, "mouse_buttons"):
+            self.input.mouse_buttons.clear()
+
+    def reward_notification(self, name, payload):
+        from shroud.rewards import REWARDS, RANKS
+        reward = REWARDS[payload["reward"]]
+        if name == "reward_confirmed":
+            suffix = f" {RANKS[payload['rank']]} acquired" if reward.category == "technique" else " stored / Q to activate"
+        else:
+            suffix = " activated / 10 seconds" if name == "burst_activated" else " expired"
+        self.reward_notice = reward.name + suffix
+        self.reward_notice_time = 3.0
+
+    def open_cache(self):
+        self.reward_notice_time = 3.0
+        cache = nearby_cache(self.world)
+        if cache is None:
+            self.reward_notice = "No available cache nearby."
+            return
+        if cache.offer(self.world.rewards, self.world.events) is None:
+            self.reward_notice = "Not enough eligible techniques for two choices. Cache kept."
+            return
+        self.choice = Choice(cache)
+        self.reward_notice = ""
+        self.cancel_combat_input()
+
+    def reward_input(self, events):
+        """Consume a whole event batch at the modal boundary, before gameplay reads it."""
+        if any(event.type == pygame.WINDOWFOCUSLOST for event in events):
+            return False  # Main loop handles focus before any command is accepted.
+        if getattr(self, "choice", None) is None:
+            if (not self.paused and not self.selecting and not self.map_open
+                    and self.world.player.alive and not self.world.complete
+                    and any(event.type == pygame.KEYDOWN
+                            and event.key in tuple(pygame.key.key_code(key) for key in S.BINDINGS["interact"])
+                            and not getattr(event, "repeat", False) for event in events)):
+                self.open_cache()
+                self.cancel_combat_input()
+                return True
+            return False
+        from shroud.reward_ui import card_rects, CONFIRM_RECT, CANCEL_RECT
+        for event in events:
+            if event.type == pygame.KEYDOWN and not getattr(event, "repeat", False):
+                if event.key == pygame.K_ESCAPE:
+                    if self.choice.cancel():
+                        self.choice = None
+                    break
+                if event.key in (pygame.K_1, pygame.K_2):
+                    self.choice.select(event.key - pygame.K_1)
+                elif event.key == pygame.K_RETURN:
+                    if self.choice.confirm(self.world.rewards, self.world.events):
+                        self.choice = None
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if CANCEL_RECT.collidepoint(event.pos):
+                    if self.choice.cancel():
+                        self.choice = None
+                    break
+                if CONFIRM_RECT.collidepoint(event.pos):
+                    if self.choice.confirm(self.world.rewards, self.world.events):
+                        self.choice = None
+                    break
+                for index, rect in enumerate(card_rects()):
+                    if rect.collidepoint(event.pos):
+                        self.choice.select(index)
+        self.cancel_combat_input()
+        return True
+
     def run(self, frame_limit: int | None = None, screenshot: str | None = None) -> None:
         running, accumulator, frames = True, 0.0, 0
         pending = []
         while running:
             dt = min(self.clock.tick(S.FPS) / 1000, S.MAX_FRAME_TIME)
             events = pygame.event.get()
-            inputs = self.input.read(events, self.world.player.position)
-            for event in events:
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.WINDOWFOCUSLOST:
-                    self.paused = True
-                    self.world.player.cancel_hold()
-                    self.world.player.buffered = None
-                    inputs.commands.clear()
+            focus_lost = any(event.type == pygame.WINDOWFOCUSLOST for event in events)
+            if focus_lost:
+                self.paused = True
+                self.cancel_combat_input()
+                self.input.cursor = None
+            blocked_frame = focus_lost or self.reward_input(events)
+            if any(event.type == pygame.QUIT for event in events):
+                running = False
+            inputs = InputFrame() if blocked_frame else self.input.read(events, self.world.player.position)
+            if blocked_frame:
+                pending.clear()
+                accumulator = 0
             for command in inputs.commands:
                 if command.action == "map" and not self.selecting:
                     self.map_open = not self.map_open
-                    self.world.player.cancel_hold()
-                    self.world.player.buffered = None
-                    pending.clear()
-                    accumulator = 0
-                    continue
+                    blocked_frame = True
+                    break
                 if self.map_open:
                     if command.action == "quit":
                         self.map_open = False
+                        blocked_frame = True
+                        break
                     continue
                 if command.action == "select_level":
                     self.selecting = not self.selecting
                     if self.selecting:
                         self.selector_biome = self.biome_override
-                    self.world.player.cancel_hold()
-                    self.world.player.buffered = None
-                    pending.clear()
-                    accumulator = 0
-                    continue
+                    blocked_frame = True
+                    break
                 if self.selecting:
                     if command.action == "quit":
                         self.selecting = False
+                        blocked_frame = True
+                        break
                     elif command.action in ("up", "down", "left", "right"):
                         change = {"up": -1, "down": 1, "left": -SELECTOR_ROWS, "right": SELECTOR_ROWS}[command.action]
                         self.selection = (self.selection + change) % len(LEVEL_IDS)
@@ -334,6 +436,7 @@ class Game:
                         pending.clear()
                         accumulator = 0
                         inputs.movement = Vector2()
+                        blocked_frame = True
                         break
                     continue
                 if command.action == "quit":
@@ -342,15 +445,16 @@ class Game:
                     self.debug = not self.debug
                 elif command.action == "pause":
                     self.paused = not self.paused
-                    self.world.player.cancel_hold()
-                    self.world.player.buffered = None
-                    pending.clear()
+                    blocked_frame = True
+                    break
                 elif command.action == "reset":
+                    self.rewards.reset()
                     self._load_current()
                     pending.clear()
                     accumulator = 0.0
                     self.paused = False
                     inputs.movement = Vector2()
+                    blocked_frame = True
                     break
                 elif command.action == "confirm":
                     if not self.world.player.alive:
@@ -363,10 +467,12 @@ class Game:
                     pending.clear()
                     accumulator = 0
                     inputs.movement = Vector2()
+                    blocked_frame = True
                     break
                 elif not self.paused and not self.world.complete:
                     pending.append(command)
-            if not self.paused and not self.selecting and not self.map_open and not self.world.complete:
+            if (not blocked_frame and getattr(self, "choice", None) is None
+                    and not self.paused and not self.selecting and not self.map_open and not self.world.complete):
                 accumulator += dt
                 while accumulator + 1e-9 >= S.SIMULATION_STEP:
                     aim = None
@@ -378,14 +484,28 @@ class Game:
                 self.camera.follow(self.world.player.position, dt)
                 self.renderer.update(self.world, dt)
             else:
-                self.input.cancel_space()
+                self.cancel_combat_input()
                 pending.clear()
                 accumulator = 0
+            # Presentation clock only: opening art can animate while the choice pauses play.
+            for cache in self.world.caches:
+                cache.opening = max(0.0, cache.opening - dt)
+            if getattr(self, "reward_notice_time", 0) > 0:
+                self.reward_notice_time = max(0.0, self.reward_notice_time - dt)
+                if self.reward_notice_time == 0:
+                    self.reward_notice = ""
             self.renderer.draw(self.screen, self.world, self.debug, self.clock.get_fps(), self.paused)
             if self.selecting:
                 self.renderer.draw_selector(self.screen, self.selection, self.selector_biome)
             elif self.map_open:
                 self.renderer.draw_map(self.screen, self.world)
+            if hasattr(self.renderer, "reward_ui"):
+                modal = self.paused or self.selecting or self.map_open or self.world.complete or getattr(self, "choice", None) is not None
+                self.renderer.reward_ui.status(self.screen, self.world, modal, getattr(self, "reward_notice", ""))
+                if getattr(self, "choice", None) is not None:
+                    self.renderer.reward_ui.overlay(self.screen, self.world, self.choice)
+                elif self.paused and not self.selecting and not self.map_open:
+                    self.renderer.reward_ui.details(self.screen, self.world)
             pygame.display.flip()
             frames += 1
             if frame_limit is not None and frames >= frame_limit:

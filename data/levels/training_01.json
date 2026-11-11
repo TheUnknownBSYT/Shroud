@@ -349,5 +349,53 @@
       ],
       "wind_acceleration": 300
     }
-  }
+  },
+  "caches": [
+    {
+      "id": "first-technique",
+      "category": "technique",
+      "position": [
+        4,
+        16
+      ]
+    },
+    {
+      "id": "garden-technique",
+      "category": "technique",
+      "position": [
+        14,
+        7
+      ]
+    },
+    {
+      "id": "lesson-technique",
+      "category": "technique",
+      "position": [
+        17,
+        11
+      ],
+      "requires": [
+        "lesson"
+      ]
+    },
+    {
+      "id": "garden-burst",
+      "category": "burst",
+      "position": [
+        8,
+        10
+      ]
+    },
+    {
+      "id": "lesson-burst",
+      "category": "burst",
+      "position": [
+        22,
+        7
+      ],
+      "requires": [
+        "lesson"
+      ]
+    }
+  ]
 }

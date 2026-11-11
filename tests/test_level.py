@@ -216,7 +216,7 @@ def test_game_loop_converts_mouse_and_restart_snaps_camera(monkeypatch):
         target = game.world.player.position + Vector2(150, -90)
         cursor = game.camera.world_to_screen(target)
         frame = InputFrame(aim_target=cursor)
-        game.input = SimpleNamespace(read=lambda *args: frame)
+        game.input = SimpleNamespace(read=lambda *args: frame, cancel_space=lambda: None)
         monkeypatch.setattr(pygame.event, "get", lambda: [])
         received = []
         step = game.world.step

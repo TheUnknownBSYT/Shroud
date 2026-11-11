@@ -9,6 +9,7 @@ from shroud.enemy import EnemyState
 from shroud.level import Camera, Prop
 from shroud.assets import CATALOG, BIOME_NAMES, asset_path
 from shroud.campaign import LEVEL_IDS, BIOME_IDS, SELECTOR_ROWS, load_level
+from shroud.reward_ui import RewardUI
 
 INK = (20, 31, 32)
 
@@ -37,6 +38,7 @@ class Renderer:
         self.small = pygame.font.Font(None, 20)
         self.title = pygame.font.Font(None, 44)
         self.large = pygame.font.Font(None, 62)
+        self.reward_ui = RewardUI()
         # Opaque layers prevent transparent sprite pixels making holes in the pause overlay.
         self.scene = pygame.Surface((S.WIDTH, S.HEIGHT), depth=24)
         self.camera = camera if camera is not None else Camera(world.room.bounds)
@@ -177,6 +179,9 @@ class Renderer:
             ghost.set_alpha(int(100 * age / .16))
             self.scene.blit(ghost, ghost.get_rect(center=self.point(position)))
         objects = []
+        for cache in world.caches:
+            if visible.collidepoint(cache.position):
+                objects.append((cache.position.y + 12, "cache", cache))
         for prop in world.room.props:
             if visible.colliderect(prop.rect):
                 bodies = prop.colliders()
@@ -196,6 +201,8 @@ class Renderer:
                 self._prop(entity, world)
             elif kind == "bamboo":
                 self._bamboo(entity, world)
+            elif kind == "cache":
+                self.reward_ui.cache(self.scene, entity, world, self.camera)
             elif kind == "enemy":
                 self._enemy(entity)
             elif kind == "echo":
@@ -386,7 +393,7 @@ class Renderer:
             pygame.draw.circle(self.scene, color, tip, 5, 1)
             label = "PRECISE" if progress >= 1 else f"FOCUS {progress:.0%}"
         else:
-            reach = S.SLASH_REACH * (1 + progress * (S.SLASH_CHARGE_REACH - 1))
+            reach = player.rewards.effective().slash_reach * (1 + progress * (S.SLASH_CHARGE_REACH - 1))
             angle = math.atan2(-aim.y, aim.x)
             rect = pygame.Rect(0, 0, reach * 2, reach * 2)
             rect.center = pos
@@ -475,7 +482,7 @@ class Renderer:
         self.text(screen, "VITALITY", (375, 32), MUTED, self.small)
         for i in range(S.PLAYER_HEALTH):
             pygame.draw.rect(screen, RED if i < world.player.health else (57, 72, 66), (376 + i * 23, 57, 17, 8), border_radius=3)
-        for x, name, key, duration in ((575, "dash", "TAP SPACE", S.DASH_COOLDOWN),
+        for x, name, key, duration in ((575, "dash", "TAP SPACE", world.rewards.effective().dash_cooldown),
                                       (782, "slash", "J / LMB", S.SLASH_COOLDOWN),
                                       (1000, "throw", "K / RMB", S.SHURIKEN_COOLDOWN)):
             cooldown = world.player.cooldowns[name]

@@ -36,10 +36,12 @@ class Attack:
     reach: float = S.SLASH_REACH
 
 
-def make_slash(direction, charge=0.0):
+def make_slash(direction, charge=0.0, effective=None):
     charge = max(0.0, min(1.0, charge))
-    return Attack("slash", round(S.SLASH_DAMAGE * (1 + charge * (S.SLASH_CHARGE_DAMAGE - 1))),
-                  direction.copy(), reach=S.SLASH_REACH * (1 + charge * (S.SLASH_CHARGE_REACH - 1)))
+    damage = S.SLASH_DAMAGE if effective is None else effective.slash_damage
+    reach = S.SLASH_REACH if effective is None else effective.slash_reach
+    return Attack("slash", round(damage * (1 + charge * (S.SLASH_CHARGE_DAMAGE - 1))),
+                  direction.copy(), reach=reach * (1 + charge * (S.SLASH_CHARGE_REACH - 1)))
 
 
 def slash_active(elapsed):

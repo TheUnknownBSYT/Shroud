@@ -4,11 +4,12 @@ from enum import Enum, auto
 from pathlib import Path
 import re
 from math import exp
+from shroud.rewards import RunRewards
 import random
 import pygame
 from pygame import Vector2
 from shroud import settings as S
-from shroud.combat import Entity, Attack, make_slash, slash_active, parry_active
+from shroud.combat import Entity, Attack, make_slash, make_shuriken, slash_active, parry_active
 from shroud.biomes import BiomeRules
 
 
@@ -44,9 +45,10 @@ class PlayerState(Enum):
 
 
 class Player(Entity):
-    def __init__(self, position: Vector2, motion=None) -> None:
+    def __init__(self, position: Vector2, motion=None, rewards=None) -> None:
         super().__init__(0, position, S.PLAYER_RADIUS, S.PLAYER_HEALTH)
         self.motion = motion if motion is not None else BiomeRules()
+        self.rewards = rewards if rewards is not None else RunRewards()
         self.state = PlayerState.IDLE
         self.velocity = Vector2()
         self.facing = Vector2(1, 0)
@@ -67,7 +69,7 @@ class Player(Entity):
 
     @property
     def hold_progress(self):
-        duration = S.SLASH_CHARGE_TIME if self.held_action == "slash" else S.SHURIKEN_FOCUS_TIME
+        duration = self.rewards.effective().charge_time if self.held_action == "slash" else S.SHURIKEN_FOCUS_TIME
         return min(1.0, self.hold_time / duration) if self.held_action else 0.0
 
     def cancel_hold(self):
@@ -149,7 +151,7 @@ class Player(Entity):
         if self.state in durations and self.state_time + 1e-8 >= durations[self.state]:
             if self.state == PlayerState.DASHING:
                 # Ice must not carry dash speed into several seconds of sliding.
-                self.velocity = self.velocity.clamp_magnitude(S.PLAYER_SPEED)
+                self.velocity = self.velocity.clamp_magnitude(self.rewards.effective().move_speed)
             self.state, self.state_time, self.attack = PlayerState.IDLE, 0.0, None
         free = self.state in (PlayerState.IDLE, PlayerState.MOVING)
         if free:
@@ -181,7 +183,7 @@ class Player(Entity):
         elif self.state in (PlayerState.DEAD, PlayerState.STUNNED):
             self.velocity = Vector2()
         else:
-            target = direction * (S.SPRINT_SPEED if self.sprinting else S.PLAYER_SPEED)
+            target = direction * (S.SPRINT_SPEED if self.sprinting else self.rewards.effective().move_speed)
             rate = self.motion.acceleration if direction.length_squared() else self.motion.friction
             if rate > 0:
                 self.velocity = self.velocity.move_towards(target, rate * dt)
@@ -197,11 +199,11 @@ class Player(Entity):
                       "throw": PlayerState.THROWING}[action]
         self.state_time = 0.0
         self.action_serial += 1
-        self.cooldowns[action] = {"dash": S.DASH_COOLDOWN, "slash": S.SLASH_COOLDOWN,
+        self.cooldowns[action] = {"dash": self.rewards.effective().dash_cooldown, "slash": S.SLASH_COOLDOWN,
                                   "throw": S.SHURIKEN_COOLDOWN}[action]
         self.attack = None
         if action == "slash":
-            self.attack = make_slash(self.facing, self.action_charge)
+            self.attack = make_slash(self.facing, self.action_charge, self.rewards.effective())
         elif action == "dash":
             self.attack = Attack("dash", S.DASH_DAMAGE, self.facing.copy())
 
@@ -215,6 +217,8 @@ class Player(Entity):
         self.attack, self.buffered = None, None
         self.cancel_hold()
         self.velocity = Vector2()
+        if not self.alive:
+            self.rewards.reset()
         return True
 
 
@@ -236,15 +240,21 @@ class ShadowEcho:
         self.state_time = 0.0
         self.action = None
         self.attack = None
+        self.captured_attack = None
+        self.projectile = None
         self.charge = 0.0
 
-    def queue(self, action, direction, charge=0.0):
+    def queue(self, action, direction, charge=0.0, attack=None):
         if self.state != EchoState.WAITING or action not in ("slash", "throw"):
             return
         self.action = action
         self.charge = charge
+        self.captured_attack = (Attack(attack.kind, attack.damage, attack.direction.copy(), reach=attack.reach)
+                                if attack is not None else None)
         # Store a copy: later movement or mouse input must not steer this attack.
         self.facing = direction.copy()
+        if action == "throw":
+            self.projectile = make_shuriken(self.position, self.facing, owner="echo")
         self.state = EchoState.ATTACK_QUEUED
         self.timer = S.ECHO_DELAY
         self.state_time = 0.0
@@ -263,7 +273,7 @@ class ShadowEcho:
             duration = S.SLASH_DURATION if self.action == "slash" else S.THROW_DURATION
             self.timer = duration - overshoot
             if self.action == "slash":
-                self.attack = make_slash(self.facing, self.charge)
+                self.attack = self.captured_attack or make_slash(self.facing, self.charge)
             return self.action
         if self.state in (EchoState.WAITING, EchoState.ATTACKING):
             self.state = EchoState.FADING
