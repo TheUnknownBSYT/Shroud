@@ -10,7 +10,9 @@ MUTED = (165, 183, 172)
 CONFIRM_RECT = pygame.Rect(672, 638, 250, 44)
 CANCEL_RECT = pygame.Rect(358, 638, 250, 44)
 STAT_LABELS = {"slash_damage": "Slash damage", "slash_reach": "Slash reach",
-               "charge_time": "Full charge", "dash_cooldown": "Dash cooldown"}
+               "charge_time": "Full charge", "dash_cooldown": "Dash cooldown",
+               "throw_cooldown": "Throw cooldown", "shuriken_range": "Shuriken range",
+               "echo_lifetime": "Echo wait", "parry_window": "Opening parry"}
 
 
 def card_rects():
@@ -21,9 +23,17 @@ def value_text(key, value):
     stat = REWARDS[key].stat
     if stat == "slash_damage":
         return str(round(value))  # Matches the quick slash's integer damage.
-    if stat == "slash_reach":
+    if stat in ("slash_reach", "shuriken_range"):
         return f"{value:g} px"
     return f"{value:.4f}".rstrip("0").rstrip(".") + " s"
+
+
+def bonus_text(key, rank):
+    reward = REWARDS[key]
+    if not rank:
+        return "Base"
+    bonus = reward.bonuses[rank - 1]
+    return f"{bonus:+g} s" if reward.additive else f"{bonus * 100:+g}%"
 
 
 class RewardUI:
@@ -88,15 +98,19 @@ class RewardUI:
         rewards = world.rewards
         # Fixed rows leave the existing objective and controls in their own space.
         pygame.draw.rect(screen, INK, (0, 688, 1280, 49))
-        x = 32
-        for key, rank in rewards.ranks.items():
-            pygame.draw.rect(screen, PAPER, (x, 691, 24, 24))
+        x, hover = 32, ""
+        values = rewards.effective()
+        for key, definition in REWARDS.items():
+            if definition.category != "technique":
+                continue
+            rank = rewards.ranks.get(key, 0)
+            pygame.draw.rect(screen, PAPER if rank else MUTED, (x, 691, 24, 24))
             screen.blit(self.small_icons[key], (x, 691))
-            label = f"{REWARDS[key].name} {RANKS[rank]}"
-            self.text(screen, label, (x + 30, 697), PAPER, self.small)
-            x += 46 + self.small.size(label)[0]
-        if not rewards.ranks:
-            self.text(screen, "Techniques: none  /  Find scroll caches", (32, 697), PAPER, self.small)
+            self.text(screen, RANKS[rank], (x + 28, 697), PAPER, self.small)
+            if pygame.Rect(x, 691, 60, 24).collidepoint(pygame.mouse.get_pos()):
+                hover = f"{definition.name} {RANKS[rank]} / {STAT_LABELS[definition.stat]}: {value_text(key, getattr(values, definition.stat))}"
+            x += 66
+        self.text(screen, "P Details", (575, 697), MUTED, self.small)
         if rewards.active:
             state = f"{'PAUSED' if paused else 'ACTIVE'}  {REWARDS[rewards.active].name}  {rewards.remaining:.1f}s"
         elif rewards.expired_time > 0:
@@ -106,10 +120,18 @@ class RewardUI:
         stored = f"Q  {REWARDS[rewards.stored].name}" if rewards.stored else "Q  Empty slot"
         if rewards.active and rewards.stored:
             stored += " (waiting)"
+        icon_key = rewards.active or rewards.stored
+        if icon_key:
+            pygame.draw.rect(screen, PAPER, (640, 691, 24, 24))
+            screen.blit(self.small_icons[icon_key], (640, 691))
         self.text(screen, state + "  |  " + stored, (670, 697), MINT, self.small)
         cache = nearby_cache(world)
-        message = notice or (f"E  Open {cache.category} cache / choose one scroll" if cache else "E  Interact with caches   /   Q  Use stored burst   /   P  Technique details")
+        message = hover or notice or (f"E  Open {cache.category} cache / choose one scroll" if cache else "E  Interact with caches   /   Q  Use stored burst   /   P  Technique details")
         self.text(screen, message, (32, 719), MUTED, self.small)
+        if rewards.active == "flow":
+            next_action = "throw" if rewards.flow_previous == "slash" else "slash"
+            hint = f"FLOW: next {next_action.upper()} +40%" if rewards.flow_previous else "FLOW: first attack sets sequence"
+            self.text(screen, hint, (936, 719), MINT, self.small)
 
     def button(self, screen, rect, text, enabled=True):
         pygame.draw.rect(screen, MINT if enabled else (76, 91, 83), rect, border_radius=4)
@@ -133,9 +155,8 @@ class RewardUI:
             if definition.category == "technique":
                 rank = rewards.ranks.get(key, 0)
                 current, upgraded = rewards.preview(key)
-                bonus = definition.bonuses[min(2, rank)] * 100
                 lines = [f"Rank {RANKS[rank]}  ->  {RANKS[min(3, rank + 1)]}",
-                         f"{STAT_LABELS[definition.stat]} {bonus:+g}% total",
+                         f"{STAT_LABELS[definition.stat]} {bonus_text(key, min(3, rank + 1))} total",
                          f"{value_text(key, current)}  ->  {value_text(key, upgraded)}",
                          "Lasts this run"]
                 if key == "sharpening":
@@ -171,5 +192,9 @@ class RewardUI:
         for index, (key, definition) in enumerate((item for item in REWARDS.items() if item[1].category == "technique")):
             rank = rewards.ranks.get(key, 0)
             value = value_text(key, getattr(values, definition.stat))
-            label = f"{definition.name} {RANKS[rank]}  /  {STAT_LABELS[definition.stat]}: {value}"
-            self.text(screen, label, (640, 497 + index * 31), center=True)
+            x, y = 130 + (index // 4) * 600, 489 + (index % 4) * 45
+            pygame.draw.rect(screen, PAPER, (x - 35, y, 24, 24))
+            screen.blit(self.small_icons[key], (x - 35, y))
+            self.text(screen, f"{definition.name} {RANKS[rank]} / {bonus_text(key, rank)}", (x, y))
+            self.text(screen, f"{STAT_LABELS[definition.stat]}: {value}", (x, y + 22), MUTED, self.small)
+        self.text(screen, "Live values include the active burst. Cooldowns cannot end before their action.", (640, 667), MUTED, self.small, True)

@@ -62,7 +62,7 @@ def test_baseline_and_captured_slash_echo_charge_and_parry(monkeypatch):
     assert world.player.rewards.effective().slash_damage == S.SLASH_DAMAGE
     baseline = make_slash(Vector2(1, 0))
     step(world, commands=[Command("slash")])
-    assert world.player.attack == baseline
+    assert (world.player.attack.damage, world.player.attack.reach, world.player.attack.direction) == (baseline.damage, baseline.reach, baseline.direction)
     world.reset()
     world.enemies.clear()
     rewards = world.rewards

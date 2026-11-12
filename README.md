@@ -98,17 +98,27 @@ If fewer than two techniques remain eligible, the cache stays unclaimed.
 | Reach | Slash reach +10% / +20% / +25%; parry reach stays unchanged |
 | Quick Charge | Full slash charge time -15% / -25% / -30% |
 | Footwork | Dash cooldown -15% / -25% / -30% |
+| Rapid Throw | Shuriken cooldown -15% / -25% / -30%, subject to action completion |
+| Long Throw | Shuriken range +20% / +35% / +50%; speed unchanged |
+| Lingering Echo | Waiting lifetime +1 / +1.5 / +2 seconds; delay/fade unchanged |
+| Parry | Opening window +0.05 / +0.08 / +0.10 seconds; geometry unchanged |
 
 Repeat picks increase rank; capped techniques leave future offer pools. Bonuses
 are relative to base values. Slash damage retains integer rounding; cards show
 the actual quick-slash damage and other current-to-upgraded values. Charged
-slashes and Echo use the upgraded damage/reach. **P** shows technique details.
+slashes and Echo use the upgraded damage/reach. All eight icons show ranks in the
+HUD; hover for a live value, or press **P** for technique details.
 Techniques survive level transitions and clear on death, restart or run end.
 
 A burst occupies one stored slot. **Q** consumes it for **10 simulation seconds**:
 **Smoke Veil** cancels enemy windups and blocks new targeting/shots; existing
 projectiles still hurt. **Haste** multiplies normal walking speed by 1.5, including
 walking while aiming/attacking; sprint and dash retain their original speeds.
+**Frenzy** multiplies slash/throw cooldowns by 0.65 and halves only recovery after
+the hit/release phase. **Flow** gives +40% damage to an accepted slash following a
+throw or a throw following a slash. Its first attack establishes the sequence;
+repeats get no bonus, and dashes leave the sequence alone. The HUD hints at the
+next boosted attack. Echo copies damage and timing without advancing Flow.
 Only one burst can be active. A stored replacement can wait during it, but Q
 cannot consume that replacement until the active burst ends. Replacing an occupied
 stored slot requires a second confirmation; cancel keeps the old charge.
@@ -117,6 +127,20 @@ All menus and focus loss freeze burst time. P resumes after focus loss. UI click
 never attack, and leaving a menu requires a fresh attack/Space press. Bursts clear
 on death, restart and final completion. The HUD shows acquired ranks, stored/active
 bursts, paused countdowns and expiry. No progress is saved to disk.
+
+Cooldowns cannot finish before their action: normal Rapid Throw I/II/III gives
+0.238/0.22/0.22 seconds. During Frenzy those become 0.1547/0.14/0.14 seconds.
+Frenzy keeps the slash's 0.06–0.22s hit window and the throw's initial 0.06s
+release pose, shortening total durations to 0.26s and 0.14s. Throws still emit
+immediately. Extended parry windows are protected before recovery is shortened.
+Accepted actions and queued Echo copies retain their timing/damage/range even
+after a burst expires.
+
+Each run retains up to 4,096 detached in-memory event records: available choices,
+confirmed picks, actual attacks/burst use, hits, parries and damage, with context.
+Records span level transitions and remain after completion/death until a new
+run or retry. Older records are discarded when full; `history.dropped` counts
+them. No profiling labels, scoring algorithm, database or telemetry is present.
 
 ## Run options
 
@@ -167,8 +191,8 @@ shown world direction; it never pushes the player.
   [design/biomes.json](design/biomes.json), [design/enemies.json](design/enemies.json)
   and [design/encounters.json](design/encounters.json).
 - Player profiling, behavioral scoring and saved progression are not implemented.
-- Stage 1 power-ups are playable in First Lantern. Remaining techniques, Frenzy,
-  Flow and full profiling-ready event records are reserved for stage 2.
+- All eight techniques and four bursts are implemented, with contextual event
+  history. Authored caches remain in First Lantern; other maps await placement.
 
 ## Development
 
@@ -187,7 +211,16 @@ python -m pytest -q
 python -m shroud.level_validation
 python main.py --headless --levels 5 --seed 42 --frames 120 --screenshot /tmp/shroud.png
 python -m tools.export_map_gallery
+python -m tools.powerup_lab --all-ranks 3 --burst frenzy
+python -m tools.powerup_lab --rank parry=1 --offers parry lingering_echo
+python -m tools.powerup_lab --burst haste --offers flow frenzy
 ```
+
+The opt-in power-up lab opens First Lantern with deterministic ranks, a stored
+burst and/or a real two-card cache. Press Q to activate the stored burst. Use
+`--rank KEY=0..3` repeatedly to override individual ranks; offers must be distinct,
+eligible and in one category. It also accepts `--headless --frames N --screenshot
+PATH`. Developer setup records are marked; normal `main.py` never imports the lab.
 
 The tests cover combat, Echo timing, input, run progression and route clearance
 across all 90 layout–biome combinations. The gallery exporter writes map and

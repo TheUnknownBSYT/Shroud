@@ -1,19 +1,20 @@
 """Input, the arena simulation, and the main loop."""
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 import random
 import pygame
 from pygame import Vector2
 from shroud import settings as S
 from shroud.player import Player, PlayerState, Command, InputFrame, ShadowEcho, EchoState
 from shroud.enemy import Enemy, EnemyState
-from shroud.combat import Projectile, make_shuriken, resolve_melee, resolve_projectiles
+from shroud.combat import Projectile, resolve_melee, resolve_projectiles
 from shroud.drawing import Renderer
 from shroud.rewards import RunRewards, Choice, load_caches, nearby_cache
+from shroud.history import RunHistory
 from shroud.level import Camera, Room
 from shroud.campaign import LEVEL_IDS, BIOME_IDS, SELECTOR_ROWS, load_level, Run
 
 class EventBus:
-    """Optional game-event callbacks. Nothing is recorded or saved."""
+    """Synchronous callbacks; RunHistory optionally retains detached event snapshots."""
     def __init__(self):
         self.listeners = {}
 
@@ -95,16 +96,20 @@ class Impact:
 
 
 class Sandbox:
-    def __init__(self, events: EventBus | None = None, room=None, rewards=None) -> None:
+    def __init__(self, events: EventBus | None = None, room=None, rewards=None, history=None, progress=(1, 1)) -> None:
         self.events = events if events is not None else EventBus()
         self.room = room if room is not None else Room()
         self.time = 0.0
         self.rewards = rewards if rewards is not None else RunRewards()
+        self.history = history if history is not None else RunHistory()
+        self.run_position, self.run_length = progress
+        self.history.attach(self)
         self.reset(clear_rewards=False)
 
     def reset(self, clear_rewards=True) -> None:
         if clear_rewards:
             self.rewards.reset()
+            self.history.clear()
         self.caches = load_caches(self.room.data)
         self.checkpoint = None
         for screen in self.room.bamboo:
@@ -167,6 +172,8 @@ class Sandbox:
         if dt <= 0 or self.complete:
             return
         self.time += dt
+        if self.history.status == "playing":
+            self.history.elapsed += dt
         self.biome_elapsed += dt
         if self.player.alive:
             self.elapsed += dt
@@ -192,15 +199,25 @@ class Sandbox:
             self.player.buffered = None
         action = self.player.tick(dt, inputs.movement)
         if action:
+            captured = self.player.projectile if action == "throw" else self.player.attack
+            captured.action_id = self.history.next_action()
             name = {"slash": "player_slash", "dash": "player_dash", "throw": "player_throw_shuriken"}[action]
-            self.events.emit(name, timestamp=self.time, position=tuple(self.player.position), direction=tuple(self.player.facing))
+            self.events.emit(name, timestamp=self.time, position=tuple(self.player.position),
+                             direction=tuple(self.player.facing), action_id=captured.action_id,
+                             owner="player", damage=captured.damage, flow_bonus=captured.flow_bonus,
+                             reach=captured.max_range if action == "throw" else captured.reach,
+                             timing=asdict(self.player.timing) if action != "dash" else dict(duration=S.DASH_DURATION),
+                             modifiers=self.player.action_modifiers)
+            if self.player.flow_transition:
+                self.events.emit("flow_transition", action_id=captured.action_id, **self.player.flow_transition)
         if action == "throw":
-            self.projectiles.append(make_shuriken(self.player.position, self.player.facing))
+            self.projectiles.append(self.player.projectile)
         if action == "dash":
             # Capture before movement, and replace even an already queued Echo.
-            self.echo = ShadowEcho(self.player.position, self.player.facing)
+            self.echo = ShadowEcho(self.player.position, self.player.facing, self.rewards.effective().echo_lifetime)
         elif action in ("slash", "throw") and self.echo is not None:
-            self.echo.queue(action, self.player.facing, self.player.action_charge, self.player.attack)
+            self.echo.queue(action, self.player.facing, self.player.action_charge, self.player.attack,
+                            self.player.projectile, self.player.timing)
         before = self.player.position.copy()
         displacement = self.player.velocity * dt
         self.player.position = self.room.move(before, displacement, self.player.radius)
@@ -225,6 +242,7 @@ class Sandbox:
             limit = S.SPRINT_SPEED if self.player.sprinting else self.rewards.effective().move_speed
             self.player.velocity = self.player.velocity.clamp_magnitude(limit)
         if not self.player.alive:
+            self.history.finish(self, "death")
             self.echo = None
             self.rewards.reset()
         elif (self.room.data and self.room.exit_rect.collidepoint(self.player.position)
@@ -235,6 +253,7 @@ class Sandbox:
             self.echo = None
             self.projectiles.clear()
             if getattr(self, "run_position", 1) == getattr(self, "run_length", 1):
+                self.history.finish(self, "completed")
                 self.rewards.reset()
 
     def update_echo(self, dt):
@@ -243,6 +262,10 @@ class Sandbox:
         action = self.echo.tick(dt)
         if action:
             self.impact(self.echo.position, "echo")
+            captured = self.echo.projectile if action == "throw" else self.echo.attack
+            self.events.emit("echo_attack", action=action, action_id=captured.action_id,
+                             owner="echo", damage=captured.damage, flow_bonus=captured.flow_bonus,
+                             timing=asdict(self.echo.timing))
         if action == "throw":
             self.projectiles.append(self.echo.projectile)
         if self.echo.state == EchoState.EXPIRED:
@@ -256,6 +279,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.run_rng = random.Random(seed)
         self.rewards = RunRewards(random.Random(seed))
+        self.history = RunHistory()
         self.choice = None
         self.reward_notice = ""
         self.reward_notice_time = 0.0
@@ -268,7 +292,8 @@ class Game:
 
     def _load_current(self):
         """Build a random biome for this run slot before replacing the current scene."""
-        world = Sandbox(room=Room(self.run_state.load_current()), rewards=self.rewards)
+        world = Sandbox(room=Room(self.run_state.load_current()), rewards=self.rewards,
+                        history=self.history, progress=(self.run_state.index + 1, len(self.run_state.level_ids)))
         world.run_position = self.run_state.index + 1
         world.run_length = len(self.run_state.level_ids)
         following = self.run_state.following
@@ -292,6 +317,8 @@ class Game:
         new_run = Run(self.run_length, first=level_id, rng=self.run_rng, biome=chosen)
         previous, previous_biome = self.run_state, self.biome_override
         previous_rewards = self.rewards
+        previous_history = self.history
+        self.history = RunHistory()
         self.rewards = RunRewards(self.rewards.rng)
         self.run_state, self.biome_override = new_run, chosen
         try:
@@ -299,6 +326,7 @@ class Game:
         except Exception:
             self.run_state, self.biome_override = previous, previous_biome
             self.rewards = previous_rewards
+            self.history = previous_history
             raise
 
     def advance(self):
@@ -449,6 +477,7 @@ class Game:
                     break
                 elif command.action == "reset":
                     self.rewards.reset()
+                    self.history.clear()
                     self._load_current()
                     pending.clear()
                     accumulator = 0.0

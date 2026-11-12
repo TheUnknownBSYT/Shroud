@@ -51,6 +51,7 @@ PARRY_REACH = 72.0
 INPUT_BUFFER = 0.11
 
 THROW_DURATION = 0.22
+THROW_EMISSION_END = 0.06  # Preserve the release pose; the star emits at accepted start.
 SHURIKEN_SPEED = 720.0
 SHURIKEN_DAMAGE = 20
 SHURIKEN_COOLDOWN = 0.28
@@ -80,6 +81,11 @@ ECHO_DELAY = 0.35
 ECHO_LIFETIME = 3.0  # Time to choose an attack; a queued attack is allowed to finish.
 ECHO_ALPHA = 145
 ECHO_FADE_DURATION = 0.18
+
+FRENZY_COOLDOWN_MULTIPLIER = 0.65
+FRENZY_RECOVERY_MULTIPLIER = 0.5
+FLOW_DAMAGE_MULTIPLIER = 1.4
+HISTORY_LIMIT = 4096  # Discrete per-run events, never frame-by-frame telemetry.
 
 BINDINGS = {
     "up": ("w", "up"), "down": ("s", "down"),

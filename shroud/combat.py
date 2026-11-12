@@ -34,13 +34,15 @@ class Attack:
     direction: Vector2
     hit_entities: set[int] = field(default_factory=set)
     reach: float = S.SLASH_REACH
+    action_id: int | None = None
+    flow_bonus: bool = False
 
 
-def make_slash(direction, charge=0.0, effective=None):
+def make_slash(direction, charge=0.0, effective=None, damage_multiplier=1.0):
     charge = max(0.0, min(1.0, charge))
     damage = S.SLASH_DAMAGE if effective is None else effective.slash_damage
     reach = S.SLASH_REACH if effective is None else effective.slash_reach
-    return Attack("slash", round(damage * (1 + charge * (S.SLASH_CHARGE_DAMAGE - 1))),
+    return Attack("slash", round(damage * damage_multiplier * (1 + charge * (S.SLASH_CHARGE_DAMAGE - 1))),
                   direction.copy(), reach=reach * (1 + charge * (S.SLASH_CHARGE_REACH - 1)))
 
 
@@ -48,9 +50,9 @@ def slash_active(elapsed):
     return S.SLASH_ACTIVE_START <= elapsed < S.SLASH_ACTIVE_END
 
 
-def parry_active(elapsed):
+def parry_active(elapsed, window=None):
     # The same slash opens with a brief deflection window.
-    return elapsed < S.PARRY_WINDOW
+    return elapsed < (S.PARRY_WINDOW if window is None else window)
 
 
 def circles_overlap(a: Vector2, ar: float, b: Vector2, br: float) -> bool:
@@ -119,6 +121,8 @@ class Projectile:
     travelled: float = 0.0
     alive: bool = True
     owner: str = "player"
+    action_id: int | None = None
+    flow_bonus: bool = False
     previous: Vector2 = field(init=False)
 
     def __post_init__(self) -> None:
@@ -139,15 +143,18 @@ class Projectile:
         return self.travelled >= self.max_range - 1e-8
 
 
-def make_shuriken(position, direction, owner="player"):
+def make_shuriken(position, direction, owner="player", effective=None, damage_multiplier=1.0):
     return Projectile(
         position + direction * 24, direction * S.SHURIKEN_SPEED,
-        S.SHURIKEN_DAMAGE, "player", S.SHURIKEN_RANGE, radius=S.SHURIKEN_RADIUS, owner=owner,
+        round(S.SHURIKEN_DAMAGE * damage_multiplier), "player",
+        S.SHURIKEN_RANGE if effective is None else effective.shuriken_range,
+        radius=S.SHURIKEN_RADIUS, owner=owner,
     )
 
 
-def deal_damage(world, target: Entity, amount: int, kind: str, owner="player") -> None:
+def deal_damage(world, target: Entity, amount: int, kind: str, owner="player", action_id=None, flow_bonus=False) -> None:
     previous_health = target.health
+    modifiers_before = world.rewards.snapshot()
     if not target.receive_damage(amount):
         return
     is_player = target is world.player
@@ -156,13 +163,16 @@ def deal_damage(world, target: Entity, amount: int, kind: str, owner="player") -
     elif owner == "echo":
         world.stats["echo_hits"] += 1
     world.events.emit("player_hit" if is_player else "enemy_hit", timestamp=world.time,
-                      position=tuple(target.position), damage=amount, source=kind, owner=owner)
+                      position=tuple(target.position), damage=amount, source=kind, owner=owner,
+                      target_id=target.entity_id, actual_damage=previous_health - target.health,
+                      health_before=previous_health, health_after=target.health,
+                      action_id=action_id, flow_bonus=flow_bonus, modifiers_before=modifiers_before)
     world.impact(target.position, "hurt" if is_player else "hit")
     if not is_player and not target.alive:
         world.stats["targets"] += 1
         world.room.refresh_gates(world.enemies)
         world.events.emit("enemy_defeated", timestamp=world.time, entity_id=target.entity_id,
-                          position=tuple(target.position))
+                          position=tuple(target.position), owner=owner, action_id=action_id)
         world.impact(target.position, "defeat")
 
 
@@ -187,7 +197,7 @@ def resolve_melee(world, attacker) -> None:
         if hit and not world.room.projectile_blocked(attacker.position, enemy.position, 0):
             attack.hit_entities.add(enemy.entity_id)
             owner = "echo" if attacker is world.echo else "player"
-            deal_damage(world, enemy, attack.damage, attack.kind, owner)
+            deal_damage(world, enemy, attack.damage, attack.kind, owner, attack.action_id, attack.flow_bonus)
 
 
 def parry_contact(attacker, projectile):
@@ -229,7 +239,7 @@ def resolve_enemy_projectile(world, projectile, stop_at=2.0):
     # An Echo farther along the bolt's path cannot undo an earlier player hit.
     if body_contact is not None and body_contact < first_contact:
         projectile.position = projectile.previous.lerp(projectile.position, body_contact)
-        deal_damage(world, player, projectile.damage, projectile.kind)
+        deal_damage(world, player, projectile.damage, projectile.kind, "enemy")
         projectile.alive = False
     elif defender is not None:
         world.stats["deflections"] += 1
@@ -239,10 +249,13 @@ def resolve_enemy_projectile(world, projectile, stop_at=2.0):
         projectile.kind = "reflected"
         projectile.owner = "player" if defender is player else "echo"
         projectile.damage = S.REFLECTED_DAMAGE
+        projectile.action_id = defender.attack.action_id if defender.attack else None
+        projectile.flow_bonus = False  # Reflection damage is its own unchanged rule.
         projectile.travelled = 0.0
         projectile.max_range = 1500
         world.events.emit(f"{projectile.owner}_parry", timestamp=world.time,
-                          position=tuple(defender.position))
+                          position=tuple(defender.position), owner=projectile.owner,
+                          action_id=projectile.action_id)
         world.impact(projectile.position, "parry")
 
 
@@ -261,7 +274,8 @@ def resolve_friendly_projectile(world, projectile, stop_at=2.0):
             first_contact = contact
     if nearest_enemy is not None:
         projectile.position = projectile.previous.lerp(projectile.position, first_contact)
-        deal_damage(world, nearest_enemy, projectile.damage, projectile.kind, projectile.owner)
+        deal_damage(world, nearest_enemy, projectile.damage, projectile.kind, projectile.owner,
+                    projectile.action_id, projectile.flow_bonus)
         projectile.alive = False
 
 

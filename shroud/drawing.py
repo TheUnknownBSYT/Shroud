@@ -90,7 +90,8 @@ class Renderer:
         self.last_action = player.action_serial
         # Action visuals share the simulation's clock, including startup and active frames.
         if player.state in (PlayerState.DASHING, PlayerState.ATTACKING, PlayerState.THROWING):
-            self.animation.elapsed = player.state_time
+            self.animation.elapsed = (player.state_time if player.state == PlayerState.DASHING
+                                      else player.timing.animation_time(player.state_time))
         else:
             self.animation.update(dt)
         self.trails = [(pos, frame, age - dt) for pos, frame, age in self.trails if age > dt]
@@ -359,7 +360,7 @@ class Renderer:
                                 marker - aim * 4 - perpendicular * 4])
             self._aim_guide(player, aim)
         if player.attack is not None and player.attack.kind == "slash":
-            self._effect("fx_slash", player.state_time / S.SLASH_DURATION, player.position, player.facing)
+            self._effect("fx_slash", player.timing.animation_time(player.state_time) / S.SLASH_DURATION, player.position, player.facing)
             angle = math.atan2(-player.facing.y, player.facing.x)
             reach = player.attack.reach
             rect = pygame.Rect(0, 0, reach * 2, reach * 2)
@@ -416,7 +417,8 @@ class Renderer:
         # four-direction body animation so its face agrees with its captured attack.
         animation = self.sprites.animations[echo.animation_name]
         frames = self.sprites.frames[echo.animation_name]
-        index = int(echo.state_time / animation.frame_duration)
+        elapsed = echo.timing.animation_time(echo.state_time) if echo.state in (EchoState.ATTACKING, EchoState.FADING) else echo.state_time
+        index = int(elapsed / animation.frame_duration)
         index = index % len(frames) if animation.looping else min(index, len(frames) - 1)
         frame = frames[index].copy()
         frame.fill((25, 52, 58, 0), special_flags=pygame.BLEND_RGBA_ADD)
@@ -483,9 +485,11 @@ class Renderer:
         for i in range(S.PLAYER_HEALTH):
             pygame.draw.rect(screen, RED if i < world.player.health else (57, 72, 66), (376 + i * 23, 57, 17, 8), border_radius=3)
         for x, name, key, duration in ((575, "dash", "TAP SPACE", world.rewards.effective().dash_cooldown),
-                                      (782, "slash", "J / LMB", S.SLASH_COOLDOWN),
-                                      (1000, "throw", "K / RMB", S.SHURIKEN_COOLDOWN)):
+                                      (782, "slash", "J / LMB", world.rewards.effective().slash_timing.cooldown),
+                                      (1000, "throw", "K / RMB", world.rewards.effective().throw_cooldown)):
             cooldown = world.player.cooldowns[name]
+            if cooldown > 0:
+                duration = world.player.cooldown_totals[name]
             self.text(screen, {"dash": "DASH", "slash": "SLASH / DEFLECT", "throw": "SHURIKEN"}[name], (x, 32), PAPER, self.small)
             self.text(screen, key, (x, 55), MUTED, self.small)
             pygame.draw.rect(screen, (51, 70, 63), (x, 80, 170, 3), border_radius=1)
@@ -620,7 +624,7 @@ def draw_debug(surface: pygame.Surface, world, font: pygame.font.Font, fps: floa
              f"CAMERA {camera.offset.x:.1f}, {camera.offset.y:.1f}", f"{fps:5.1f} FPS  |  simulation 120 Hz", f"STATE  {player.state.name}  {player.state_time:.3f}s",
              f"VELOCITY  {player.velocity.x:.1f}, {player.velocity.y:.1f}",
              f"DASH  {player.cooldowns['dash']:.2f}s  |  SLASH  {player.cooldowns['slash']:.2f}s",
-             f"PARRY  {'ACTIVE' if player.parry_active else 'closed'} / {S.PARRY_WINDOW:.2f}s",
+             f"PARRY  {'ACTIVE' if player.parry_active else 'closed'} / {player.timing.parry_window:.2f}s",
              f"HITBOX  {'active' if player.damage_active else 'off'}  |  projectiles {len(world.projectiles)}",
              "MINT: hurtboxes   RED: reach (front arc)   GOLD: parry"]
     echo = world.echo
