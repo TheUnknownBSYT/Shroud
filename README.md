@@ -32,6 +32,32 @@ python main.py
 
 Run the game from the cloned source tree so the map data and artwork are available.
 
+Normal launch opens a title screen. Choose **Play**, then **Gentle**, **Balanced**
+or **Demanding**. New journeys begin in First Lantern, where chests introduce
+upgrades. Balanced preserves the original combat pace. Gentle gives 40% longer
+enemy warnings, 25% longer firing cooldowns and 25% slower shots. Demanding uses
+20% shorter warnings, 15% shorter cooldowns and 15% faster shots. Player damage,
+health, movement and all power-up rules stay the same. The chosen pace lasts
+through the run and retries and is included in event context; it never adapts
+silently. Choose New journey from pause to choose another pace.
+
+The resizable desktop window letterboxes the original play area. F11 switches
+fullscreen; pointer coordinates follow the viewport. Interface text is rendered
+at window resolution. The supported resize minimum is 960×600; 1280×800 is
+recommended for reading. Native Retina/fullscreen behaviour can vary with SDL
+and the operating system.
+
+Escape opens a mouse/keyboard pause menu with Controls, Techniques, Restart and
+Quit. Menu restarts and quitting require confirmation. Advanced shortcuts below
+remain available; R still restarts immediately. Controls includes **M: Reduce
+motion**, which removes impact shake/trails and makes menu highlights immediate.
+Preferences are session-only. Explicit `--level` and headless launches bypass the
+title screen for development.
+
+Typography is bundled offline: Spectral Regular and Source Sans 3 Regular, under
+the SIL Open Font License. Their licence notices are in `assets/fonts/`.
+
+
 ## Controls
 
 | Input | Action |
@@ -46,6 +72,7 @@ Run the game from the cloned source tree so the map data and artwork are availab
 | E | Open a nearby available scroll cache |
 | Q | Consume the stored burst (when no burst is active) |
 | 1 / 2 or click (scroll screen) | Select a scroll; Enter or Confirm applies it |
+| Left / Right / Tab (scroll screen) | Focus a card; Enter selects it, then confirms |
 | Enter | Continue after completion or retry after death |
 | R | Restart the current level with a newly rolled biome |
 | F2 | Choose the first layout and biome for a new run |
@@ -53,7 +80,9 @@ Run the game from the cloned source tree so the map data and artwork are availab
 | Tab | Pause and show the full map |
 | P | Pause / resume |
 | F1 | Toggle collision and combat debugging |
-| Esc | Close an overlay, or quit |
+| Esc | Back from an overlay, or open the pause menu |
+| F11 | Toggle fullscreen; restore the previous window size |
+| Arrows / Tab / Enter (menus) | Move focus and confirm |
 
 Space held for 0.18 seconds starts sprinting; a shorter press dashes on release.
 Sprinting blocks attacks. Slashing toward an incoming bolt during the opening
@@ -106,8 +135,8 @@ If fewer than two techniques remain eligible, the cache stays unclaimed.
 Repeat picks increase rank; capped techniques leave future offer pools. Bonuses
 are relative to base values. Slash damage retains integer rounding; cards show
 the actual quick-slash damage and other current-to-upgraded values. Charged
-slashes and Echo use the upgraded damage/reach. All eight icons show ranks in the
-HUD; hover for a live value, or press **P** for technique details.
+slashes and Echo use the upgraded damage/reach. Owned icons show ranks in the
+HUD; hover for a live value, or open Techniques from Escape for the full list.
 Techniques survive level transitions and clear on death, restart or run end.
 
 A burst occupies one stored slot. **Q** consumes it for **10 simulation seconds**:

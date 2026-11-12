@@ -1,3 +1,4 @@
+from shroud import interface as UI
 """Arena artwork, HUD, effects, and debug drawing; no gameplay decisions."""
 import math
 import random
@@ -11,33 +12,35 @@ from shroud.assets import CATALOG, BIOME_NAMES, asset_path
 from shroud.campaign import LEVEL_IDS, BIOME_IDS, SELECTOR_ROWS, load_level
 from shroud.reward_ui import RewardUI
 
-INK = (20, 31, 32)
+INK = UI.INK
 
 
-PAPER = (231, 235, 220)
+PAPER = UI.PAPER
 
 
-MUTED = (150, 171, 160)
+MUTED = UI.MUTED
 
 
-RED = (235, 78, 72)
+RED = UI.RED
 
 
 GOLD = (255, 221, 133)
 
 
-MINT = (139, 236, 200)
+MINT = UI.SAGE
 
 
 class Renderer:
     def __init__(self, world, camera=None) -> None:
+        UI.font.cache_clear()
+        UI.rendered.cache_clear()
         self.sprites = SpriteLibrary()
         self.animation = AnimationController(self.sprites.animations)
         self.last_action = -1
-        self.font = pygame.font.Font(None, 24)
-        self.small = pygame.font.Font(None, 20)
-        self.title = pygame.font.Font(None, 44)
-        self.large = pygame.font.Font(None, 62)
+        self.font = UI.font(22)
+        self.small = UI.font(20)
+        self.title = UI.font(38, True)
+        self.large = UI.font(48, True)
         self.reward_ui = RewardUI()
         # Opaque layers prevent transparent sprite pixels making holes in the pause overlay.
         self.scene = pygame.Surface((S.WIDTH, S.HEIGHT), depth=24)
@@ -77,7 +80,9 @@ class Renderer:
 
     def text(self, surface: pygame.Surface, text: str, position: tuple[float, float],
              color: tuple = PAPER, font: pygame.font.Font | None = None) -> None:
-        surface.blit((font or self.font).render(text, True, color), position)
+        chosen = font or self.font
+        size = 48 if chosen is self.large else 38 if chosen is self.title else 20 if chosen is self.small else 22
+        UI.text(surface, text, position, size, color, chosen in (self.title, self.large))
 
     def reset(self) -> None:
         self.trails.clear()
@@ -225,7 +230,7 @@ class Renderer:
             if enemy.state == EnemyState.ATTACK and visible.collidepoint(enemy.position):
                 position = self.point(enemy.position)
                 pygame.draw.line(self.scene, (157, 119, 92), position, position + enemy.aim * 220, 1)
-                progress = 1 - enemy.timer / S.ENEMY_TELEGRAPH
+                progress = 1 - enemy.timer / (S.ENEMY_TELEGRAPH * enemy.difficulty[0])
                 pygame.draw.circle(self.scene, GOLD, position, int(42 - progress * 10), 2)
         for projectile in world.projectiles:
             if not visible.collidepoint(projectile.position):
@@ -254,16 +259,16 @@ class Renderer:
         if world.complete:
             self._completion(screen, world)
         elif paused or not world.player.alive:
+            UI.clear_text(screen)
             shade = pygame.Surface((S.WIDTH, S.HEIGHT), pygame.SRCALPHA)
             shade.fill((12, 22, 23, 170))
             screen.blit(shade, (0, 0))
-            title = "PAUSED" if paused else "BACK TO THE SHADOWS"
-            subtitle = "P to resume  /  R to restart  /  F2 levels" if paused else "ENTER to retry refuge  /  R to restart level  /  F2 levels"
+            title = "Paused" if paused else "Back to the shadows"
+            subtitle = "P to resume · Esc for menu" if paused else "ENTER to retry refuge  /  R to restart level  /  F2 levels"
             if not paused and world.checkpoint is None:
                 subtitle = "ENTER or R to restart level  /  F2 levels"
             for text, font, y, color in ((title, self.large, 343, PAPER), (subtitle, self.font, 404, MINT)):
-                label = font.render(text, True, color)
-                screen.blit(label, label.get_rect(center=(S.WIDTH / 2, y)))
+                UI.text(screen,text,(640,y),48 if font is self.large else 22,color,font is self.large,True)
 
     def _weather(self, world):
         if self.mist is not None:
@@ -287,20 +292,20 @@ class Renderer:
                         pygame.draw.line(self.scene, (136, 165, 162), start, start + direction * 24, 1)
 
     def _completion(self, screen, world):
+        UI.clear_text(screen)
         shade = pygame.Surface((S.WIDTH, S.HEIGHT), pygame.SRCALPHA)
         shade.fill((12, 22, 23, 225))
         screen.blit(shade, (0, 0))
         data = world.room.data
         following = getattr(world, "next_layout", None)
-        rows = ["LEVEL COMPLETE" if following else "RUN COMPLETE", data["name"],
+        rows = ["Path cleared" if following else "Journey complete", data["name"],
                 f"{getattr(world, 'run_position', 1)} / {getattr(world, 'run_length', 1)}  ·  {BIOME_NAMES[world.room.biome]}",
                 "Next: " + following if following else "All levels in this run are complete.",
-                "ENTER to continue" if following else "F2 to start a new run",
-                "R to replay with a random biome   /   F2 new run   /   ESC quit"]
+                "Enter  Continue" if following else "Esc  Open menu for a new journey",
+                "Esc  Menu"]
         for i, text in enumerate(rows):
             font = self.large if i == 0 else self.font
-            label = font.render(text, True, MINT if i in (0, 4) else PAPER)
-            screen.blit(label, label.get_rect(center=(S.WIDTH / 2, 245 + i * 49)))
+            UI.text(screen, text, (640,245+i*49),48 if i==0 else 22, PAPER, i==0, True)
 
     def _enemy(self, enemy):
         position = self.point(enemy.position)
@@ -311,8 +316,8 @@ class Renderer:
             elif enemy.flash > 0:
                 state = "hurt"
             elif enemy.state == EnemyState.ATTACK:
-                state = "telegraph" if enemy.timer > S.ENEMY_TELEGRAPH / 2 else "aim"
-            elif enemy.state == EnemyState.COOLDOWN and enemy.timer > S.ENEMY_COOLDOWN - .15:
+                state = "telegraph" if enemy.timer > S.ENEMY_TELEGRAPH * enemy.difficulty[0] / 2 else "aim"
+            elif enemy.state == EnemyState.COOLDOWN and enemy.timer > S.ENEMY_COOLDOWN * enemy.difficulty[1] - .15:
                 state = "fire"
             image = self._asset(f"enemy_ranged_{state}")
             if enemy.aim.x < 0:
@@ -471,26 +476,26 @@ class Renderer:
         self.scene.blit(image, image.get_rect(center=self.point(position)))
 
     def _hud(self, screen: pygame.Surface, world) -> None:
-        pygame.draw.rect(screen, INK, (0, 0, S.WIDTH, 127))
+        pygame.draw.rect(screen, INK, (0, 0, S.WIDTH, 160))
         pygame.draw.rect(screen, INK, (0, 737, S.WIDTH, 63))
         pygame.draw.rect(screen, RED, (48, 30, 6, 37), border_radius=2)
-        self.text(screen, "SHROUD", (69, 26), PAPER, self.title)
+        self.text(screen, "Shroud", (69, 26), PAPER, self.title)
         data = world.room.data
         label = data["name"] if data else "Training grounds"
-        self.text(screen, label.upper(), (71, 72), self.accent, self.small)
+        self.text(screen, label, (71, 72), self.accent, self.small)
         if data:
             status = f"LEVEL {getattr(world, 'run_position', 1)}/{getattr(world, 'run_length', 1)} / {BIOME_NAMES[world.room.biome]}"
-            self.text(screen, status.upper(), (71, 90), MUTED, self.small)
-        self.text(screen, "VITALITY", (375, 32), MUTED, self.small)
+            self.text(screen, status, (71, 94), MUTED, self.small)
+        self.text(screen, "Health", (375, 32), MUTED, self.small)
         for i in range(S.PLAYER_HEALTH):
             pygame.draw.rect(screen, RED if i < world.player.health else (57, 72, 66), (376 + i * 23, 57, 17, 8), border_radius=3)
-        for x, name, key, duration in ((575, "dash", "TAP SPACE", world.rewards.effective().dash_cooldown),
-                                      (782, "slash", "J / LMB", world.rewards.effective().slash_timing.cooldown),
-                                      (1000, "throw", "K / RMB", world.rewards.effective().throw_cooldown)):
+        for x, name, key, duration in ((575, "dash", "Space", world.rewards.effective().dash_cooldown),
+                                      (782, "slash", "Left click", world.rewards.effective().slash_timing.cooldown),
+                                      (1000, "throw", "Right click", world.rewards.effective().throw_cooldown)):
             cooldown = world.player.cooldowns[name]
             if cooldown > 0:
                 duration = world.player.cooldown_totals[name]
-            self.text(screen, {"dash": "DASH", "slash": "SLASH / DEFLECT", "throw": "SHURIKEN"}[name], (x, 32), PAPER, self.small)
+            self.text(screen, {"dash": "Dash", "slash": "Slash", "throw": "Throw"}[name], (x, 32), PAPER, self.small)
             self.text(screen, key, (x, 55), MUTED, self.small)
             pygame.draw.rect(screen, (51, 70, 63), (x, 80, 170, 3), border_radius=1)
             pygame.draw.rect(screen, MINT if cooldown <= 0 else RED, (x, 80, 170 * max(0, 1 - cooldown / duration), 3), border_radius=1)
@@ -508,10 +513,10 @@ class Renderer:
                     "gust": f"WIND {bearing} / {remaining:.1f}s / all shots drift; close in or wait"}[phase]
             if world.room.gates_cleared:
                 hint += " / Seals open: reach the exit."
-        self.text(screen, hint, (48, 108), MUTED, self.small)
-        self.text(screen, "WASD Move  Hold SPACE Run", (48, 758), PAPER, self.small)
-        self.text(screen, "LMB  Charge   RMB  Focus   J / K  Quick attacks", (306, 758), MUTED, self.small)
-        self.text(screen, "R Restart  TAB Map  F2 Levels  P Pause", (896, 758), PAPER, self.small)
+        self.text(screen, hint, (48, 132), PAPER, self.small)
+        self.text(screen, "WASD  Move    ·    Space  Dash / run", (48, 758), PAPER, self.small)
+        self.text(screen, "", (306, 758), MUTED, self.small)
+        self.text(screen, "Esc  Pause", (896, 758), PAPER, self.small)
 
     def _objective(self, world):
         area, objective = world.room.area_at(world.player.position)
@@ -523,7 +528,9 @@ class Renderer:
             objective = "West gate open — reach the exit garden"
         groups = {name for name, _ in world.room.gates}
         remaining = sum(enemy.alive and enemy.group in groups for enemy in world.enemies)
-        return f"{objective}   /   {remaining} seal targets left"
+        if area == "Arrival": objective = "Explore the courtyard and open a chest."
+        if "WASD" in objective: objective = "Explore the courtyard and open a chest."
+        return f"{objective}   ·   {remaining} targets remain"
 
     def draw_selector(self, screen, selected, biome=None):
         screen.fill(INK)

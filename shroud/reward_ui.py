@@ -1,12 +1,13 @@
+from shroud import interface as UI
 """Power-up presentation and shared hitboxes. Drawing never advances game state."""
 import pygame
 from shroud.assets import ROOT
 from shroud.rewards import REWARDS, RANKS, nearby_cache
 
-INK = (30, 39, 36)
+INK = UI.INK
 PAPER = (238, 229, 210)
-MINT = (139, 236, 200)
-MUTED = (165, 183, 172)
+MINT = UI.SAGE
+MUTED = UI.MUTED
 CONFIRM_RECT = pygame.Rect(672, 638, 250, 44)
 CANCEL_RECT = pygame.Rect(358, 638, 250, 44)
 STAT_LABELS = {"slash_damage": "Slash damage", "slash_reach": "Slash reach",
@@ -38,9 +39,9 @@ def bonus_text(key, rank):
 
 class RewardUI:
     def __init__(self):
-        self.font = pygame.font.Font(None, 24)
-        self.small = pygame.font.Font(None, 20)
-        self.title = pygame.font.Font(None, 40)
+        self.font = UI.font(22)
+        self.small = UI.font(20)
+        self.title = UI.font(38, True)
         self.images = {}
         sizes = {"ui_scroll_card_background": (336, 352), "ui_selection_border": (352, 368),
                  "interaction_indicator": (24, 24), "scroll_technique_sealed": (18, 18),
@@ -55,9 +56,9 @@ class RewardUI:
         self.small_icons = {key: pygame.transform.smoothscale(self.images[f"icon_{key}"], (24, 24)) for key in REWARDS}
 
     def text(self, screen, text, position, color=PAPER, font=None, center=False):
-        image = (font or self.font).render(text, True, color)
-        rect = image.get_rect(center=position) if center else image.get_rect(topleft=position)
-        screen.blit(image, rect)
+        chosen = font or self.font
+        size = 38 if chosen is self.title else 20 if chosen is self.small else 22
+        UI.text(screen, text, position, size, color, chosen is self.title, center)
 
     def wrapped(self, screen, text, rect, color=INK):
         line, y = "", rect.y
@@ -104,20 +105,21 @@ class RewardUI:
             if definition.category != "technique":
                 continue
             rank = rewards.ranks.get(key, 0)
+            if not rank: continue
             pygame.draw.rect(screen, PAPER if rank else MUTED, (x, 691, 24, 24))
             screen.blit(self.small_icons[key], (x, 691))
             self.text(screen, RANKS[rank], (x + 28, 697), PAPER, self.small)
-            if pygame.Rect(x, 691, 60, 24).collidepoint(pygame.mouse.get_pos()):
+            if pygame.Rect(x, 691, 60, 24).collidepoint(getattr(self,"pointer",pygame.mouse.get_pos())):
                 hover = f"{definition.name} {RANKS[rank]} / {STAT_LABELS[definition.stat]}: {value_text(key, getattr(values, definition.stat))}"
             x += 66
-        self.text(screen, "P Details", (575, 697), MUTED, self.small)
+        self.text(screen, "P Details", (560, 697), MUTED, self.small)
         if rewards.active:
             state = f"{'PAUSED' if paused else 'ACTIVE'}  {REWARDS[rewards.active].name}  {rewards.remaining:.1f}s"
         elif rewards.expired_time > 0:
             state = f"EXPIRED  {REWARDS[rewards.expired].name}"
         else:
             state = "STORED" if rewards.stored else "BURST"
-        stored = f"Q  {REWARDS[rewards.stored].name}" if rewards.stored else "Q  Empty slot"
+        stored = f"Q  {REWARDS[rewards.stored].name}" if rewards.stored else "No burst stored"
         if rewards.active and rewards.stored:
             stored += " (waiting)"
         icon_key = rewards.active or rewards.stored
@@ -126,7 +128,7 @@ class RewardUI:
             screen.blit(self.small_icons[icon_key], (640, 691))
         self.text(screen, state + "  |  " + stored, (670, 697), MINT, self.small)
         cache = nearby_cache(world)
-        message = hover or notice or (f"E  Open {cache.category} cache / choose one scroll" if cache else "E  Interact with caches   /   Q  Use stored burst   /   P  Technique details")
+        message = hover or notice or (f"E  Open {cache.category} cache / choose one scroll" if cache else "")
         self.text(screen, message, (32, 719), MUTED, self.small)
         if rewards.active == "flow":
             next_action = "throw" if rewards.flow_previous == "slash" else "slash"
@@ -138,15 +140,20 @@ class RewardUI:
         self.text(screen, text, rect.center, INK if enabled else PAPER, center=True)
 
     def overlay(self, screen, world, choice):
+        UI.clear_text(screen)
         shade = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
         shade.fill((12, 22, 23, 225))
         screen.blit(shade, (0, 0))
         rewards = world.rewards
-        self.text(screen, "CHOOSE ONE SCROLL", (640, 142), font=self.title, center=True)
-        self.text(screen, "Time is paused. Take one; leave the other behind.", (640, 184), MUTED, center=True)
+        self.text(screen, "Choose a scroll", (640, 142), font=self.title, center=True)
+        self.text(screen, "A new edge for the path ahead.", (640, 184), MUTED, center=True)
         for index, (key, rect) in enumerate(zip(choice.cache.offers, card_rects())):
             definition = REWARDS[key]
             screen.blit(self.images["ui_scroll_card_background"], rect)
+            if rect.collidepoint(getattr(self, "pointer", pygame.mouse.get_pos())):
+                pygame.draw.rect(screen, MINT, rect.inflate(6,6), 1)
+            if choice.focused == index:
+                pygame.draw.rect(screen, PAPER, rect.inflate(12,12), 2)
             if choice.selected == index:
                 screen.blit(self.images["ui_selection_border"], rect.inflate(16, 16))
             icon = self.images[f"icon_{key}"]
@@ -168,33 +175,34 @@ class RewardUI:
                 self.wrapped(screen, definition.description, pygame.Rect(rect.x + 34, rect.y + 212, 268, 90))
                 self.text(screen, "Store now; activate with Q", (rect.centerx, rect.y + 309), INK, self.small, True)
             if definition.category == "technique":
-                label = "SELECTED" if choice.selected == index else "Click to select"
+                label = "Selected" if choice.selected == index else ""
                 self.text(screen, label, (rect.centerx, rect.y + 309), INK, self.small, True)
-        message = choice.message or "Click a card or press 1 / 2, then confirm."
+        message = choice.message or "← →  Choose     Enter  Take scroll"
         if choice.replacing:
+            UI.clear_text(screen)
             selected = REWARDS[choice.cache.offers[choice.selected]].name
             pygame.draw.rect(screen, INK, (300, 330, 680, 240), border_radius=6)
             pygame.draw.rect(screen, PAPER, (300, 330, 680, 240), width=2, border_radius=6)
-            self.text(screen, "REPLACE STORED BURST?", (640, 375), font=self.title, center=True)
+            self.text(screen, "Replace your burst?", (640, 375), font=self.title, center=True)
             self.text(screen, f"Discard {REWARDS[rewards.stored].name} and store {selected}?", (640, 435), center=True)
-            self.text(screen, "This does not activate it. Your active burst stays unchanged.", (640, 480), MUTED, center=True)
-            self.text(screen, "Cancel returns to the two scrolls without losing anything.", (640, 520), MUTED, self.small, True)
+            self.text(screen, "Your current effect will continue.", (640, 480), MUTED, center=True)
+            self.text(screen, "", (640, 520), MUTED, self.small, True)
             message = "Confirm replacement, or cancel to keep your stored burst."
         self.text(screen, message, (640, 608), MINT, self.small, True)
-        self.button(screen, CANCEL_RECT, "Cancel replacement" if choice.replacing else "Esc  Close unclaimed")
-        self.button(screen, CONFIRM_RECT, "Enter  Replace stored" if choice.replacing else "Enter  Confirm scroll", choice.selected is not None)
-        self.text(screen, "Burst timer frozen" if rewards.active else "Offers stay the same if you close this screen", (640, 712), MUTED, self.small, True)
+        self.button(screen, CANCEL_RECT, "Cancel replacement" if choice.replacing else "Esc  Back")
+        self.button(screen, CONFIRM_RECT, "Enter  Replace stored" if choice.replacing else "Enter  Take scroll", choice.selected is not None)
+        self.text(screen, "Burst timer frozen" if rewards.active else "", (640, 712), MUTED, self.small, True)
 
     def details(self, screen, world):
         rewards = world.rewards
         values = rewards.effective()
-        self.text(screen, "TECHNIQUES / THIS RUN", (640, 460), MINT, center=True)
+        self.text(screen, "Techniques", (640, 435), MINT, center=True)
         for index, (key, definition) in enumerate((item for item in REWARDS.items() if item[1].category == "technique")):
             rank = rewards.ranks.get(key, 0)
             value = value_text(key, getattr(values, definition.stat))
-            x, y = 130 + (index // 4) * 600, 489 + (index % 4) * 45
+            x, y = 130 + (index // 4) * 600, 475 + (index % 4) * 46
             pygame.draw.rect(screen, PAPER, (x - 35, y, 24, 24))
             screen.blit(self.small_icons[key], (x - 35, y))
             self.text(screen, f"{definition.name} {RANKS[rank]} / {bonus_text(key, rank)}", (x, y))
             self.text(screen, f"{STAT_LABELS[definition.stat]}: {value}", (x, y + 22), MUTED, self.small)
-        self.text(screen, "Live values include the active burst. Cooldowns cannot end before their action.", (640, 667), MUTED, self.small, True)
+        self.text(screen, "Values include your active burst.", (640, 667), MUTED, self.small, True)

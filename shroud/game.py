@@ -10,6 +10,8 @@ from shroud.combat import Projectile, resolve_melee, resolve_projectiles
 from shroud.drawing import Renderer
 from shroud.rewards import RunRewards, Choice, load_caches, nearby_cache
 from shroud.history import RunHistory
+from shroud.interface import Menu, DIFFICULTIES
+from shroud.desktop import Desktop
 from shroud.level import Camera, Room
 from shroud.campaign import LEVEL_IDS, BIOME_IDS, SELECTOR_ROWS, load_level, Run
 
@@ -96,13 +98,14 @@ class Impact:
 
 
 class Sandbox:
-    def __init__(self, events: EventBus | None = None, room=None, rewards=None, history=None, progress=(1, 1)) -> None:
+    def __init__(self, events: EventBus | None = None, room=None, rewards=None, history=None, progress=(1, 1), difficulty="balanced") -> None:
         self.events = events if events is not None else EventBus()
         self.room = room if room is not None else Room()
         self.time = 0.0
         self.rewards = rewards if rewards is not None else RunRewards()
         self.history = history if history is not None else RunHistory()
         self.run_position, self.run_length = progress
+        self.difficulty = difficulty
         self.history.attach(self)
         self.reset(clear_rewards=False)
 
@@ -129,6 +132,8 @@ class Sandbox:
         else:
             self.enemies = [Enemy(i + 1, position.copy(), 1.2 + i * .9)
                             for i, position in enumerate(self.room.enemy_spawns)]
+        for enemy in self.enemies:
+            enemy.difficulty = DIFFICULTIES[self.difficulty][2:]
         self.room.open_gates.clear()
         self.room.refresh_gates(self.enemies)
         self.elapsed = 0.0
@@ -273,9 +278,14 @@ class Sandbox:
 
 
 class Game:
-    def __init__(self, level_id=None, run_length=S.RUN_LENGTH, seed=None, biome=None) -> None:
-        pygame.display.set_caption("SHROUD | Handcrafted Journeys")
-        self.screen = pygame.display.set_mode((S.WIDTH, S.HEIGHT))
+    def __init__(self, level_id=None, run_length=S.RUN_LENGTH, seed=None, biome=None, title=False, desktop=False, difficulty="balanced") -> None:
+        pygame.display.set_caption("Shroud")
+        self.desktop = Desktop() if desktop else None
+        self.menu = Menu()
+        if difficulty not in DIFFICULTIES: raise ValueError("Unknown difficulty")
+        self.menu.difficulty = difficulty
+        self.menu_open = title
+        self.screen = self.desktop.canvas if self.desktop else pygame.display.set_mode((S.WIDTH, S.HEIGHT))
         self.clock = pygame.time.Clock()
         self.run_rng = random.Random(seed)
         self.rewards = RunRewards(random.Random(seed))
@@ -293,7 +303,11 @@ class Game:
     def _load_current(self):
         """Build a random biome for this run slot before replacing the current scene."""
         world = Sandbox(room=Room(self.run_state.load_current()), rewards=self.rewards,
-                        history=self.history, progress=(self.run_state.index + 1, len(self.run_state.level_ids)))
+                        history=self.history, progress=(self.run_state.index + 1, len(self.run_state.level_ids)),
+                        difficulty=self.menu.difficulty)
+        world.difficulty = self.menu.difficulty
+        for enemy in world.enemies:
+            enemy.difficulty = DIFFICULTIES[self.menu.difficulty][2:]
         world.run_position = self.run_state.index + 1
         world.run_length = len(self.run_state.level_ids)
         following = self.run_state.following
@@ -392,9 +406,15 @@ class Game:
                     if self.choice.cancel():
                         self.choice = None
                     break
+                if event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_TAB):
+                    self.choice.focused = 0 if self.choice.focused is None else 1-self.choice.focused
                 if event.key in (pygame.K_1, pygame.K_2):
                     self.choice.select(event.key - pygame.K_1)
                 elif event.key == pygame.K_RETURN:
+                    if (not self.choice.replacing and self.choice.focused is not None
+                            and self.choice.focused != self.choice.selected):
+                        self.choice.select(self.choice.focused)
+                        break
                     if self.choice.confirm(self.world.rewards, self.world.events):
                         self.choice = None
                     break
@@ -413,18 +433,67 @@ class Game:
         self.cancel_combat_input()
         return True
 
+    def menu_input(self, events):
+        if not hasattr(self, "menu"):
+            return False
+        if not self.menu_open:
+            if (not self.choice and not self.selecting and not self.map_open
+                    and any(e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE for e in events)):
+                self.menu.page, self.menu.focus = "pause", 0
+                self.menu_open = self.paused = True
+                self.cancel_combat_input()
+                return True
+            return False
+        self.paused = True
+        result = self.menu.handle(events)
+        page = self.menu.page
+        if result and result.startswith('Reduce motion:'):
+            self.menu.reduced_motion = not self.menu.reduced_motion
+        elif result == 'Play': self.menu.back = page; self.menu.page = 'difficulty'
+        elif result in ('Gentle', 'Balanced', 'Demanding'):
+            self.menu.difficulty = result.lower()
+            self.load('training_01')
+            self.menu_open = self.paused = False
+        elif result == "New journey": self.menu.back = page; self.menu.page = "difficulty"
+        elif result == 'Continue':
+            self.advance(); self.menu_open = self.paused = False
+        elif result == 'Retry':
+            self.world.retry_checkpoint(); self.renderer.reset()
+            self.camera.follow(self.world.player.position, 0, snap=True)
+            self.menu_open = self.paused = False
+        elif result == 'Resume' or (result == 'back' and page == 'pause'):
+            self.menu_open = self.paused = False
+        elif result in ('Controls','Techniques'):
+            self.menu.back = page
+            self.menu.page = result.lower()
+        elif result == 'Restart level':
+            if page == 'restart':
+                self.rewards.reset(); self.history.clear(); self._load_current()
+                self.menu_open = self.paused = False
+            else: self.menu.page = 'restart'
+        elif result == 'Quit': self.menu.back = page; self.menu.page = 'quit'
+        elif result == 'Quit game': self.exit_requested = True
+        elif result in ('back','Back','Cancel'):
+            self.menu.page = 'pause' if page == 'restart' else self.menu.back
+        if result: self.menu.focus = 0
+        self.cancel_combat_input()
+        return True
+
     def run(self, frame_limit: int | None = None, screenshot: str | None = None) -> None:
         running, accumulator, frames = True, 0.0, 0
         pending = []
         while running:
             dt = min(self.clock.tick(S.FPS) / 1000, S.MAX_FRAME_TIME)
             events = pygame.event.get()
+            if getattr(self, "desktop", None):
+                events = self.desktop.events(events)
+                self.desktop.begin()
             focus_lost = any(event.type == pygame.WINDOWFOCUSLOST for event in events)
             if focus_lost:
                 self.paused = True
                 self.cancel_combat_input()
                 self.input.cursor = None
-            blocked_frame = focus_lost or self.reward_input(events)
+            blocked_frame = focus_lost or self.menu_input(events) or self.reward_input(events)
             if any(event.type == pygame.QUIT for event in events):
                 running = False
             inputs = InputFrame() if blocked_frame else self.input.read(events, self.world.player.position)
@@ -468,7 +537,10 @@ class Game:
                         break
                     continue
                 if command.action == "quit":
-                    running = False
+                    self.menu.page, self.menu.focus = "pause", 0
+                    self.menu_open = self.paused = True
+                    blocked_frame = True
+                    break
                 elif command.action == "debug":
                     self.debug = not self.debug
                 elif command.action == "pause":
@@ -523,6 +595,10 @@ class Game:
                 self.reward_notice_time = max(0.0, self.reward_notice_time - dt)
                 if self.reward_notice_time == 0:
                     self.reward_notice = ""
+            if getattr(self, "menu", None) and self.menu.reduced_motion:
+                self.world.shake = 0
+                self.renderer.trails.clear()
+            if hasattr(self.renderer, "reward_ui"): self.renderer.reward_ui.pointer = self.desktop.point(pygame.mouse.get_pos()) if getattr(self,"desktop",None) else pygame.mouse.get_pos()
             self.renderer.draw(self.screen, self.world, self.debug, self.clock.get_fps(), self.paused)
             if self.selecting:
                 self.renderer.draw_selector(self.screen, self.selection, self.selector_biome)
@@ -535,9 +611,18 @@ class Game:
                     self.renderer.reward_ui.overlay(self.screen, self.world, self.choice)
                 elif self.paused and not self.selecting and not self.map_open:
                     self.renderer.reward_ui.details(self.screen, self.world)
-            pygame.display.flip()
+            if getattr(self,"desktop",None) and not self.menu_open and (self.world.complete or not self.world.player.alive):
+                self.menu.page = ("complete" if self.run_state.following else "finished") if self.world.complete else "retry"
+                self.menu.focus = 0
+                self.menu_open = self.paused = True
+            if getattr(self, "menu_open", False):
+                self.menu.draw(self.screen, self.world, self.renderer.reward_ui,
+                               self.renderer.sprites.frames["south/idle"][0])
+            if getattr(self, "exit_requested", False): running = False
+            if getattr(self, "desktop", None): self.desktop.present()
+            else: pygame.display.flip()
             frames += 1
             if frame_limit is not None and frames >= frame_limit:
                 running = False
         if screenshot:
-            pygame.image.save(self.screen, screenshot)
+            pygame.image.save(self.desktop.window if getattr(self, "desktop", None) else self.screen, screenshot)

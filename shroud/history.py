@@ -48,7 +48,7 @@ class RunHistory:
         self.dropped += len(self._records) == self.limit
         area, objective = world.room.area_at(world.player.position)
         context = dict(level=world.room.data["id"] if world.room.data else "arena",
-                       biome=world.room.biome, level_number=world.run_position,
+                       biome=world.room.biome, difficulty=world.difficulty, level_number=world.run_position,
                        run_length=world.run_length, area=area, objective=objective,
                        open_gates=sorted(world.room.open_gates), health=world.player.health,
                        max_health=world.player.max_health, counters=dict(world.stats),

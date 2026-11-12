@@ -24,6 +24,7 @@ class Enemy(Entity):
         self.group = group
         self.sprite = sprite
         self.activation_range = activation_range
+        self.difficulty = (1., 1., 1.)
 
     def tick(self, dt: float, target: Vector2, target_alive: bool) -> Projectile | None:
         self.flash = max(0.0, self.flash - dt)
@@ -43,10 +44,10 @@ class Enemy(Entity):
             delta = target - self.position
             if delta.length_squared():
                 self.aim = delta.normalize()
-            self.state, self.timer = EnemyState.ATTACK, S.ENEMY_TELEGRAPH
+            self.state, self.timer = EnemyState.ATTACK, S.ENEMY_TELEGRAPH * self.difficulty[0]
         elif self.state == EnemyState.ATTACK:
-            self.state, self.timer = EnemyState.COOLDOWN, S.ENEMY_COOLDOWN
-            return Projectile(self.position + self.aim * 30, self.aim * S.ENEMY_PROJECTILE_SPEED,
+            self.state, self.timer = EnemyState.COOLDOWN, S.ENEMY_COOLDOWN * self.difficulty[1]
+            return Projectile(self.position + self.aim * 30, self.aim * S.ENEMY_PROJECTILE_SPEED * self.difficulty[2],
                               1, "enemy", 1500, "bolt", 6)
         return None
 

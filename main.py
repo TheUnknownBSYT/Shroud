@@ -32,7 +32,8 @@ def main() -> None:
     try:
         pygame.display.init()
         pygame.font.init()
-        Game(args.level, run_length=args.levels, seed=args.seed, biome=args.biome).run(args.frames, args.screenshot)
+        Game(args.level, run_length=args.levels, seed=args.seed, biome=args.biome,
+             title=not args.headless and args.level is None, desktop=not args.headless).run(args.frames, args.screenshot)
     except (FileNotFoundError, ValueError, pygame.error) as error:
         parser.exit(1, f"SHROUD could not start: {error}\nCheck the named asset or level file and display availability.\n")
     finally:

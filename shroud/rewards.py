@@ -26,8 +26,8 @@ REWARDS = {
     "parry": Reward("Parry", "technique", "parry_window", (.05, .08, .10), additive=True),
     "smoke_veil": Reward("Smoke Veil", "burst", description="Stops new enemy targeting. Existing shots still hurt."),
     "haste": Reward("Haste", "burst", description="Normal movement x1.5. Dash and attack timing unchanged."),
-    "frenzy": Reward("Frenzy", "burst", description="Slash/throw cooldowns -35%. Recovery halved; hit windows preserved."),
-    "flow": Reward("Flow", "burst", description="Alternate accepted slashes and throws for +40% damage. First attack sets the sequence."),
+    "frenzy": Reward("Frenzy", "burst", description="Recover twice as fast. Slash and throw cooldowns fall by 35%."),
+    "flow": Reward("Flow", "burst", description="Alternate slash and throw for +40% damage. Your first attack starts the chain."),
 }
 RANKS = ("—", "I", "II", "III")
 BURST_DURATION = 10.0
@@ -215,12 +215,14 @@ class Cache:
 class Choice:
     cache: Cache
     selected: int | None = None
+    focused: int | None = None
     replacing: bool = False
     message: str = ""
 
     def select(self, index):
         if index in (0, 1) and not self.replacing:
             self.selected = index
+            self.focused = index
             self.message = ""
 
     def confirm(self, rewards, events):
